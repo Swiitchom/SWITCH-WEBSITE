@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — الصفحة غير موجودة | Salim Alabri</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0E14; --surface:#0F141C; --line:#212B38;
+    --text:#E7EDF3; --text-muted:#8493A3;
+    --copper:#FF8A46; --signal:#3FE0D0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'IBM Plex Sans Arabic','Space Grotesk',sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    min-height:100svh; padding:24px; overflow:hidden; position:relative;
+  }
+  .glow{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(40% 35% at 80% 15%, rgba(63,224,208,.14), transparent 70%),
+      radial-gradient(45% 40% at 10% 90%, rgba(255,138,70,.12), transparent 70%);
+  }
+  .wrap{ position:relative; z-index:1; text-align:center; max-width:480px; }
+  .code{
+    font-family:'Space Grotesk',sans-serif; font-weight:700;
+    font-size:clamp(64px,14vw,110px); line-height:1;
+    background:linear-gradient(90deg,var(--copper),var(--signal));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:18px;
+  }
+  h1{ font-size:22px; font-weight:600; margin-bottom:10px; }
+  p{ color:var(--text-muted); font-size:15px; margin-bottom:8px; }
+  .lang-line{ margin-top:28px; padding-top:20px; border-top:1px solid var(--line); }
+  a.btn{
+    display:inline-flex; align-items:center; gap:8px; margin-top:26px;
+    padding:13px 26px; border-radius:999px; background:var(--copper); color:#160c04;
+    font-weight:600; font-size:14.5px; text-decoration:none;
+  }
+</style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="code">404</div>
+    <h1>عذرًا، الصفحة غير موجودة</h1>
+    <p>الرابط الذي فتحته غير صحيح أو تم نقل المحتوى.</p>
+    <div class="lang-line">
+      <h1>Sorry, this page doesn't exist</h1>
+      <p>The link you followed may be broken, or the page may have moved.</p>
+    </div>
+    <a class="btn" href="/">العودة للرئيسية · Back to home</a>
+  </div>
+</body>
+</html>

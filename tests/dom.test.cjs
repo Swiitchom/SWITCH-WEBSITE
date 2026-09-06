@@ -24,11 +24,14 @@ test('service inquiry collects email and phone, preserves failure data, and only
  d.querySelector('#serviceRequest').click();assert.equal(form.dataset.context,'services');assert.equal(d.getElementById('fService').value,'التدريب والورش');
  d.getElementById('fName').value='Test Person';d.getElementById('fPhone').value='+96899999999';d.getElementById('fEmail').value='test@example.com';d.getElementById('fMsg').value='Please arrange a workshop';form.elements.consent.checked=true;
  let calls=0;w.fetch=async()=>{calls++;return {ok:false,status:503};};
+ let savedEvents=0;d.addEventListener('portfolio:inquiry-saved',()=>savedEvents++);
  form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));
  assert.equal(calls,1);assert.equal(d.querySelector('#fSentMsg a'),null);assert.equal(d.getElementById('fEmail').value,'test@example.com');
+ assert.equal(savedEvents,0);
  w.fetch=async(url,opts)=>({ok:true,json:async()=>({id:JSON.parse(opts.body).requestId})});
  form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));
  assert.match(d.querySelector('#fSentMsg a').href,/https:\/\/wa.me\//);assert.equal(d.getElementById('fEmail').value,'');
+ assert.equal(savedEvents,1);
  await new Promise(resolve=>setImmediate(resolve));dom.window.close();
 });
 

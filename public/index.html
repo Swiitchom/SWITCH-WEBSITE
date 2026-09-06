@@ -46,6 +46,7 @@
 <link rel="stylesheet" href="assets/concept-art.css">
 <link rel="stylesheet" href="assets/section-polish.css">
 <link rel="stylesheet" href="assets/refined-flow.css">
+<link rel="stylesheet" href="assets/privacy.css">
 </head>
 <body>
 
@@ -318,11 +319,17 @@
       <a href="#about" data-i18n="nav1">عني</a>
       <a href="#projects" data-i18n="nav2">المشاريع</a>
       <a href="#contact" data-i18n="nav6">تواصل معي</a>
+      <button type="button" id="analyticsPreferences" class="privacy-preferences" data-analytics-copy="preferences">تفضيلات الخصوصية</button>
     </div>
   </div>
 </footer>
 
 <!-- ============ MODAL ============ -->
+<aside id="analyticsConsent" class="analytics-consent" aria-labelledby="analyticsConsentTitle" hidden>
+  <h2 id="analyticsConsentTitle" data-analytics-copy="title">تجربة أفضل، باختيارك</h2>
+  <p data-analytics-copy="text">نستخدم إحصاءات اختيارية لفهم زيارة الموقع وتحسين خدماته. يمكنك الرفض ومتابعة التصفح وطلب الخدمات.</p>
+  <div class="analytics-actions"><button type="button" id="analyticsAccept" data-analytics-copy="accept">السماح بالإحصاءات</button><button type="button" id="analyticsReject" data-analytics-copy="reject">المتابعة دون إحصاءات</button></div>
+</aside>
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modalContent"></div>
 </div>
@@ -337,7 +344,8 @@
 
 <script src="assets/projects.js" defer></script>
 <script src="assets/app.js?v=refined-flow-2" defer></script>
-<script src="assets/forms.js?v=refined-flow-2" defer></script>
+<script src="assets/forms.js?v=firebase-1" defer></script>
+<script src="assets/analytics.js?v=firebase-1" defer></script>
 <script src="assets/participation-data.js" defer></script>
 <script src="assets/participation-ribbon.js" defer></script>
 <script src="assets/scroll-motion.js" defer></script>

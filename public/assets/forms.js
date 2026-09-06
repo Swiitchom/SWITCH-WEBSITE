@@ -22,6 +22,7 @@ for(const id of ['contactForm','storeForm']){
   const controls=[...form.elements].filter(el=>!el.disabled);controls.forEach(el=>el.disabled=true);form.dataset.submitting='true';
   try{
    await saveInquiry(payload);
+   document.dispatchEvent(new CustomEvent('portfolio:inquiry-saved',{detail:{kind:payload.kind,context:payload.context}}));
    status.textContent=ar?'تم حفظ طلبك. يمكنك الآن متابعة المحادثة عبر واتساب.':'Your inquiry was saved. You can now continue on WhatsApp.';
    const message=ar?`مرحبًا سالم، طلب بخصوص: ${payload.service}\nالاسم: ${payload.name}\nالهاتف: ${payload.phone}\nالبريد: ${payload.email}\nالاستفسار: ${payload.message}\nمرجع الطلب: ${payload.requestId}`:`Hi Salim, inquiry about: ${payload.service}\nName: ${payload.name}\nPhone: ${payload.phone}\nEmail: ${payload.email}\nInquiry: ${payload.message}\nReference: ${payload.requestId}`;
    const link=document.createElement('a');link.href=whatsappURL(message);link.target='_blank';link.rel='noopener noreferrer';link.className='btn btn-primary';link.textContent=ar?'متابعة عبر واتساب':'Continue on WhatsApp';status.append(document.createElement('br'),link);

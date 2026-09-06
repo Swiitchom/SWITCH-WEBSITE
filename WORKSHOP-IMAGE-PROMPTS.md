@@ -1,0 +1,16 @@
+# صور البرامج التدريبية
+
+ولّدت باستخدام أداة image_gen المدمجة. الملفات داخل public/assets/images/concepts، بصيغة WebP. هذه رسوم توضيحية للبرامج وليست صورًا توثيقية.
+
+## workshop-ai.webp
+
+Use case: stylized-concept. Asset type: individual course cover 'AI Fundamentals Workshop' on a refined Arabic engineering portfolio. One landscape 3:2 editorial 3D still life of a matte sage microchip topped with a small elegant branching neural sculpture, with a few precise copper interconnections. Clear metaphor for learning artificial intelligence. Fully visible centered object with generous empty margins; background seamless deep green-black #101819. Materials matte sage ceramic #a2c4b8 and dark metal with restrained brushed copper #d4b08a. Soft studio side lighting, premium understated engineering exhibit, tactile realistic surfaces, consistent with sage ceramic electronics and copper prototype artwork. No text, letters, numbers, logos, watermarks, people, brains, humanoid robots, neon, blue or purple, frames or collage. This is conceptual course illustration, not documentary project photo. Output one image.
+
+## workshop-iot.webp
+
+Use case: stylized-concept. Asset type: individual course cover for 'Internet of Things and ESP32 Workshop' on a premium Arabic engineering portfolio. One landscape 3:2 editorial 3D still life: a small unbranded ESP32-inspired development board with a rectangular shield module and two neat rows of pins, connected by fine copper traces to a simple cylindrical sensor and small wireless antenna with two sculptural arcs. Show connected electronics and sensing clearly, few components, no clutter. Fully visible centered composition generous margins. Seamless deep green-black #101819 backdrop, matte sage ceramic #a2c4b8 surfaces, dark metal, restrained brushed copper #d4b08a. Soft studio side lighting, tactile material detail, sophisticated quiet museum-like engineering aesthetic, cohesive with sage and copper microchip neural-tree sculpture. No text, letters, numbers, logos, watermarks, people, neon, bright blue, purple, frames, collage. Conceptual workshop illustration not a real product listing. Output one image.
+
+## workshop-3d.webp
+
+Use case: stylized-concept. Asset type: individual course cover '3D Modeling and Printing Workshop' for a refined Arabic engineering portfolio. One landscape 3:2 editorial 3D still life: a precise compact unbranded open-frame desktop 3D printer, dark anodized metal frame and sage body panels, copper print nozzle poised above a small matte sage open lattice cube being printed on its flat bed. Entire printer clearly visible including top and base, centered with generous empty margins. Clear illustration of additive manufacturing, no unrelated objects. Background seamless green-black #101819, matte sage #a2c4b8 and restrained warm brushed copper #d4b08a. Soft studio side lighting, sophisticated quiet premium atmosphere, subtle tactile layer lines. Cohesive with ceramic sage electronics course covers. No text, letters, numbers, logos, watermarks, people, neon, purple, bright blue, frames around the image, collage. Conceptual illustration, not photograph of an actual product offered for sale. Output one image.
+

@@ -1,0 +1,63 @@
+/* Course artwork, compact product checkout and subtle circuit connections. */
+#workshops .section-head{display:block;max-width:760px;margin-bottom:22px;}
+.wksp-card{display:flex;flex-direction:column;border:0;border-radius:0;background:none;overflow:visible;min-width:0;}
+.wksp-media{height:auto;aspect-ratio:3/2;background:none;}
+.wksp-media img{width:100%;height:100%;object-fit:contain;border:0;border-radius:0;mask-image:linear-gradient(to bottom,#000 85%,transparent);}
+.wksp-body{padding:20px 0 0;display:flex;flex:1;flex-direction:column;}
+.wksp-body .proj-link{margin-top:auto;align-self:start;}
+.wksp-card:hover .wksp-media img{translate:0 -5px;}
+.wksp-media img{transition:translate .65s var(--motion-ease)!important;}
+
+#store .section-head{max-width:900px;}
+#store .store-card{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:start;overflow:visible;border:0;border-radius:0;background:none;}
+.store-product{min-width:0;}
+#store .store-gallery{height:auto;display:block;background:none;}
+#store .store-track{width:100%;aspect-ratio:1;flex:none;}
+#store .store-slide{height:100%;min-width:0;aspect-ratio:1;}
+#store .store-slide img{object-fit:contain;}
+#store .store-info{min-width:0;padding:0;}
+#store .store-info h3{margin:0 0 18px;font-size:22px;}
+.store-summary{padding-top:22px;}
+.store-summary h3{font-size:21px;margin:8px 0;}
+.store-summary>p{font-size:13px;color:var(--text-muted);margin-bottom:16px;}
+.store-summary .store-contents{gap:6px 18px;margin-bottom:0;}
+.store-summary .store-contents li{background:none;border:0;padding:5px 0;border-radius:0;}
+.store-contents-details{border-top:1px solid var(--line-soft);}
+#store .store-contents-details summary{padding:10px 0;font-size:13px;color:var(--signal);font-weight:500;}
+#store .store-pricing{padding:14px 16px;margin-bottom:18px;}
+#store .store-addon{padding-block:10px;margin-block:8px;flex-wrap:wrap;}
+#store .store-form{gap:14px;}
+#store .store-form .form-row{margin:0;gap:12px;}
+#store .store-form .field{min-width:0;}
+#store .store-form input{min-width:0;width:100%;}
+#store .store-form input[type=checkbox]{width:auto;}
+#store .store-form textarea{min-height:76px;height:76px;}
+#store .store-form .btn{justify-content:center;width:100%;}
+#store .store-arrow-prev{left:10px;right:auto;}
+#store .store-arrow-next{right:10px;left:auto;}
+
+.section-bridge{height:76px;max-width:1050px;margin:-12px auto;position:relative;pointer-events:none;color:var(--signal);isolation:isolate;}
+.section-bridge::before{content:"";position:absolute;inset:0 25%;background:radial-gradient(ellipse,rgba(162,196,184,.09),transparent 70%);}
+.bridge-lines{width:100%;height:100%;display:block;overflow:visible;}
+.bridge-track{stroke:var(--signal);stroke-opacity:.18;stroke-width:1;fill:none;}
+.bridge-pulse{stroke:var(--signal);stroke-width:1.7;stroke-linecap:round;stroke-dasharray:24 920;fill:none;opacity:.65;filter:drop-shadow(0 0 4px rgba(162,196,184,.55));animation:bridge-current 9s linear infinite!important;animation-play-state:paused!important;}
+.section-bridge.in-view .bridge-pulse{animation-play-state:running!important;}
+.section-bridge:nth-of-type(even) .bridge-pulse{stroke:var(--copper);animation-delay:-4s!important;}
+.bridge-symbol{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;padding:9px;background:var(--bg);border:1px solid rgba(162,196,184,.2);border-radius:12px;color:var(--signal);box-shadow:0 0 25px rgba(162,196,184,.06);}
+.bridge-symbol svg{width:100%;height:100%;}
+.bridge-dot{fill:var(--copper);opacity:.55;}
+.section-bridge+.section{padding-top:28px;}
+#projects{padding-top:48px;}
+#services{padding-bottom:64px;}
+@keyframes bridge-current{to{stroke-dashoffset:-944;}}
+@media(max-width:899px){
+ #store .store-card{grid-template-columns:1fr;gap:30px;}
+ #store .store-product{max-width:540px;width:100%;justify-self:center;}
+ .section-bridge{margin-inline:24px;height:60px;}
+}
+@media(max-width:520px){
+ #store .store-contact-row{grid-template-columns:1fr;}
+ #store .store-info h3{font-size:20px;}
+ .wksp-grid{gap:32px;}
+ .bridge-symbol{width:34px;height:34px;padding:7px;}
+}

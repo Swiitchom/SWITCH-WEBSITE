@@ -1,0 +1,10 @@
+/* The owner explicitly requires this text ribbon to keep moving.
+   Keep this local exception independent of global reduced-motion rules. */
+.hero-marquee{position:relative;z-index:2;width:100%;direction:ltr;overflow:hidden;padding:24px 0 30px;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);margin-top:18px;}
+.hero-marquee .marquee-track{display:flex;direction:ltr;width:max-content;animation:intro-marquee-continuous 24s linear infinite!important;animation-play-state:running!important;will-change:transform;}
+.hero-marquee .marquee-group,.hero-marquee .marquee-group[aria-hidden]{display:flex;align-items:center;flex-shrink:0;flex-wrap:nowrap;gap:44px;padding-inline:22px;min-width:100vw;justify-content:space-around;direction:rtl;white-space:nowrap;font-size:clamp(28px,3.8vw,60px);font-weight:500;line-height:1.55;color:var(--signal);}
+.hero-marquee .marquee-group i{font-style:normal;color:var(--copper);font-size:.7em;}
+html[lang=en] .hero-marquee .marquee-group{direction:ltr;}
+html[lang=en] .hero-marquee .marquee-track{animation-direction:reverse!important;}
+@keyframes intro-marquee-continuous{from{transform:translateX(-50%);}to{transform:translateX(0);}}
+@media(max-width:959px){.hero-marquee{padding-block:18px;margin-top:0;}.hero-marquee .marquee-group,.hero-marquee .marquee-group[aria-hidden]{gap:28px;padding-inline:14px;}}

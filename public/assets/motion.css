@@ -1,0 +1,38 @@
+/* One continuous gradient across the complete name, in both languages. */
+.hero-title{width:fit-content;max-width:100%;color:var(--text);}
+@supports (background-clip:text) or (-webkit-background-clip:text){
+  .hero-title{background:linear-gradient(110deg,#efd6b7 0%,#d4b08a 34%,#a2c4b8 72%,#d9e8df 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;}
+  .hero-title span{color:inherit;-webkit-text-fill-color:inherit;background:none;}
+}
+/* Finite entrance effects settle; nothing flashes or loops indefinitely. */
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;pointer-events:none;z-index:0;opacity:.65;}
+.hero::before{width:560px;height:560px;inset-inline-end:-160px;top:-100px;background:radial-gradient(circle,rgba(162,196,184,.12),transparent 68%);animation:ambient-arrive 4.5s ease-out both;}
+.hero::after{width:420px;height:420px;inset-inline-start:-100px;bottom:-180px;background:radial-gradient(circle,rgba(212,176,138,.10),transparent 68%);animation:ambient-arrive 4s ease-out both;}
+.hero-kicker{animation:copy-arrive .7s var(--ease) both;}
+.hero-title{animation:copy-arrive .8s var(--ease) .08s both;}
+.hero-tag{animation:copy-arrive .8s var(--ease) .16s both;}
+.hero-desc{animation:copy-arrive .8s var(--ease) .24s both;}
+.hero-actions{animation:copy-arrive .8s var(--ease) .32s both;}
+.hero-photo-wrap{animation:portrait-arrive 1.2s var(--ease) both;}
+.project-open img{transition:transform .45s var(--ease),filter .45s ease;}
+.proj-card{transition:transform .4s var(--ease),opacity .7s var(--ease);}
+.proj-link svg,.svc-cta svg{transition:transform .3s var(--ease);}
+.btn{transition:transform .25s var(--ease),box-shadow .25s ease,background .25s ease;}
+.nav-links a::after{content:"";position:absolute;inset-inline-start:0;bottom:-6px;height:1px;width:100%;background:var(--signal);transform:scaleX(0);transform-origin:center;transition:transform .3s ease;}
+.nav-links a:hover::after,.nav-links a:focus-visible::after{transform:scaleX(1);}
+.proj-card:focus-within .project-open img{transform:translateY(-3px);}
+@media(hover:hover) and (pointer:fine){
+  .proj-card:hover{transform:translateY(-5px);}
+  .proj-card:hover .project-open img{filter:brightness(1.035);}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.12);}
+  .proj-link:hover svg,.svc-cta:hover svg{transform:translateX(4px);}
+  html[dir="rtl"] .proj-link:hover svg,html[dir="rtl"] .svc-cta:hover svg{transform:translateX(-4px);}
+}
+@keyframes copy-arrive{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes portrait-arrive{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+@keyframes ambient-arrive{from{opacity:0;transform:translateY(20px);}to{opacity:.65;transform:none;}}
+@media(prefers-reduced-motion:reduce){
+  .hero::before,.hero::after,.hero-kicker,.hero-title,.hero-tag,.hero-desc,.hero-actions,.hero-photo-wrap{animation:none!important;}
+  .project-open img,.proj-card,.btn,.proj-link svg,.svc-cta svg,.nav-links a::after{transition:none!important;transform:none!important;}
+}
+@media(forced-colors:active){.hero-title{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText;}}

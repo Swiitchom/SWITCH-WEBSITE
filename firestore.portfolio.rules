@@ -1,0 +1,8 @@
+// Merge these matches into the existing rules; do not overwrite other applications' rules.
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  match /portfolioInquiries/{id} { allow read, write: if false; }
+  match /portfolioRateLimits/{id} { allow read, write: if false; }
+ }
+}

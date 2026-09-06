@@ -1,0 +1,22 @@
+/* Conceptual service imagery; original project photographs remain documentary. */
+.concept-art{min-width:0;pointer-events:none;}
+.concept-art img{width:100%;height:auto;object-fit:contain;border:0;border-radius:0;mask-image:radial-gradient(ellipse at center,#000 48%,transparent 74%);animation:concept-breathe 10s ease-in-out infinite!important;}
+#about .about-grid{display:grid;grid-template-columns:1.15fr 1fr;align-items:center;gap:32px;}
+.concept-about{margin-inline:-20px;}
+.expertise-stage{display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:center;}
+.expertise-stage .exp-grid{align-content:center;}
+#expertise .eyebrow{display:flex;}
+.concept-expertise{max-width:390px;justify-self:center;}
+.concept-expertise img{animation-delay:-4s!important;}
+#workshops .section-head{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:24px;max-width:none;margin-bottom:30px;}
+.concept-workshops{max-width:400px;justify-self:end;}
+.concept-workshops img{animation-delay:-7s!important;}
+@keyframes concept-breathe{0%,100%{transform:translateY(5px);}50%{transform:translateY(-5px);}}
+@media(max-width:760px){
+ #about .about-grid{grid-template-columns:1fr;gap:4px;}
+ .concept-about{width:100%;max-width:440px;justify-self:center;margin-inline:0;}
+ .expertise-stage{grid-template-columns:1fr;gap:10px;}
+ .concept-expertise{width:100%;max-width:310px;}
+ #workshops .section-head{grid-template-columns:1fr;gap:12px;}
+ .concept-workshops{width:100%;max-width:350px;justify-self:center;}
+}

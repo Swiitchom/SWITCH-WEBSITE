@@ -1,0 +1,40 @@
+/* Native scroll scenes: every project remains in document and keyboard order. */
+body{overflow-x:clip;}
+:root{--motion-ease:cubic-bezier(.22,1,.36,1);}
+.project-open{transform:none;}
+.proj-card.reveal,.svc-card.reveal,.section-head.reveal,.contact-box.reveal{transition:opacity .8s var(--motion-ease),transform 1s var(--motion-ease);}
+.proj-card.reveal:not(.in),.proj-card:nth-child(even).reveal:not(.in),.svc-card.reveal:not(.in),.contact-box.reveal:not(.in){transform:translateY(65px);}
+.participation-tile.will-reveal,.participation-tile:nth-child(even).will-reveal{transform:translateY(65px);transition:opacity .8s var(--motion-ease) var(--arrival-delay),transform 1s var(--motion-ease) var(--arrival-delay);}
+.participation-tile.is-visible,.participation-tile:nth-child(even).is-visible{transform:none;}
+.project-cursor{position:fixed;left:0;top:0;width:90px;height:90px;display:grid;place-items:center;background:var(--signal);color:var(--bg);border-radius:50%;font-size:14px;font-weight:500;z-index:95;pointer-events:none;opacity:0;scale:.35;transition:opacity .25s,scale .4s var(--motion-ease);}
+.project-cursor.active{opacity:1;scale:1;}
+.magnetic{translate:var(--magnet-x,0px) var(--magnet-y,0px);transition:translate .5s var(--motion-ease),background .35s,color .35s;}
+.mobile-menu{transform:translateX(105%);transition:transform .7s var(--motion-ease),opacity .5s;}
+html[dir=ltr] .mobile-menu{transform:translateX(-105%);}.mobile-menu.open,html[dir=ltr] .mobile-menu.open{transform:none;}
+.mobile-menu a{transform:translateY(28px);opacity:0;transition:transform .65s var(--motion-ease),opacity .5s;}.mobile-menu.open a{transform:none;opacity:1;transition-delay:calc(var(--nav-order,0)*55ms + 100ms);}
+.hero-photo-wrap{isolation:isolate;}
+.portrait-filter{position:absolute;pointer-events:none;}
+.hero-photo-img{filter:url(#portrait-edge-trim);mask-image:linear-gradient(to bottom,#000 65%,transparent 98%);-webkit-mask-image:linear-gradient(to bottom,#000 65%,transparent 98%);transform:translate(var(--portrait-x,0px),var(--portrait-y,0px));transition:transform .4s ease-out;}
+.hero-title{background-size:220% 100%;animation:name-shimmer 12s ease-in-out infinite alternate;}
+.hero{padding-bottom:0;gap:40px;}
+.hero-inner{transform:none;}
+.hero::before,.hero::after{display:none;}
+.svc-media img{transition:transform .8s cubic-bezier(.16,1,.3,1),filter .8s;}
+.svc-card:hover .svc-media img,.svc-card:focus-within .svc-media img{transform:scale(1.06);filter:saturate(1.15);}
+.svc-card:hover h4,.svc-card:focus-within h4{color:var(--signal);}
+.svc-cta svg{transition:transform .4s;}.svc-card:hover .svc-cta svg{transform:translateX(-8px);}html[dir=ltr] .svc-card:hover .svc-cta svg{transform:translateX(8px);}
+@keyframes name-shimmer{to{background-position:100% 50%;}}
+@media(min-width:960px) and (min-height:650px) and (prefers-reduced-motion:no-preference){
+ .scene-ready .proj-grid{gap:0;position:relative;isolation:isolate;}
+ .scene-ready .proj-card,.scene-ready .proj-card.reveal:not(.in),.scene-ready .proj-card.reveal.in{position:sticky;top:90px;min-height:calc(100svh - 110px);padding:45px 16px;box-sizing:border-box;background:var(--bg);opacity:1;transform:scale(var(--scene-scale,1));transform-origin:center 15%;transition:none;z-index:var(--scene-order,1);border-top:1px solid var(--line-soft);}
+ .scene-ready .proj-card .proj-media{height:clamp(300px,58svh,620px);}
+ .scene-ready .proj-card:nth-child(even){grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);}
+ .scene-ready .proj-card .proj-body{opacity:var(--scene-opacity,1);transform:translateY(var(--scene-text,0px));}
+ .scene-ready .project-open img{transform:none;}
+ .scene-ready .proj-card:focus-within{transform:none;}
+ .scene-ready .proj-card:focus-within .proj-body{opacity:1;}
+}
+@media(max-width:959px){.proj-card{scroll-margin-top:95px;}.hero{gap:20px;}}
+@media(prefers-reduced-motion:reduce){.hero-title{animation:none!important;}.hero-photo-img,.svc-media img,.svc-cta svg,.mobile-menu a{transform:none!important;transition:none!important;}.magnetic{translate:none!important;}.project-cursor{display:none;}.mobile-menu{transition:none;}}
+@media(hover:none),(pointer:coarse){.project-cursor{display:none;}}
+html.page-away .hero-title,html.hero-away .hero-title{animation-play-state:paused;}

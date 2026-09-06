@@ -19,3 +19,8 @@
   for = "/assets/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+  from = "/api/inquiry"
+  to = "/.netlify/functions/inquiry"
+  status = 200

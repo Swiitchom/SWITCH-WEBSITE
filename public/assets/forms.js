@@ -1,6 +1,6 @@
 function whatsappURL(message){return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;}
 async function saveInquiry(payload,fetcher=fetch){
- const response=await fetcher('/.netlify/functions/inquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(15000)});
+ const response=await fetcher('/api/inquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(15000)});
  if(!response.ok)throw new Error(`Save failed: ${response.status}`);
  const result=await response.json();if(result.id!==payload.requestId)throw new Error('Invalid receipt');return result;
 }

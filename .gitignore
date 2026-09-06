@@ -5,3 +5,7 @@ node_modules/
 !.env.example
 *firebase-adminsdk*.json
 *service-account*.json
+
+.wrangler/
+.dev.vars
+.dev.vars.*

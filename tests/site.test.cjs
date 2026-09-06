@@ -52,7 +52,7 @@ test('save sends JSON to the private backend and requires a matching receipt',as
   const ctx=formsContext();
   const form={requestId:'test-id',name:'سالم & علي',website:''};
   await ctx.saveInquiry(form,async(url,opts)=>{
-    assert.equal(url,'/.netlify/functions/inquiry'); assert.equal(opts.method,'POST');
+    assert.equal(url,'/api/inquiry'); assert.equal(opts.method,'POST');
     const body=JSON.parse(opts.body);
     assert.equal(body.name,'سالم & علي');
     assert.equal(body.website,'');

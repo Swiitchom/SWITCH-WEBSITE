@@ -4,7 +4,7 @@ const path=require('node:path');
 const root=path.resolve(__dirname,'../public');
 const types={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.ico':'image/x-icon','.xml':'application/xml','.txt':'text/plain'};
 http.createServer((req,res)=>{
-  if(req.url==='/.netlify/functions/inquiry' && req.method==='POST'){
+  if(req.url==='/api/inquiry' && req.method==='POST'){
     let body='';
     req.on('data',chunk=>{body+=chunk;if(body.length>12000){res.writeHead(413);res.end();req.destroy();}});
     req.on('end',async()=>{

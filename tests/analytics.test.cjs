@@ -5,14 +5,14 @@ const fs=require('node:fs');
 const path=require('node:path');
 const html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8');
 const script=fs.readFileSync(path.join(__dirname,'../public/assets/analytics.js'),'utf8');
-function boot(url='https://salimalabri.netlify.app/?email=private@example.com#phone=12345678',saved){
+function boot(url='https://salimalabri.pages.dev/?email=private@example.com#phone=12345678',saved){
  const dom=new JSDOM(html,{url,referrer:'https://example.com/?email=referrer@example.com',runScripts:'outside-only'});
  if(saved)dom.window.localStorage.setItem('salim.analytics-consent.v1',JSON.stringify(saved));
  dom.window.eval(script);return dom;
 }
 const commands=w=>(w.dataLayer||[]).map(args=>Array.from(args));
 test('analytics never loads before consent, after refusal, or in a local preview',()=>{
- for(const url of ['https://salimalabri.netlify.app/','http://127.0.0.1:4173/']){
+ for(const url of ['https://salimalabri.pages.dev/','http://127.0.0.1:4173/']){
   const dom=boot(url),d=dom.window.document;
   assert.equal(d.getElementById('portfolioGoogleTag'),null);
   d.getElementById('analyticsReject').click();assert.equal(d.getElementById('portfolioGoogleTag'),null);

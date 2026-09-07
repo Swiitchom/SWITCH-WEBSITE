@@ -3,7 +3,7 @@
  'use strict';
  const measurementId = 'G-RSGND37FQ5';
  const storageKey = 'salim.analytics-consent.v1';
- const production = location.hostname === 'salimalabri.netlify.app';
+ const production = location.hostname === 'salimalabri.pages.dev';
  let choice = null, started = false;
  try { const saved=JSON.parse(localStorage.getItem(storageKey)); if(saved && Date.now()-saved.at<180*86400000 && ['granted','denied'].includes(saved.value))choice=saved.value; } catch {}
  const banner=document.getElementById('analyticsConsent');

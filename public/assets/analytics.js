@@ -51,7 +51,6 @@
   const source=['services','workshops','contact','store'].includes(e.detail?.context)?e.detail.context:'contact';
   event('generate_lead',{form_name:form,lead_source:source});
  });
- document.addEventListener('click',e=>{if(e.target.closest('#fSentMsg a,#storeSentMsg a'))event('contact_whatsapp',{contact_method:'whatsapp'});});
  window.addEventListener('storage',e=>{if(e.key!==storageKey)return;let value;try{value=JSON.parse(e.newValue)?.value;}catch{}choice=value==='granted'?'granted':'denied';choice==='granted'?start():stop();banner.hidden=true;});
  new MutationObserver(translate).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
  translate();banner.hidden=choice!==null;if(choice==='granted')start();else stop();

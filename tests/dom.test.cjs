@@ -17,7 +17,7 @@ test('complete page renders both languages, all project filters and the new plat
  d.querySelector('[data-project]').click();assert.ok(d.getElementById('modalOverlay').classList.contains('open'));assert.equal(d.querySelectorAll('#modalContent img').length,2);assert.match(d.querySelector('.project-overview').textContent,/welcome character/);d.getElementById('modalCloseBtn').click();
  await new Promise(resolve=>setImmediate(resolve));dom.window.close();
 });
-test('service inquiry collects email and phone, preserves failure data, and only offers WhatsApp after persistence',async()=>{
+test('service inquiry collects email and phone, preserves failure data, and shows a friendly reference without a WhatsApp handoff',async()=>{
  const dom=boot(),w=dom.window,d=w.document,form=d.getElementById('contactForm');
  assert.equal(d.querySelectorAll('.svc-cta').length,0);assert.equal(d.querySelectorAll('#serviceRequest').length,1);
  d.querySelector('[data-service="training"] .service-select').click();
@@ -28,9 +28,9 @@ test('service inquiry collects email and phone, preserves failure data, and only
  form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));
  assert.equal(calls,1);assert.equal(d.querySelector('#fSentMsg a'),null);assert.equal(d.getElementById('fEmail').value,'test@example.com');
  assert.equal(savedEvents,0);
- w.fetch=async(url,opts)=>({ok:true,json:async()=>({id:JSON.parse(opts.body).requestId})});
+ w.fetch=async(url,opts)=>({ok:true,json:async()=>({id:JSON.parse(opts.body).requestId,reference:'SAL-1001'})});
  form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));
- assert.match(d.querySelector('#fSentMsg a').href,/https:\/\/wa.me\//);assert.equal(d.getElementById('fEmail').value,'');
+ assert.equal(d.querySelector('#fSentMsg a'),null);assert.match(d.getElementById('fSentMsg').textContent,/SAL-1001/);assert.equal(d.getElementById('fEmail').value,'');
  assert.equal(savedEvents,1);
  await new Promise(resolve=>setImmediate(resolve));dom.window.close();
 });

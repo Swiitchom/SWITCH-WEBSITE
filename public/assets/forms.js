@@ -7,7 +7,7 @@ async function saveInquiry(payload,fetcher=fetch){
 function inquiryPayload(form){
  const data=new FormData(form),store=form.id==='storeForm';
  const phone=String(data.get('phone')||'').replace(/[٠-٩]/g,x=>String(x.charCodeAt(0)-1632)).trim();
- const payload={requestId:form.dataset.requestId||(form.dataset.requestId=crypto.randomUUID()),name:String(data.get('name')||'').trim(),phone,email:String(data.get('email')||'').trim(),service:store?'Arduino Kit':String(data.get('service')||''),context:store?'store':(form.dataset.context||'contact'),kind:store?'store':'contact',message:String(data.get(store?'notes':'message')||'').trim(),consent:data.get('consent')==='on',website:String(data.get(store?'bot-field-store':'bot-field')||'')};
+ const payload={requestId:form.dataset.requestId||(form.dataset.requestId=crypto.randomUUID()),name:String(data.get('name')||'').trim(),phone,email:String(data.get('email')||'').trim(),service:store?'Arduino Kit':String(data.get('service')||''),context:store?'store':(form.dataset.context||'contact'),kind:store?'store':'contact',message:String(data.get(store?'notes':'message')||'').trim(),consent:data.get('consent')==='on',language:currentLang,website:String(data.get(store?'bot-field-store':'bot-field')||'')};
  if(store){payload.quantity=Number(data.get('quantity'));payload.addWorkshop=document.getElementById('storeAddWorkshop').checked;if(!payload.message)payload.message=currentLang==='ar'?'طلب كت الأردوينو':'Arduino kit order';}
  return payload;
 }
@@ -21,11 +21,10 @@ for(const id of ['contactForm','storeForm']){
   status.replaceChildren();status.style.display='block';status.textContent=ar?'جارٍ إرسال طلبك…':'Sending your inquiry…';
   const controls=[...form.elements].filter(el=>!el.disabled);controls.forEach(el=>el.disabled=true);form.dataset.submitting='true';
   try{
-   await saveInquiry(payload);
+   const receipt=await saveInquiry(payload);
    document.dispatchEvent(new CustomEvent('portfolio:inquiry-saved',{detail:{kind:payload.kind,context:payload.context}}));
-   status.textContent=ar?'تم حفظ طلبك. يمكنك الآن متابعة المحادثة عبر واتساب.':'Your inquiry was saved. You can now continue on WhatsApp.';
-   const message=ar?`مرحبًا سالم، طلب بخصوص: ${payload.service}\nالاسم: ${payload.name}\nالهاتف: ${payload.phone}\nالبريد: ${payload.email}\nالاستفسار: ${payload.message}\nمرجع الطلب: ${payload.requestId}`:`Hi Salim, inquiry about: ${payload.service}\nName: ${payload.name}\nPhone: ${payload.phone}\nEmail: ${payload.email}\nInquiry: ${payload.message}\nReference: ${payload.requestId}`;
-   const link=document.createElement('a');link.href=whatsappURL(message);link.target='_blank';link.rel='noopener noreferrer';link.className='btn btn-primary';link.textContent=ar?'متابعة عبر واتساب':'Continue on WhatsApp';status.append(document.createElement('br'),link);
+   status.textContent=ar?'تم استلام طلبك وهو قيد المراجعة. سنتواصل معك عبر بيانات التواصل المرفقة.':'Your request was received and is under review. I will contact you using the details provided.';
+   if(receipt.reference){const reference=document.createElement('strong');reference.dir='ltr';reference.textContent=receipt.reference;status.append(document.createElement('br'),document.createTextNode(ar?'مرجع طلبك: ':'Your reference: '),reference);}
    form.reset();delete form.dataset.requestId;if(id==='storeForm')updateStoreTotal();
   }catch{
    status.textContent=ar?'تعذّر إرسال الطلب الآن. احتفظنا ببياناتك هنا؛ يرجى إعادة المحاولة لاحقًا.':'Unable to send right now. Your entries are preserved; please try again later.';

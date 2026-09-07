@@ -16,7 +16,7 @@ http.createServer((req,res)=>{
   if(!['GET','HEAD'].includes(req.method)){res.writeHead(405);return res.end();}
   let name;
   try{name=decodeURIComponent(new URL(req.url,'http://localhost').pathname);}catch{res.writeHead(400);return res.end();}
-  const file=path.resolve(root,'.'+(name==='/'?'/index.html':name));
+  const file=path.resolve(root,'.'+(name.endsWith('/')?name+'index.html':name));
   if(!file.startsWith(root+path.sep)){res.writeHead(403);return res.end();}
   fs.readFile(file,(err,data)=>{
     res.writeHead(err?404:200,{'Content-Type':types[path.extname(file)]||'application/octet-stream'});

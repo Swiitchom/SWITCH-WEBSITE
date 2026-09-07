@@ -1,7 +1,7 @@
 import validation from './validate.cjs';
 import {createStore,hash} from './firestore-rest.mjs';
 const reply=(status,body)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
-export async function handleInquiry(request, env, save) {
+export async function handleInquiry(request, env, save, afterSave) {
   if(request.method!=='POST')return reply(405,{error:'method'});
   let origin;
   try {origin=new URL(env.SITE_URL).origin;} catch {return reply(503,{error:'not_configured'});}
@@ -21,8 +21,9 @@ export async function handleInquiry(request, env, save) {
   const ip=request.headers.get('CF-Connecting-IP');
   if(!env.FIREBASE_SERVICE_ACCOUNT_JSON || !ip)return reply(503,{error:'not_configured'});
   try {
-    await (save || createStore(env.FIREBASE_SERVICE_ACCOUNT_JSON))(input,await hash(ip));
-    return reply(201,{id:input.requestId});
+    const receipt=await (save || createStore(env.FIREBASE_SERVICE_ACCOUNT_JSON))(input,await hash(ip));
+    if(afterSave){try{afterSave(input.requestId);}catch{}}
+    return reply(201,{id:input.requestId,reference:receipt?.reference||'',emailStatus:receipt?.emailStatus||'pending'});
   } catch(error) {
     return reply(error.code==='RATE_LIMIT'?429:error.code==='CONFLICT'?409:503,{error:error.code==='RATE_LIMIT'?'rate_limit':'save_failed'});
   }

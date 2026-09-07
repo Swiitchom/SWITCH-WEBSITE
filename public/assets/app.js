@@ -63,8 +63,8 @@ const i18n = {
     ctEyebrow:"تواصل معي", ctTitle:"لديك فكرة؟ دعنا نحولها إلى مشروع حقيقي.",
     ctDesc:"أخبرني عن فكرتك أو مشروعك، وسنحدد أفضل طريقة لتنفيذه معًا.",
     fName:"الاسم", fContact:"رقم الهاتف / البريد الإلكتروني", fService:"نوع الخدمة", fMsg:"وصف الفكرة",
-    fSubmit:"إرسال الطلب", fNote:"سجّل بياناتك واستفسارك، ثم يمكنك متابعة الطلب عبر واتساب.",
-    fSent:"أكمل إرسال الرسالة في واتساب.",
+    fSubmit:"إرسال الطلب", fNote:"أرسل طلبك وسأراجعه وأتواصل معك عبر البريد أو الهاتف.",
+    fSent:"تم استلام طلبك وهو قيد المراجعة.",
     footText:"© 2026 م. سالم العبري — Switch. جميع الحقوق محفوظة.",
     modalProblem:"المشكلة", modalSolution:"الحل", modalResult:"النتيجة",
     waMsg:(name,contact,svc,msg)=>`مرحبًا سالم، اسمي ${name}.\nالتواصل: ${contact}\nنوع الخدمة: ${svc}\nالفكرة: ${msg}`
@@ -101,8 +101,8 @@ const i18n = {
     ctEyebrow:"Contact", ctTitle:"Have an idea? Let's turn it into a real project.",
     ctDesc:"Tell me about your idea or project, and we'll figure out the best way to build it together.",
     fName:"Name", fContact:"Phone / Email", fService:"Service type", fMsg:"Describe your idea",
-    fSubmit:"Send inquiry", fNote:"Submit your details and inquiry, then continue through WhatsApp.",
-    fSent:"Complete sending your message in WhatsApp.",
+    fSubmit:"Send inquiry", fNote:"Send your inquiry and I will review it and contact you by email or phone.",
+    fSent:"Your request was received and is under review.",
     footText:"© 2026 Eng. Salim Alabri — Switch. All rights reserved.",
     modalProblem:"Problem", modalSolution:"Solution", modalResult:"Result",
     waMsg:(name,contact,svc,msg)=>`Hi Salim, my name is ${name}.\nContact: ${contact}\nService: ${svc}\nIdea: ${msg}`

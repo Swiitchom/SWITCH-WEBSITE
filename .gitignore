@@ -9,3 +9,5 @@ node_modules/
 .wrangler/
 .dev.vars
 .dev.vars.*
+*client_secret*.json
+*oauth-credentials*.json

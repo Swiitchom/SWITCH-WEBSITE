@@ -6,7 +6,7 @@ export async function hash(value) {
   return [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes(value)))].map(x => x.toString(16).padStart(2, '0')).join('');
 }
 function failure(code) { return Object.assign(new Error('Persistence failed'), {code}); }
-async function tokenFor(raw) {
+export async function tokenFor(raw) {
   let session = sessions.get(raw);
   if (!session) {
     const credential = JSON.parse(raw);
@@ -37,7 +37,20 @@ function field(value) {
   if (typeof value === 'number') return Number.isInteger(value) ? {integerValue:String(value)} : {doubleValue:value};
   return {stringValue:value};
 }
-const fields = object => Object.fromEntries(Object.entries(object).map(([key,value]) => [key,field(value)]));
+export const fields = object => Object.fromEntries(Object.entries(object).map(([key,value]) => [key,field(value)]));
+export const base = 'projects/salim-alabri-webaite/databases/(default)/documents';
+export function unpack(doc) {
+  if(!doc)return null;
+  return Object.fromEntries(Object.entries(doc.fields||{}).map(([key,v])=>[key,'stringValue' in v?v.stringValue:'integerValue' in v?Number(v.integerValue):'doubleValue' in v?v.doubleValue:'booleanValue' in v?v.booleanValue:'timestampValue' in v?v.timestampValue:null]));
+}
+export function database(raw) {
+  async function api(path, body) {
+    const response=await fetch('https://firestore.googleapis.com/v1/'+path,{method:body?'POST':'GET',headers:{Authorization:'Bearer '+await tokenFor(raw),'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(8000)});
+    const result=await response.json();if(!response.ok)throw failure(result.error?.status||'UNAVAILABLE');return result;
+  }
+  return {api,async read(path){try{return await api(base+'/'+path);}catch(e){if(e.code==='NOT_FOUND')return null;throw e;}},
+    async patch(path,data,version){return api(base+':commit',{writes:[{update:{name:base+'/'+path,fields:fields(data)},updateMask:{fieldPaths:Object.keys(data)},...(version?{currentDocument:{updateTime:version}}:{})}]});}};
+}
 
 export function createStore(raw, {request=fetch, accessToken=()=>tokenFor(raw), clock=Date.now}={}) {
   const base = 'projects/salim-alabri-webaite/databases/(default)/documents';
@@ -60,18 +73,23 @@ export function createStore(raw, {request=fetch, accessToken=()=>tokenFor(raw), 
       const existing = await read(name);
       if (existing) {
         if(existing.fields?.payloadHash?.stringValue!==payloadHash) throw failure('CONFLICT');
-        return;
+        return {reference:existing.fields?.reference?.stringValue || '',emailStatus:existing.fields?.emailStatus?.stringValue || 'pending'};
       }
       const previous = await read(limitName), now=clock();
       const start = Number(previous?.fields?.windowStart?.integerValue || 0);
       const count = start>now-3600000 ? Number(previous?.fields?.count?.integerValue || 0) : 0;
       if(count>=5) throw failure('RATE_LIMIT');
+      const counterName=base+'/portfolioSettings/requestCounter';
+      const counter=await read(counterName);
+      const sequence=Number(counter?.fields?.sequence?.integerValue||1000)+1;
+      const reference='SAL-'+sequence;
       try {
         await api(base+':commit', {writes:[
-          {update:{name,fields:fields({...input,payloadHash,status:'new'})},currentDocument:{exists:false},updateTransforms:[{fieldPath:'createdAt',setToServerValue:'REQUEST_TIME'}]},
-          {update:{name:limitName,fields:{...fields({count:count+1,windowStart:count?start:now}),expiresAt:{timestampValue:new Date(now+7200000).toISOString()}}},currentDocument:previous?{updateTime:previous.updateTime}:{exists:false}}
+          {update:{name,fields:fields({...input,payloadHash,reference,status:'new',notes:'',emailStatus:'pending',emailAttempts:0})},currentDocument:{exists:false},updateTransforms:[{fieldPath:'createdAt',setToServerValue:'REQUEST_TIME'}]},
+          {update:{name:limitName,fields:{...fields({count:count+1,windowStart:count?start:now}),expiresAt:{timestampValue:new Date(now+7200000).toISOString()}}},currentDocument:previous?{updateTime:previous.updateTime}:{exists:false}},
+          {update:{name:counterName,fields:fields({sequence})},currentDocument:counter?{updateTime:counter.updateTime}:{exists:false}}
         ]});
-        return;
+        return {reference,emailStatus:'pending'};
       } catch (error) {
         if(!['ABORTED','FAILED_PRECONDITION','ALREADY_EXISTS'].includes(error.code) || attempt===4)throw error;
         await new Promise(resolve=>setTimeout(resolve,25*(attempt+1)+Math.random()*50));

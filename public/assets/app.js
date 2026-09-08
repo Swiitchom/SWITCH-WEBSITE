@@ -201,20 +201,22 @@ function renderProjects(){
  const list=showAllProjects?all:all.slice(0,4);
  document.getElementById('projGrid').innerHTML=list.map(p=>`<article class="proj-card reveal">
  <button type="button" class="project-open" data-project="${projectsData.indexOf(p)}" aria-label="${p[currentLang].title}"><div class="proj-media ${p.screenshot?'screenshot-media':p.kind==='platform'?'platform-media':''} ${p.image?'has-photo':''}">${projMediaHTML(p)}</div></button>
- <div class="proj-body"><span class="project-kind">${p.logo?`<img class="project-logo" src="${p.logo}" alt="">`:ICON[p.icon]||ICON.code}<span>${p[currentLang].tag}</span></span><h3>${p[currentLang].title}</h3><p>${p[currentLang].desc}</p><button type="button" class="proj-link" data-project="${projectsData.indexOf(p)}">${currentLang==='ar'?'استكشف الفكرة':'Explore the idea'} ${ICON.arrow}</button></div></article>`).join('');
+ <div class="proj-body"><span class="project-kind">${p.logo?`<img class="project-logo" src="${p.logo}" alt="">`:ICON[p.icon]||ICON.code}<span>${p[currentLang].tag}</span></span><h3>${p[currentLang].title}</h3><p>${p[currentLang].desc}</p>${p[currentLang].benefit?`<p class="project-outcome"><span>${currentLang==='ar'?'الفائدة':'The value'}</span>${p[currentLang].benefit}</p>`:''}${p[currentLang].deployment?`<p class="project-context">${p[currentLang].deployment}</p>`:''}<button type="button" class="proj-link" data-project="${projectsData.indexOf(p)}">${currentLang==='ar'?(p.image?'شاهد المشروع':'اكتشف المشروع'):(p.image?'See the project':'Explore the project')} ${ICON.arrow}</button></div></article>`).join('');
  document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>openModal(projectsData[Number(b.dataset.project)])));
  const more=document.getElementById('projectsMore');more.hidden=all.length<=4;more.textContent=currentLang==='ar'?(showAllProjects?'عرض مختصر':'عرض جميع الأعمال'):(showAllProjects?'Show fewer':'View all work');
  more.onclick=()=>{showAllProjects=!showAllProjects;renderProjects();if(!showAllProjects)document.getElementById('projects').scrollIntoView();};
  observeReveals();
 }
-let projectTrigger;
+let projectTrigger,projectBodyOverflow;
 function openModal(p){
- projectTrigger=document.activeElement;const t=p[currentLang],dict=i18n[currentLang],box=document.getElementById('modalOverlay');
- document.getElementById('modalContent').innerHTML=`<button type="button" class="modal-close" id="modalCloseBtn" aria-label="${currentLang==='ar'?'إغلاق':'Close'}">×</button><div class="modal-media">${projMediaHTML(p)}</div><h3 id="projectDialogTitle">${t.title}</h3><p>${t.desc}</p>${t.overview?`<p class="project-overview">${t.overview}</p>`:''}${(p.gallery||[]).map(g=>`<figure class="project-screenshot"><img src="${g.image}" alt="${g[currentLang]}" loading="lazy" decoding="async"><figcaption>${g[currentLang]}</figcaption></figure>`).join('')}`;
+ projectTrigger=document.activeElement;const t=p[currentLang],ar=currentLang==='ar',box=document.getElementById('modalOverlay');
+ const media=p.image?`<figure class="case-hero"><div class="modal-media">${projMediaHTML(p)}</div><figcaption>${t.imageCaption||t.title}</figcaption></figure>`:`<div class="case-symbol" aria-hidden="true">${ICON[p.icon]||ICON.code}</div>`;
+ document.getElementById('modalContent').innerHTML=`<button type="button" class="modal-close" id="modalCloseBtn" aria-label="${ar?'إغلاق':'Close'}">×</button><header class="case-heading"><span class="case-category">${t.tag}</span><h3 id="projectDialogTitle">${t.title}</h3><p class="case-intro">${t.desc}</p>${t.deployment?`<p class="project-context">${t.deployment}</p>`:''}</header>${media}<div class="case-story"><section><h4>${ar?'كيف تعمل الفكرة؟':'How it works'}</h4><p class="project-overview">${t.overview||t.desc}</p></section><section><h4>${ar?'ما الذي تقدّمه؟':'What it offers'}</h4><p>${t.benefit||t.desc}</p></section></div>${(p.gallery||[]).map(g=>`<figure class="project-screenshot"><figcaption>${g[currentLang]}</figcaption><img src="${g.image}" alt="${g[currentLang]}" loading="lazy" decoding="async"></figure>`).join('')}`;
+ projectBodyOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
  box.inert=false;box.setAttribute('role','dialog');box.setAttribute('aria-modal','true');box.setAttribute('aria-labelledby','projectDialogTitle');box.classList.add('open');
- document.getElementById('modalCloseBtn').addEventListener('click',closeModal);document.getElementById('modalCloseBtn').focus();
+ box.scrollTop=0;document.getElementById('modalCloseBtn').addEventListener('click',closeModal);document.getElementById('modalCloseBtn').focus({preventScroll:true});
 }
-function closeModal(){const box=document.getElementById('modalOverlay');box.classList.remove('open');box.inert=true;projectTrigger?.focus();}
+function closeModal(){const box=document.getElementById('modalOverlay');if(!box.classList.contains('open'))return;box.classList.remove('open');box.inert=true;document.body.style.overflow=projectBodyOverflow||'';projectTrigger?.focus({preventScroll:true});}
  document.getElementById('modalOverlay').inert=true;
  document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target.id==='modalOverlay')closeModal();});
  document.addEventListener('keydown',e=>{if(!document.getElementById('modalOverlay').classList.contains('open'))return;if(e.key==='Escape')closeModal();if(e.key==='Tab'){e.preventDefault();document.getElementById('modalCloseBtn').focus();}});

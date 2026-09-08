@@ -97,3 +97,10 @@
 يفتح زر «شاهد التجربة بالفيديو» العرض داخل تفاصيل المنصة بإطار يتبع الهوية. الفيديو لا يُطلب قبل فتح المشروع واختيار التشغيل، ويدعم playsinline وأدوات التشغيل الأصلية. الإغلاق يوقف الصوت ويلغي مصدر الفيديو، وإعادة الفتح تبدأ من الصورة الافتتاحية. اختُبر التشغيل والتقديم والإغلاق والتنقل بلوحة المفاتيح والجوال واللغتان في Chrome.
 
 The school demo uses a dedicated Pages Function for HTTP byte ranges (static Pages responses otherwise return 200). The function streams selected bytes and leaves other assets static. When replacing this clip, update assetBytes in server/project-video.mjs and its range test to match the new MP4. Playback downloads begin only on user action.
+### Private request follow-up
+
+The owner dashboard now supports the `quoted` stage, an optional `followUpDate` (YYYY-MM-DD, Oman calendar date), and an optional OMR quote. Quotes are stored as integer `quoteBaisa` (1 OMR = 1000 baisa), preserving three decimal places; an empty string clears an optional value. Older clients that omit these fields preserve existing values, and older requests need no migration.
+
+Status, service and due-date filters apply to the loaded page(s) of requests. Load older requests to extend their scope. Completed and archived requests retain their dates but are excluded from active follow-up filters. Dates are visual reminders in the dashboard, not scheduled email notifications. Saving follow-up details sends no message to the customer.
+
+Drafts remain in memory across selection, language changes and refresh, with their original version. Conflicting updates return 409 instead of overwriting another edit. The owner can explicitly discard a draft to resume from the latest loaded version. Private fields remain behind owner authentication and same-origin write checks.

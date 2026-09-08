@@ -4,6 +4,12 @@ async function saveInquiry(payload,fetcher=fetch){
  if(!response.ok)throw new Error(`Save failed: ${response.status}`);
  const result=await response.json();if(result.id!==payload.requestId)throw new Error('Invalid receipt');return result;
 }
+function inquiryServiceKey(payload){
+ if(payload.kind==='store')return 'arduino_kit';
+ const workshop=workshopsData.find(w=>w.ar.title===payload.service||w.en.title===payload.service);
+ if(workshop)return 'workshop_'+({ai:'ai',iot:'iot',cube:'3d'})[workshop.icon];
+ return servicesData.find(s=>s.ar===payload.service||s.en===payload.service)?.visual||'general';
+}
 function inquiryPayload(form){
  const data=new FormData(form),store=form.id==='storeForm';
  const phone=String(data.get('phone')||'').replace(/[٠-٩]/g,x=>String(x.charCodeAt(0)-1632)).trim();
@@ -22,7 +28,7 @@ for(const id of ['contactForm','storeForm']){
   const controls=[...form.elements].filter(el=>!el.disabled);controls.forEach(el=>el.disabled=true);form.dataset.submitting='true';
   try{
    const receipt=await saveInquiry(payload);
-   document.dispatchEvent(new CustomEvent('portfolio:inquiry-saved',{detail:{kind:payload.kind,context:payload.context}}));
+   document.dispatchEvent(new CustomEvent('portfolio:inquiry-saved',{detail:{kind:payload.kind,context:payload.context,serviceKey:inquiryServiceKey(payload)}}));
    status.textContent=ar?'تم استلام طلبك وهو قيد المراجعة. سنتواصل معك عبر بيانات التواصل المرفقة.':'Your request was received and is under review. I will contact you using the details provided.';
    if(receipt.reference){const reference=document.createElement('strong');reference.dir='ltr';reference.textContent=receipt.reference;status.append(document.createElement('br'),document.createTextNode(ar?'مرجع طلبك: ':'Your reference: '),reference);}
    form.reset();delete form.dataset.requestId;if(id==='storeForm')updateStoreTotal();

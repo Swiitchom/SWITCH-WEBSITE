@@ -24,14 +24,14 @@ test('service inquiry collects email and phone, preserves failure data, and show
  d.querySelector('#serviceRequest').click();assert.equal(form.dataset.context,'services');assert.equal(d.getElementById('fService').value,'التدريب والورش');
  d.getElementById('fName').value='Test Person';d.getElementById('fPhone').value='+96899999999';d.getElementById('fEmail').value='test@example.com';d.getElementById('fMsg').value='Please arrange a workshop';form.elements.consent.checked=true;
  let calls=0;w.fetch=async()=>{calls++;return {ok:false,status:503};};
- let savedEvents=0;d.addEventListener('portfolio:inquiry-saved',()=>savedEvents++);
+ let savedEvents=0,savedService;d.addEventListener('portfolio:inquiry-saved',e=>{savedEvents++;savedService=e.detail.serviceKey;});
  form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));
  assert.equal(calls,1);assert.equal(d.querySelector('#fSentMsg a'),null);assert.equal(d.getElementById('fEmail').value,'test@example.com');
  assert.equal(savedEvents,0);
  w.fetch=async(url,opts)=>({ok:true,json:async()=>({id:JSON.parse(opts.body).requestId,reference:'SAL-1001'})});
  form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));
  assert.equal(d.querySelector('#fSentMsg a'),null);assert.match(d.getElementById('fSentMsg').textContent,/SAL-1001/);assert.equal(d.getElementById('fEmail').value,'');
- assert.equal(savedEvents,1);
+ assert.equal(savedEvents,1);assert.equal(savedService,'training');
  await new Promise(resolve=>setImmediate(resolve));dom.window.close();
 });
 

@@ -85,7 +85,7 @@ export function createStore(raw, {request=fetch, accessToken=()=>tokenFor(raw), 
       const reference='SAL-'+sequence;
       try {
         await api(base+':commit', {writes:[
-          {update:{name,fields:fields({...input,payloadHash,reference,status:'new',notes:'',emailStatus:'pending',emailAttempts:0})},currentDocument:{exists:false},updateTransforms:[{fieldPath:'createdAt',setToServerValue:'REQUEST_TIME'}]},
+          {update:{name,fields:fields({...input,payloadHash,reference,status:'new',notes:'',emailStatus:'pending',emailAttempts:0,ownerEmailStatus:'pending',ownerEmailAttempts:0})},currentDocument:{exists:false},updateTransforms:[{fieldPath:'createdAt',setToServerValue:'REQUEST_TIME'}]},
           {update:{name:limitName,fields:{...fields({count:count+1,windowStart:count?start:now}),expiresAt:{timestampValue:new Date(now+7200000).toISOString()}}},currentDocument:previous?{updateTime:previous.updateTime}:{exists:false}},
           {update:{name:counterName,fields:fields({sequence})},currentDocument:counter?{updateTime:counter.updateTime}:{exists:false}}
         ]});

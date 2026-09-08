@@ -26,7 +26,7 @@ test('consented measurement excludes query strings, fragments, referrer queries 
  w.document.dispatchEvent(new w.CustomEvent('portfolio:inquiry-saved',{detail:{kind:'contact',context:'private@example.com',email:'private@example.com',phone:'12345678',message:'sensitive'}}));
  const events=commands(w), serialized=JSON.stringify(events);
  assert.ok(!serialized.includes('private@example.com'));assert.ok(!serialized.includes('referrer@example.com'));assert.ok(!serialized.includes('12345678'));assert.ok(!serialized.includes('sensitive'));
- assert.deepEqual(JSON.parse(JSON.stringify(events.find(c=>c[0]==='event'&&c[1]==='generate_lead')[2])),{form_name:'contact',lead_source:'contact'});
+ assert.deepEqual(JSON.parse(JSON.stringify(events.find(c=>c[0]==='event'&&c[1]==='generate_lead')[2])),{form_name:'contact',lead_source:'contact',service_key:'general'});
  assert.equal(events.filter(c=>c[1]==='page_view').length,1);
  dom.window.close();
 });
@@ -36,6 +36,12 @@ test('withdrawal deletes analytics cookies and stops subsequent lead events',()=
  d.dispatchEvent(new w.CustomEvent('portfolio:inquiry-saved',{detail:{kind:'store',context:'store'}}));
  assert.equal(w['ga-disable-G-RSGND37FQ5'],true);assert.ok(!d.cookie.includes('_ga='));assert.equal(commands(w).filter(c=>c[1]==='generate_lead').length,0);
  dom.window.close();
+});
+test('only allowlisted service keys reach analytics',()=>{
+ const dom=boot(),w=dom.window,d=w.document;d.getElementById('analyticsAccept').click();
+ for(const serviceKey of ['workshop_iot','web','private@example.com'])d.dispatchEvent(new w.CustomEvent('portfolio:inquiry-saved',{detail:{context:'services',serviceKey}}));
+ const events=commands(w).filter(c=>c[1]==='generate_lead');
+ assert.deepEqual(Array.from(events,c=>c[2].service_key),['workshop_iot','web','general']);dom.window.close();
 });
 test('expired consent asks again, and the preference controls follow the site language',async()=>{
  const dom=boot(undefined,{value:'granted',at:Date.now()-181*86400000}),d=dom.window.document;

@@ -95,3 +95,5 @@
 تسجيل أصلي أرسله صاحب الموقع، مدته 41 ثانية ودقته 816×576. نسخة الويب school-gateway-demo.mp4 بترميز H.264 وصوت AAC الأصلي؛ خُفّض الحجم من 7,082,114 إلى 3,637,531 بايت مع تعديل خفيف للإضاءة والحدة، دون قص أو رفع الدقة. faststart يسمح ببدء التشغيل قبل اكتمال التحميل. الصورة الافتتاحية مأخوذة من المقطع نفسه.
 
 يفتح زر «شاهد التجربة بالفيديو» العرض داخل تفاصيل المنصة بإطار يتبع الهوية. الفيديو لا يُطلب قبل فتح المشروع واختيار التشغيل، ويدعم playsinline وأدوات التشغيل الأصلية. الإغلاق يوقف الصوت ويلغي مصدر الفيديو، وإعادة الفتح تبدأ من الصورة الافتتاحية. اختُبر التشغيل والتقديم والإغلاق والتنقل بلوحة المفاتيح والجوال واللغتان في Chrome.
+
+The school demo uses a dedicated Pages Function for HTTP byte ranges (static Pages responses otherwise return 200). The function streams selected bytes and leaves other assets static. When replacing this clip, update assetBytes in server/project-video.mjs and its range test to match the new MP4. Playback downloads begin only on user action.

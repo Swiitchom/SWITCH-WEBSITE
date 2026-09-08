@@ -21,6 +21,13 @@
 #modalContent .project-screenshot figcaption{font-size:16px;color:var(--signal);margin:0 0 18px;}
 #modalContent .project-screenshot img{width:100%;height:auto;object-fit:contain;border:0;border-radius:0;}
 .case-symbol{padding:28px 0;color:var(--signal);}.case-symbol svg{width:90px;height:90px;}
+.case-film{margin:0;}
+.case-film-frame{border:1px solid transparent;border-radius:16px;overflow:hidden;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(135deg,var(--copper-dim),var(--line-soft) 45%,var(--signal-dim)) border-box;box-shadow:0 18px 55px rgba(0,0,0,.16);}
+.case-film-heading{display:flex;justify-content:space-between;gap:18px;padding:14px 20px;color:var(--signal);font-size:12px;}
+.case-film-heading span:last-child{color:var(--text-dim);}
+.case-video{display:block;width:100%;height:auto;max-height:72svh;object-fit:contain;background:#070e0f;accent-color:var(--signal);}
+.case-video:focus-visible{outline:2px solid var(--copper);outline-offset:-3px;}
+.case-film figcaption{font-size:13px;color:var(--text-muted);line-height:1.9;margin-top:14px;}
 @media(prefers-reduced-motion:no-preference){
  #modalOverlay.open .case-heading,#modalOverlay.open .case-hero{animation:case-arrive .7s var(--motion-ease) both;}
  #modalOverlay.open .case-hero{animation-delay:.08s;}
@@ -33,4 +40,5 @@
  .case-story{grid-template-columns:1fr;gap:22px;padding-block:22px;margin-block:26px;}
  .case-story p,.case-story .project-overview{font-size:14px;}
  .proj-body .project-outcome{font-size:14px;margin-block:16px;}
+ .case-film-heading{font-size:11px;padding:12px 14px;gap:12px;}.case-film-frame{border-radius:12px;}
 }

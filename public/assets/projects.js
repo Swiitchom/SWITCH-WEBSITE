@@ -32,7 +32,21 @@ const projectsData = [
         "ar": "لوحة إدارة الاستقبال واختيار الشخصية",
         "en": "Reception controls and character selection"
       }
-    ]
+    ],
+    "video": {
+      "src": "assets/videos/school-gateway-demo.mp4",
+      "poster": "assets/images/school-gateway-video.webp",
+      "width": 816,
+      "height": 576,
+      "ar": {
+        "title": "تجربة منصة معبر المدرسة التفاعلي",
+        "caption": "من الترحيب بشخصية ريما إلى التفاعل بالكاميرا وفتح بوابة المدرسة بإشارة اليد."
+      },
+      "en": {
+        "title": "Interactive School Gateway demonstration",
+        "caption": "From Rima’s welcome to camera interaction and opening the school gate with a hand gesture."
+      }
+    }
   },
   {
     "cat": "web",

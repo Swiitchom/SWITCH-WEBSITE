@@ -3,7 +3,7 @@ const root=path.resolve(__dirname,'../public');
 function boot(){
  const dom=new JSDOM(fs.readFileSync(path.join(root,'index.html'),'utf8'),{url:'http://localhost:4173',runScripts:'outside-only'});const w=dom.window;
  w.matchMedia=()=>({matches:true,addEventListener(){}});w.IntersectionObserver=class{observe(){}unobserve(){}};w.requestAnimationFrame=()=>{};w.HTMLCanvasElement.prototype.getContext=()=>({clearRect(){},beginPath(){},arc(){},fill(){},moveTo(){},lineTo(){},stroke(){}});w.HTMLElement.prototype.scrollIntoView=()=>{};
- w.AbortSignal=AbortSignal;
+ w.AbortSignal=AbortSignal;w.HTMLMediaElement.prototype.pause=function(){};w.HTMLMediaElement.prototype.load=function(){};
  for(const script of w.document.querySelectorAll('script[src]'))require('node:vm').runInContext(fs.readFileSync(path.join(root,script.getAttribute('src').split(/[?#]/)[0]),'utf8'),dom.getInternalVMContext());
  return dom;
 }

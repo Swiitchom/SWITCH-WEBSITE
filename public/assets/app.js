@@ -121,27 +121,15 @@ const expertiseData = [
 ];
 
 const servicesData = [
-  {visual:'ai', ar:'تطوير حلول الذكاء الاصطناعي', en:'AI Solution Development',
-    descAr:'بناء نماذج ذكاء اصطناعي وتطبيقات تعتمد على التعلم الآلي لحل مشكلات حقيقية.',
-    descEn:'Building AI models and machine-learning-driven applications that solve real problems.'},
-  {visual:'electronics', ar:'الإلكترونيات وإنترنت الأشياء', en:'Electronics & IoT',
-    descAr:'تصميم دارات وأنظمة متصلة تجمع البيانات وتتحكم بالأجهزة عن بعد.',
-    descEn:'Designing circuits and connected systems that collect data and control devices remotely.'},
-  {visual:'arduino', ar:'برمجة Arduino و ESP32', en:'Arduino / ESP32 Development',
-    descAr:'برمجة وحدات التحكم الدقيقة وبناء نماذج أولية قابلة للتطوير.',
-    descEn:'Programming microcontrollers and building scalable hardware prototypes.'},
-  {visual:'web', ar:'تطوير المنصات والمواقع', en:'Web Platforms',
-    descAr:'مواقع ولوحات تحكم تفاعلية وسريعة، مبنية بعناية من الفكرة حتى الإطلاق.',
-    descEn:'Fast, interactive websites and dashboards, built carefully from idea to launch.'},
-  {visual:'3d', ar:'الطباعة ثلاثية الأبعاد والنمذجة', en:'3D Printing & Prototyping',
-    descAr:'تصميم نماذج ثلاثية الأبعاد وطباعتها لتحويل الفكرة إلى مجسم ملموس.',
-    descEn:'Designing and printing 3D models to turn an idea into a physical object.'},
-  {visual:'innovation', ar:'الابتكار', en:'Innovation',
-    descAr:'استشارات لتطوير الأفكار وتحويلها إلى مشاريع قابلة للتنفيذ.',
-    descEn:'Consulting to develop ideas and turn them into workable projects.'},
-  {visual:'training', ar:'التدريب والورش', en:'Training & Workshops',
-    descAr:'ورش تدريبية عملية في الإلكترونيات والذكاء الاصطناعي وإنترنت الأشياء.',
-    descEn:'Hands-on training workshops in electronics, AI, and IoT.'},
+ {visual:'training',ar:'باقة الورشة التدريبية',en:'Practical Workshop',descAr:'تعلّم بالتجربة، وطبّق الفكرة بيدك.',descEn:'Learn by doing and put an idea into practice.',
+  arDetails:{audience:'للمدارس والطلبة والمهتمين بالتقنية',timing:'المدة حسب البرنامج والفئة المستهدفة',includes:['موضوع يناسب مستوى المشاركين','تدريب عملي وتطبيق موجّه','تنسيق الاحتياجات قبل التنفيذ']},
+  enDetails:{audience:'Schools, students and technology enthusiasts',timing:'Duration depends on the program and audience',includes:['A topic suited to participant experience','Hands-on learning and guided practice','Requirements agreed before delivery']}},
+ {visual:'web',ar:'باقة المنصة التفاعلية',en:'Interactive Platform',descAr:'تجربة تحمل هوية مدرستك أو معرضك.',descEn:'An experience shaped around your school or exhibition.',
+  arDetails:{audience:'للمدارس والمعارض والفعاليات',timing:'موعد التسليم يُحدّد بعد مراجعة المتطلبات',includes:['تصميم المحتوى والواجهة حسب الهوية','تحديد أسلوب التفاعل والتجهيزات','اختبار التجربة وشرح الاستخدام']},
+  enDetails:{audience:'Schools, exhibitions and events',timing:'Delivery agreed after reviewing requirements',includes:['Content and interface matched to your identity','Interaction and equipment planning','Experience testing and usage walkthrough']}},
+ {visual:'innovation',ar:'باقة تطوير المشروع التقني',en:'Technical Project',descAr:'من فكرة واضحة إلى نموذج عملي قابل للتجربة.',descEn:'From a clear idea to a working prototype.',
+  arDetails:{audience:'لأصحاب الأفكار والمشاريع التعليمية والتقنية',timing:'النطاق والمدة حسب متطلبات المشروع',includes:['تحديد الفكرة وخطة التنفيذ','برمجة أو إلكترونيات أو ذكاء اصطناعي حسب الحاجة','اختبار النموذج وتوضيح طريقة تشغيله']},
+  enDetails:{audience:'Founders, educators and technical project owners',timing:'Scope and timeline depend on the project',includes:['Idea definition and implementation plan','Software, electronics or AI as required','Prototype testing and operating guidance']}}
 ];
 
 const workshopsData = [
@@ -228,20 +216,11 @@ function closeModal(){const box=document.getElementById('modalOverlay');if(!box.
  document.addEventListener('keydown',e=>{const box=document.getElementById('modalOverlay');if(!box.classList.contains('open'))return;if(e.key==='Escape')closeModal();if(e.key==='Tab'){const targets=[...box.querySelectorAll('button,a[href],video[controls]')],first=targets[0],last=targets[targets.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
 
 function renderServices(){
-  document.getElementById('svcGrid').innerHTML = servicesData.map((s,i)=>{
-    const label = currentLang==='ar'?s.ar:s.en;
-    const desc = currentLang==='ar'?s.descAr:s.descEn;
-    return `<div class="svc-card reveal" data-service="${s.visual}">
-      <div class="svc-body">
-        <div>
-          <h4><button type="button" class="service-select" aria-controls="servicePreview" aria-pressed="false">${label}</button></h4>
-          <p>${desc}</p>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
+ document.getElementById('svcGrid').innerHTML=servicesData.map(s=>{
+  const ar=currentLang==='ar',d=s[ar?'arDetails':'enDetails'];
+  return `<article class="svc-card package-card" data-service="${s.visual}"><div class="svc-body"><div><h4><button type="button" class="service-select" aria-controls="package-${s.visual}" aria-expanded="false" aria-pressed="false"><span>${s[currentLang]}</span><span class="package-arrow" aria-hidden="true">↗</span></button></h4><p>${ar?s.descAr:s.descEn}</p><div class="package-details" id="package-${s.visual}"><div><p class="package-audience">${d.audience}</p><ul>${d.includes.map(item=>`<li>${item}</li>`).join('')}</ul><p class="package-timing">${d.timing}</p></div></div></div></div></article>`;
+ }).join('');
 }
-
 function renderWorkshops(){
   document.getElementById('wkspGrid').innerHTML = workshopsData.map(w=>{
     const t=w[currentLang];

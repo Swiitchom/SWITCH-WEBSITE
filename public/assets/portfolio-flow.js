@@ -2,27 +2,22 @@
 (() => {
  const grid=document.getElementById('svcGrid'),media=document.getElementById('servicePreviewMedia'),caption=document.getElementById('serviceExampleTitle');
  if(!grid||!media||!caption)return;
- const exampleProjects={ai:'ai',electronics:'iot',web:'code',innovation:'helmet'};
+ const exampleProjects={web:'code',innovation:'helmet'};
  const examples={};
  for(const [key,icon] of Object.entries(exampleProjects)){
   const p=projectsData.find(p=>p.icon===icon&&p.image);if(p)examples[key]={image:p.image,ar:p.ar.title,en:p.en.title};
  }
- examples['3d']={image:'assets/images/946660627de17fc8.webp',ar:'طابعة ثلاثية الأبعاد DIY',en:'DIY 3D Printer'};
- examples.arduino={image:'assets/images/848ddff4bf96384f.jpg',ar:'روبوت تجنب العوائق',en:'Obstacle-Avoidance Robot'};
  examples.training={image:participationPhotos[0].image,ar:'تدريب عملي من مشاركاتي',en:'Hands-on training from my workshops'};
- let selected='ai',rows=[],timer=null,visible=false;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ let selected='training',rows=[];
  const request=document.getElementById('serviceRequest'),requestLabel=document.getElementById('serviceRequestSelection');
- function renderRequest(){const item=servicesData.find(s=>s.visual===request.dataset.serviceKey);if(item){requestLabel.removeAttribute('data-layout-ar');requestLabel.removeAttribute('data-layout-en');requestLabel.textContent=(currentLang==='ar'?'الخدمة المختارة: ':'Selected service: ')+item[currentLang];}}
+ request.dataset.serviceKey='training';
+ function renderRequest(){const item=servicesData.find(s=>s.visual===request.dataset.serviceKey);if(item){requestLabel.removeAttribute('data-layout-ar');requestLabel.removeAttribute('data-layout-en');requestLabel.textContent=(currentLang==='ar'?'الباقة المختارة: ':'Selected package: ')+item[currentLang];}}
  function choose(key){
   if(!examples[key])return;selected=key;const lang=document.documentElement.lang==='en'?'en':'ar';caption.textContent=examples[key][lang];
   const label=servicesData.find(service=>service.visual===key);document.querySelector('.service-preview-kicker').textContent=label?.[lang]||'';
-  rows.forEach(row=>{const active=row.dataset.service===key;row.classList.toggle('is-previewed',active);row.querySelector('.service-select').setAttribute('aria-pressed',String(row.dataset.service===request.dataset.serviceKey));});
+  rows.forEach(row=>{const active=row.dataset.service===key;row.classList.toggle('is-previewed',active);const chosen=row.dataset.service===request.dataset.serviceKey;row.classList.toggle('is-chosen',chosen);const button=row.querySelector('.service-select');button.setAttribute('aria-pressed',String(chosen));button.setAttribute('aria-expanded',String(chosen));row.querySelector('.package-details').setAttribute('aria-hidden',String(!chosen));});
   media.querySelectorAll('img').forEach(img=>{const active=img.dataset.service===key;img.classList.toggle('is-active',active);img.setAttribute('aria-hidden',String(!active));});
- }
- function stop(){clearTimeout(timer);timer=null;}
- function schedule(delay=5600){
-  stop();if(!visible||document.hidden||grid.contains(document.activeElement))return;
-  timer=setTimeout(()=>{const keys=rows.map(r=>r.dataset.service);choose(keys[(keys.indexOf(selected)+1)%keys.length]);schedule();},delay);
  }
  function setup(){
   rows=[...grid.querySelectorAll('[data-service]')];
@@ -30,16 +25,15 @@
    const img=document.createElement('img');img.src=p.image;img.dataset.service=key;img.loading='lazy';img.decoding='async';media.append(img);
   }
   media.querySelectorAll('img').forEach(img=>{img.alt=examples[img.dataset.service][document.documentElement.lang==='en'?'en':'ar'];});
-  choose(selected);renderRequest();schedule();
+  choose(request.dataset.serviceKey);renderRequest();
  }
- grid.addEventListener('pointerover',e=>{if(e.pointerType==='touch')return;const row=e.target.closest('[data-service]');if(row&&!row.contains(e.relatedTarget)){choose(row.dataset.service);schedule(8000);}});
- grid.addEventListener('focusin',e=>{const row=e.target.closest('[data-service]');if(row)choose(row.dataset.service);stop();});
- grid.addEventListener('focusout',()=>{setTimeout(()=>schedule(),0);});
+ grid.addEventListener('pointerover',e=>{if(e.pointerType==='touch')return;const row=e.target.closest('[data-service]');if(row&&!row.contains(e.relatedTarget)){if(!reduced.matches)choose(row.dataset.service);}});
+ grid.addEventListener('focusin',e=>{const row=e.target.closest('[data-service]');if(row)choose(row.dataset.service);});
+ grid.addEventListener('pointerleave',()=>choose(request.dataset.serviceKey));
+ grid.addEventListener('focusout',()=>{setTimeout(()=>{if(!grid.contains(document.activeElement))choose(request.dataset.serviceKey);},0);});
  grid.addEventListener('click',e=>{const row=e.target.closest('[data-service]');if(row){request.dataset.serviceKey=row.dataset.service;choose(row.dataset.service);renderRequest();}});
  new MutationObserver(setup).observe(grid,{childList:true});
- if('IntersectionObserver' in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;schedule();},{threshold:.15}).observe(document.getElementById('servicePreview'));
- else{visible=true;}
- document.addEventListener('visibilitychange',()=>schedule());setup();
+ setup();
 
  const projectGrid=document.getElementById('projGrid'),sequences=new Map();
  function setupSequences(){

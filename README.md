@@ -104,3 +104,8 @@ The owner dashboard now supports the `quoted` stage, an optional `followUpDate` 
 Status, service and due-date filters apply to the loaded page(s) of requests. Load older requests to extend their scope. Completed and archived requests retain their dates but are excluded from active follow-up filters. Dates are visual reminders in the dashboard, not scheduled email notifications. Saving follow-up details sends no message to the customer.
 
 Drafts remain in memory across selection, language changes and refresh, with their original version. Conflicting updates return 409 instead of overwriting another edit. The owner can explicitly discard a draft to resume from the latest loaded version. Private fields remain behind owner authentication and same-origin write checks.
+### Service packages
+
+The public service section now groups requests into Practical Workshop, Interactive Platform and Technical Project packages. Each shows its audience, scope and timeline guidance, with one shared quote action that carries the selected package name into the existing inquiry form, Firestore, owner dashboard and email workflow. No fixed prices or delivery promises were invented. Existing `training`, `web` and `innovation` analytics keys are retained.
+
+Package details expand on explicit selection; pointer/focus previews never change the quote selection. Selection survives language changes. Scroll entry, subtle image movement and image transitions use the existing visual palette, with reduced-motion support and no recurring animation loop while the section is offscreen. Project screenshot sequences and video playback remain unchanged.

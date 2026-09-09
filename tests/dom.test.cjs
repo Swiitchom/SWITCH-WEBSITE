@@ -21,7 +21,7 @@ test('service inquiry collects email and phone, preserves failure data, and show
  const dom=boot(),w=dom.window,d=w.document,form=d.getElementById('contactForm');
  assert.equal(d.querySelectorAll('.svc-cta').length,0);assert.equal(d.querySelectorAll('#serviceRequest').length,1);
  d.querySelector('[data-service="training"] .service-select').click();
- d.querySelector('#serviceRequest').click();assert.equal(form.dataset.context,'services');assert.equal(d.getElementById('fService').value,'التدريب والورش');
+ d.querySelector('#serviceRequest').click();assert.equal(form.dataset.context,'services');assert.equal(d.getElementById('fService').value,'باقة الورشة التدريبية');
  d.getElementById('fName').value='Test Person';d.getElementById('fPhone').value='+96899999999';d.getElementById('fEmail').value='test@example.com';d.getElementById('fMsg').value='Please arrange a workshop';form.elements.consent.checked=true;
  let calls=0;w.fetch=async()=>{calls++;return {ok:false,status:503};};
  let savedEvents=0,savedService;d.addEventListener('portfolio:inquiry-saved',e=>{savedEvents++;savedService=e.detail.serviceKey;});
@@ -37,3 +37,19 @@ test('service inquiry collects email and phone, preserves failure data, and show
 
 
 
+test('package choice controls one quote action and survives image previews and language changes',async()=>{
+ const dom=boot(),w=dom.window,d=w.document;
+ try{
+  assert.equal(d.querySelectorAll('.package-card').length,3);
+  for(const [key,label] of [['training','باقة الورشة التدريبية'],['web','باقة المنصة التفاعلية'],['innovation','باقة تطوير المشروع التقني']]){
+   const button=d.querySelector(`[data-service="${key}"] .service-select`);button.click();
+   assert.equal(button.getAttribute('aria-expanded'),'true');assert.equal(d.querySelectorAll('.package-details[aria-hidden="false"]').length,1);
+   d.querySelector('#serviceRequest').click();assert.equal(d.querySelector('#fService').value,label);
+   assert.equal(d.querySelector('#contactForm').dataset.context,'services');
+  }
+  d.querySelector('[data-service="training"] .service-select').dispatchEvent(new w.FocusEvent('focusin',{bubbles:true}));
+  assert.equal(d.querySelector('#serviceRequest').dataset.serviceKey,'innovation');
+  d.querySelector('#langBtn').click();await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(d.querySelector('#fService').value,'Technical Project');assert.equal(d.querySelector('[data-service="innovation"] .service-select').getAttribute('aria-expanded'),'true');
+ }finally{await new Promise(resolve=>setImmediate(resolve));w.close();}
+});

@@ -28,9 +28,12 @@ export async function invoicesAPI(request,env,db,route){
  const id=match[1];
  if(request.method==='GET'){
   if(id){const doc=await db.read('portfolioInvoices/'+id);return doc?response(200,{invoice:safe(doc)}):response(404,{error:'not_found'});}
-  const cursor=new URL(request.url).searchParams.get('cursor');let startAt;
-  if(cursor){if(!uuid(cursor))return response(400,{error:'cursor'});const doc=await db.read('portfolioInvoices/'+cursor);if(!doc)return response(400,{error:'cursor'});startAt={values:[doc.fields.createdAt,{referenceValue:doc.name}],before:false};}
-  const rows=await db.api(base+':runQuery',{structuredQuery:{from:[{collectionId:'portfolioInvoices'}],orderBy:[{field:{fieldPath:'createdAt'},direction:'DESCENDING'},{field:{fieldPath:'__name__'},direction:'DESCENDING'}],limit:31,...(startAt?{startAt}:{})}});
+  const params=new URL(request.url).searchParams,month=params.get('month'),cursor=params.get('cursor');let startAt,where;
+  if(month&&!/^20\d{2}-(0[1-9]|1[0-2])$/.test(month))return response(400,{error:'month'});
+  const sortField=month?'date':'createdAt';
+  if(month){const next=new Date(month+'-01T00:00:00Z');next.setUTCMonth(next.getUTCMonth()+1);where={compositeFilter:{op:'AND',filters:[{fieldFilter:{field:{fieldPath:'date'},op:'GREATER_THAN_OR_EQUAL',value:{stringValue:month+'-01'}}},{fieldFilter:{field:{fieldPath:'date'},op:'LESS_THAN',value:{stringValue:next.toISOString().slice(0,10)}}}]}};}
+  if(cursor){if(!uuid(cursor))return response(400,{error:'cursor'});const doc=await db.read('portfolioInvoices/'+cursor);if(!doc||month&&!unpack(doc).date?.startsWith(month+'-'))return response(400,{error:'cursor'});startAt={values:[doc.fields[sortField],{referenceValue:doc.name}],before:false};}
+  const rows=await db.api(base+':runQuery',{structuredQuery:{from:[{collectionId:'portfolioInvoices'}],orderBy:[{field:{fieldPath:sortField},direction:'DESCENDING'},{field:{fieldPath:'__name__'},direction:'DESCENDING'}],limit:31,...(where?{where}:{}),...(startAt?{startAt}:{})}});
   const docs=rows.filter(r=>r.document).map(r=>r.document);
   return response(200,{invoices:docs.slice(0,30).map(d=>{const v=safe(d);delete v.logo;delete v.itemsJson;return v;}),cursor:docs.length>30?docs[29].name.split('/').pop():null});
  }

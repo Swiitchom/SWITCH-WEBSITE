@@ -2,3 +2,6 @@
 @page{size:A4;margin:15mm}@media print{html,body{background:#fff!important;color:#203c38;color-scheme:light}.no-print,#notice{display:none!important}main{padding:0;max-width:none}.invoice-layout{display:block}.invoice-paper{margin:0;padding:0;font-size:11pt;border:0;box-shadow:none;border-radius:0}.invoice-paper header{break-inside:avoid}.invoice-paper tr,.invoice-paper .totals,.invoice-paper footer{break-inside:avoid}.invoice-paper thead{display:table-header-group}.invoice-paper th{print-color-adjust:exact}.invoice-paper .meta{display:flex}.invoice-paper h2{font-size:26pt}.invoice-paper td,.invoice-paper th{padding:10px 6px}.invoice-paper footer{margin-top:18px}}
 @media print{:root{color-scheme:light!important;--bg:#fff;--text:#203c38}html,body{color-scheme:light!important}.invoice-paper{padding:0 2mm}@page{background:#fff}}
 @media print{.invoice-closing{break-inside:avoid}}
+
+#customerWhatsApp[aria-disabled="true"]{opacity:.45;cursor:not-allowed}#delivery{padding:24px 0}#delivery .invoice-actions{align-items:center}
+.invoice-archive{padding:20px;border:1px solid var(--line);border-radius:12px;margin:10px 0 28px}.invoice-archive summary{cursor:pointer;color:var(--sage)}.invoice-archive input{max-width:230px}.invoice-archive .button{margin-top:14px}

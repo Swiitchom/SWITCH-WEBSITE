@@ -114,3 +114,10 @@ Package details expand on explicit selection; pointer/focus previews never chang
 Selected packages have a sage glow and a small scale increase (disabled for reduced motion). The inquiry form asks package-specific optional questions: workshop topic, participants, place and preferred date; platform organization, occasion, interaction and date; or technical project stage and date. Extra questions expand progressively. Per-package drafts stay in memory across selection/language changes and failed submission, then clear on success.
 
 Validated answers are stored as canonical `briefJson` with `packageKey` and displayed under Customer requirements in the private dashboard. Old requests omit these fields and need no migration. Unknown fields, invalid dates, out-of-range participant counts and unsupported choices are rejected on the server. No answers are sent to analytics; existing confirmation and private owner-notification behavior is retained.
+### Reviewed WhatsApp replies
+
+The private dashboard includes a package-aware WhatsApp composer. Customer-facing reply details are separate from private notes. Owner notes and internal follow-up dates are never inserted into templates; the saved OMR quote is opt-in. The owner can edit the entire final message and recipient before saving.
+
+`PATCH /api/admin/requests/:id/reply` saves validated `replyDetails`, `whatsappDraft`, `replyLanguage`, `replyPhone` and `replySavedAt` under owner authentication, same-origin and document-version checks. It never changes request status or sends email/WhatsApp. Local and Arabic-digit Oman numbers normalize to international format; other countries require + or 00.
+
+After saving, the owner reviews the recipient and message to enable the WhatsApp link. Editing disables that link until another save and review. Opening WhatsApp only prefills a conversation: the owner must press Send there. The website does not report sending or delivery as confirmed. Tests inspect the prepared URL without opening WhatsApp or contacting customers.

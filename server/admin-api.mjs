@@ -1,9 +1,10 @@
 import {authenticate,sameOrigin,OWNER} from './admin-auth.mjs';
 import {database,base,unpack} from './firestore-rest.mjs';
 import {sendConfirmation,sendOwnerNotification} from './gmail.mjs';
+import replyValidation from './reply-draft.cjs';
 const reply=(status,body)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 const validId=id=>/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
-const safeDoc=doc=>{const data=unpack(doc);if(!data)return null;const result={id:doc.name.split('/').pop(),version:doc.updateTime};for(const key of ['packageKey','briefJson','reference','name','email','phone','service','message','context','kind','quantity','addWorkshop','totalOMR','status','notes','followUpDate','quoteBaisa','createdAt','updatedAt','emailStatus','emailAttempts','emailSentAt','emailAttemptAt','ownerEmailStatus','ownerEmailAttempts','ownerEmailSentAt'])if(key in data)result[key]=data[key];return result;};
+const safeDoc=doc=>{const data=unpack(doc);if(!data)return null;const result={id:doc.name.split('/').pop(),version:doc.updateTime};for(const key of ['replyDetails','whatsappDraft','replyLanguage','replyPhone','replySavedAt','language','packageKey','briefJson','reference','name','email','phone','service','message','context','kind','quantity','addWorkshop','totalOMR','status','notes','followUpDate','quoteBaisa','createdAt','updatedAt','emailStatus','emailAttempts','emailSentAt','emailAttemptAt','ownerEmailStatus','ownerEmailAttempts','ownerEmailSentAt'])if(key in data)result[key]=data[key];return result;};
 export async function adminAPI(request,env,{auth=authenticate,db=database(env.FIREBASE_SERVICE_ACCOUNT_JSON),notify=sendConfirmation,notifyOwner=sendOwnerNotification}={}){
  const user=await auth(request,env);if(!user)return reply(401,{error:'unauthorized'});
  const url=new URL(request.url),route=url.pathname.replace('/api/admin/','');
@@ -19,10 +20,19 @@ export async function adminAPI(request,env,{auth=authenticate,db=database(env.FI
    const docs=rows.filter(row=>row.document).map(row=>row.document);
    return reply(200,{requests:docs.slice(0,50).map(safeDoc),cursor:docs.length>50?docs[49].name.split('/').pop():null});
   }
-  const match=route.match(/^requests\/([^/]+)(\/(?:email|owner-email))?$/);if(!match||!validId(match[1]))return reply(404,{error:'not_found'});
+  const match=route.match(/^requests\/([^/]+)(\/(?:email|owner-email|reply))?$/);if(!match||!validId(match[1]))return reply(404,{error:'not_found'});
   const id=match[1],path='portfolioInquiries/'+id,doc=await db.read(path);if(!doc)return reply(404,{error:'not_found'});
   if(request.method==='GET'&&!match[2])return reply(200,{request:safeDoc(doc)});
   if(!sameOrigin(request,env))return reply(403,{error:'origin'});
+  if(match[2]==='/reply'){
+   if(request.method!=='PATCH')return reply(405,{error:'method'});
+   if(Number(request.headers.get('Content-Length'))>32000)return reply(413,{error:'size'});
+   const body=await request.text();if(new TextEncoder().encode(body).length>32000)return reply(413,{error:'size'});
+   let input,changes;try{input=JSON.parse(body);changes=replyValidation.validateReply(input);}catch{return reply(400,{error:'invalid_reply'});}
+   if(input.version!==doc.updateTime)return reply(409,{error:'stale'});
+   await db.patch(path,{...changes,replySavedAt:new Date().toISOString()},doc.updateTime);
+   return reply(200,{request:safeDoc(await db.read(path))});
+  }
   if(request.method==='POST'&&match[2]){await (match[2]==='/owner-email'?notifyOwner:notify)(id,env);return reply(200,{request:safeDoc(await db.read(path))});}
   if(request.method!=='PATCH'||match[2])return reply(405,{error:'method'});
   if(Number(request.headers.get('Content-Length'))>16000)return reply(413,{error:'size'});

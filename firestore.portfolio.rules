@@ -4,5 +4,8 @@ service cloud.firestore {
  match /databases/{database}/documents {
   match /portfolioInquiries/{id} { allow read, write: if false; }
   match /portfolioRateLimits/{id} { allow read, write: if false; }
+  match /portfolioInvoices/{id} { allow read, write: if false; }
+  match /portfolioExpenses/{id} { allow read, write: if false; }
+  match /portfolioSettings/{id} { allow read, write: if false; }
  }
 }

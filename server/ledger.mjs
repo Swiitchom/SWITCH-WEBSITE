@@ -1,0 +1,19 @@
+import {base,fields,unpack} from './firestore-rest.mjs';
+import {sameOrigin} from './admin-auth.mjs';
+const reply=(status,body)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
+export const validDate=value=>typeof value==='string'&&/^20\d{2}-\d{2}-\d{2}$/.test(value)&&Number.isFinite(Date.parse(value))&&new Date(value).toISOString().slice(0,10)===value;
+export function validateExpense(i){if(!i||typeof i.name!=='string'||!i.name.trim()||i.name.length>240||typeof i.notes!=='string'||i.notes.length>1500||!validDate(i.date)||!Number.isSafeInteger(i.amountBaisa)||i.amountBaisa<=0||i.amountBaisa>100000000000||!['active','void'].includes(i.status))throw Error('expense');return {name:i.name.trim(),notes:i.notes.trim(),date:i.date,amountBaisa:i.amountBaisa,status:i.status};}
+// Query every matching page, not just the invoices currently loaded in the dashboard.
+async function monthRows(db,collection,field,month){const start=month+'-01',d=new Date(start+'T00:00:00Z');d.setUTCMonth(d.getUTCMonth()+1);const end=d.toISOString().slice(0,10);let cursor,all=[];
+ for(let page=0;page<40;page++){const rows=await db.api(base+':runQuery',{structuredQuery:{from:[{collectionId:collection}],where:{compositeFilter:{op:'AND',filters:[{fieldFilter:{field:{fieldPath:field},op:'GREATER_THAN_OR_EQUAL',value:{stringValue:start}}},{fieldFilter:{field:{fieldPath:field},op:'LESS_THAN',value:{stringValue:end}}}]}},orderBy:[{field:{fieldPath:field},direction:'ASCENDING'},{field:{fieldPath:'__name__'},direction:'ASCENDING'}],limit:250,...(cursor?{startAt:{values:[cursor.fields[field],{referenceValue:cursor.name}],before:false}}:{})}});const docs=rows.filter(r=>r.document).map(r=>r.document);all.push(...docs.map(doc=>({...unpack(doc),id:doc.name.split('/').pop(),version:doc.updateTime})));if(docs.length<250)return all;cursor=docs.at(-1);}throw Error('REPORT_TOO_LARGE');
+}
+export async function ledgerAPI(request,env,db,route){
+ if(route==='ledger'&&request.method==='GET'){const month=new URL(request.url).searchParams.get('month');if(!/^20\d{2}-(0[1-9]|1[0-2])$/.test(month||''))return reply(400,{error:'month'});
+ const [invoices,receipts,expenses]=await Promise.all([monthRows(db,'portfolioInvoices','date',month),monthRows(db,'portfolioInvoices','paidDate',month),monthRows(db,'portfolioExpenses','date',month)]);
+ const paid=receipts.filter(i=>i.status==='paid'),active=expenses.filter(e=>e.status==='active'),incomeBaisa=paid.reduce((n,i)=>n+i.totalBaisa,0),expenseBaisa=active.reduce((n,i)=>n+i.amountBaisa,0);
+ return reply(200,{month,invoiceCount:invoices.filter(i=>i.status!=='cancelled').length,invoiceBaisa:invoices.filter(i=>['issued','paid'].includes(i.status)).reduce((n,i)=>n+i.totalBaisa,0),incomeBaisa,expenseBaisa,netBaisa:incomeBaisa-expenseBaisa,expenses,receipts:paid.map(i=>({id:i.id,reference:i.reference,name:i.name,paidDate:i.paidDate,totalBaisa:i.totalBaisa})),missingPaymentDate:invoices.filter(i=>i.status==='paid'&&!i.paidDate).length});
+ }
+ const match=route.match(/^expenses\/([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i);if(!match)return reply(404,{error:'not_found'});if(!sameOrigin(request,env))return reply(403,{error:'origin'});if(request.method!=='PUT')return reply(405,{error:'method'});
+ const raw=await request.text();if(raw.length>10000)return reply(413,{error:'size'});let input,data;try{input=JSON.parse(raw);data=validateExpense(input);}catch{return reply(400,{error:'expense'});}
+ const path='portfolioExpenses/'+match[1],doc=await db.read(path),now=new Date().toISOString();if(doc){if(input.version!==doc.updateTime)return reply(409,{error:'stale'});await db.patch(path,{...data,updatedAt:now},doc.updateTime);}else{if(input.version)return reply(409,{error:'stale'});await db.api(base+':commit',{writes:[{update:{name:base+'/'+path,fields:fields({...data,createdAt:now,updatedAt:now})},currentDocument:{exists:false}}]});}return reply(200,{saved:true});
+}

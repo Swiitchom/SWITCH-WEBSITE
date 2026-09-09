@@ -1,5 +1,7 @@
 import {base,fields,unpack} from './firestore-rest.mjs';
 import {sameOrigin} from './admin-auth.mjs';
+import {validDate} from './ledger.mjs';
+import {invoiceMail} from './invoice-mail.mjs';
 const response=(status,body)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
 const uuid=s=>/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(s);
 export function validateInvoice(input){
@@ -14,10 +16,14 @@ export function validateInvoice(input){
  if(!Number.isSafeInteger(subtotalBaisa)||subtotalBaisa>100000000000)throw Error('total');
  if(!Number.isSafeInteger(input.discountBaisa)||input.discountBaisa<0||input.discountBaisa>subtotalBaisa)throw Error('discount');
  const logo=text('logo',110000);if(logo&&!/^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/.test(logo))throw Error('logo');
- return {name,phone,project,notes,date,requestId,status:input.status,itemsJson:JSON.stringify(items),subtotalBaisa,discountBaisa:input.discountBaisa,totalBaisa:subtotalBaisa-input.discountBaisa,logo};
+ const email=input.email||'',paidDate=input.paidDate||'';
+ if(typeof email!=='string'||email.length>254||email&&!/^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?\.[A-Za-z]{2,}$/.test(email))throw Error('email');
+ if(input.status==='paid'&&!validDate(paidDate))throw Error('paid_date');
+ return {name,phone,email,project,notes,date,requestId,status:input.status,paidDate:input.status==='paid'?paidDate:'',itemsJson:JSON.stringify(items),subtotalBaisa,discountBaisa:input.discountBaisa,totalBaisa:subtotalBaisa-input.discountBaisa,logo};
 }
 const safe=doc=>{const data=unpack(doc);return {...data,id:doc.name.split('/').pop(),version:doc.updateTime,items:JSON.parse(data.itemsJson)};};
 export async function invoicesAPI(request,env,db,route){
+ const mail=route.match(/^invoices\/([^/]+)\/email$/);if(mail&&uuid(mail[1]))return invoiceMail(request,env,db,mail[1]);
  const match=route.match(/^invoices(?:\/([^/]+))?$/);if(!match||match[1]&&!uuid(match[1]))return response(404,{error:'not_found'});
  const id=match[1];
  if(request.method==='GET'){
@@ -33,7 +39,7 @@ export async function invoicesAPI(request,env,db,route){
  const raw=await request.text();if(new TextEncoder().encode(raw).length>160000)return response(413,{error:'size'});
  let input,data;try{input=JSON.parse(raw);data=validateInvoice(input);}catch{return response(400,{error:'invalid_invoice'});}
  const path='portfolioInvoices/'+id,doc=await db.read(path),now=new Date().toISOString();
- if(doc){if(input.version!==doc.updateTime)return response(409,{error:'stale'});await db.patch(path,{...data,updatedAt:now},doc.updateTime);}
+ if(doc){if(input.version!==doc.updateTime||unpack(doc).deliveryStatus==='sending')return response(409,{error:'stale'});await db.patch(path,{...data,updatedAt:now},doc.updateTime);}
  else{
   if(input.version)return response(409,{error:'stale'});
   if(data.requestId&&!await db.read('portfolioInquiries/'+data.requestId))return response(400,{error:'request'});

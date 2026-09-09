@@ -27,7 +27,7 @@ export function ownerNotificationMessage(data){
  const mime=[`From: Salim Alabri <${OWNER}>`,`To: ${OWNER}`,`Subject: =?UTF-8?B?${b64(subject)}?=`,`Message-ID: <owner-${data.requestId}@salimalabri.pages.dev>`,'Auto-Submitted: auto-generated','MIME-Version: 1.0',`Content-Type: multipart/alternative; boundary="${boundary}"`,'',`--${boundary}`,'Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',b64(text),`--${boundary}`,'Content-Type: text/html; charset=UTF-8','Content-Transfer-Encoding: base64','',b64(html),`--${boundary}--`,''].join('\r\n');
  return {raw:b64(mime).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_'),text,html};
 }
-const mailToken=async(settings,env,request)=>{
+export const mailToken=async(settings,env,request)=>{
  const {refreshToken}=await decryptCredential(settings.credential,env);
  const response=await request('https://oauth2.googleapis.com/token',{method:'POST',body:new URLSearchParams({client_id:env.GOOGLE_CLIENT_ID,client_secret:env.GOOGLE_CLIENT_SECRET,refresh_token:refreshToken,grant_type:'refresh_token'}),signal:AbortSignal.timeout(8000)});
  const token=await response.json();if(!response.ok||!token.access_token)throw Error('AUTH');return token.access_token;

@@ -53,3 +53,18 @@ test('package choice controls one quote action and survives image previews and l
   assert.equal(d.querySelector('#fService').value,'Technical Project');assert.equal(d.querySelector('[data-service="innovation"] .service-select').getAttribute('aria-expanded'),'true');
  }finally{await new Promise(resolve=>setImmediate(resolve));w.close();}
 });
+test('guided quote preserves separate package drafts, language and failed sends, then clears after success',async()=>{
+ const dom=boot(),w=dom.window,d=w.document,form=d.querySelector('#contactForm');
+ const set=(id,value)=>{const input=d.getElementById(id);input.value=value;input.dispatchEvent(new w.Event('input',{bubbles:true}));};
+ const choose=key=>{d.querySelector(`[data-service="${key}"] .service-select`).click();d.querySelector('#serviceRequest').click();};
+ try{
+  choose('training');set('brief-topic','ESP32');d.querySelector('.brief-toggle').click();set('brief-participants','25');set('brief-location','مسقط');set('brief-date','2026-10-10');
+  choose('web');set('brief-organization','مدرسة');assert.equal(d.querySelector('#brief-topic'),null);assert.equal(w.portfolioBrief.collect().packageKey,'web');
+  choose('training');assert.equal(d.querySelector('#brief-topic').value,'ESP32');assert.equal(d.querySelector('#brief-participants').value,'25');
+  d.querySelector('#langBtn').click();await new Promise(resolve=>setImmediate(resolve));assert.equal(d.querySelector('#brief-topic').value,'ESP32');assert.equal(d.querySelector('#fService').value,'Practical Workshop');
+  set('fName','Test Client');set('fPhone','+96899999999');set('fEmail','test@example.invalid');set('fMsg','Workshop inquiry');form.elements.consent.checked=true;
+  let submitted;w.fetch=async(url,opts)=>{submitted=JSON.parse(opts.body);return {ok:false,status:503};};
+  form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));assert.equal(submitted.packageKey,'training');assert.equal(JSON.parse(submitted.briefJson).participants,'25');assert.equal(d.querySelector('#brief-topic').value,'ESP32');
+  w.fetch=async(url,opts)=>({ok:true,json:async()=>({id:JSON.parse(opts.body).requestId,reference:'SAL-TEST'})});form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setTimeout(resolve,20));assert.equal(d.querySelector('#brief-topic').value,'');
+ }finally{await new Promise(resolve=>setImmediate(resolve));w.close();}
+});

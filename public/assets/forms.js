@@ -15,6 +15,7 @@ function inquiryPayload(form){
  const phone=String(data.get('phone')||'').replace(/[٠-٩]/g,x=>String(x.charCodeAt(0)-1632)).trim();
  const payload={requestId:form.dataset.requestId||(form.dataset.requestId=crypto.randomUUID()),name:String(data.get('name')||'').trim(),phone,email:String(data.get('email')||'').trim(),service:store?'Arduino Kit':String(data.get('service')||''),context:store?'store':(form.dataset.context||'contact'),kind:store?'store':'contact',message:String(data.get(store?'notes':'message')||'').trim(),consent:data.get('consent')==='on',language:currentLang,website:String(data.get(store?'bot-field-store':'bot-field')||'')};
  if(store){payload.quantity=Number(data.get('quantity'));payload.addWorkshop=document.getElementById('storeAddWorkshop').checked;if(!payload.message)payload.message=currentLang==='ar'?'طلب كت الأردوينو':'Arduino kit order';}
+ if(!store)Object.assign(payload,window.portfolioBrief?.collect()||{});
  return payload;
 }
 for(const id of ['contactForm','storeForm']){
@@ -45,5 +46,6 @@ document.addEventListener('click',event=>{
  const title=isService?(service?.[currentLang]||(currentLang==='ar'?'استفسار عام':'General inquiry')):link.closest('.wksp-card').querySelector('h4').textContent;const select=document.getElementById('fService');
  if(![...select.options].some(o=>o.value===title))select.add(new Option(title,title));select.value=title;
  form.dataset.context=isService?'services':'workshops';delete form.dataset.requestId;
+ select.dispatchEvent(new Event('change',{bubbles:true}));
  document.getElementById('fName').focus({preventScroll:true});
 });

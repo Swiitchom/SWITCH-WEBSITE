@@ -1,0 +1,18 @@
+#services .services-stage .package-card{transition:transform .6s var(--motion-ease),background .6s,box-shadow .6s,border-color .6s;border-radius:12px;transform-origin:center}
+#services .services-stage .package-card.is-chosen{transform:scale(1.025)!important;background:linear-gradient(115deg,#a2c4b81b,#d4b08a10);border-color:#b8ddcbb3;box-shadow:0 0 0 1px #a2c4b82e,0 0 34px #a2c4b81f,0 16px 40px #0002;z-index:1}
+#services .package-card.is-chosen .service-select{color:#c8edda;text-shadow:0 0 20px #a2c4b85c}
+#services .package-card .svc-body{padding-inline:16px}
+#contact #fService{border-color:#a2c4b87a;box-shadow:0 0 20px #a2c4b80c;color:var(--signal)}
+.brief-shell{border:1px solid #a2c4b833;border-radius:12px;padding:22px;margin:8px 0 20px;min-width:0;background:linear-gradient(135deg,#a2c4b80a,transparent)}
+.brief-shell legend{font-size:18px;color:var(--signal);padding:0 8px}
+.brief-hint{font-size:12px;line-height:1.9;color:var(--text-muted);margin:0 0 18px}
+.brief-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;color:var(--signal);font:inherit;font-size:13px;padding:13px 0;border-top:1px solid var(--line-soft)}
+.brief-toggle span{transition:transform .4s}.brief-toggle[aria-expanded=true] span{transform:rotate(-45deg)}
+.brief-extra{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .55s var(--motion-ease),opacity .4s}
+.brief-extra.is-open{grid-template-rows:1fr;opacity:1}.brief-extra>div{min-height:0;overflow:hidden}
+.brief-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px;padding-top:8px}
+.brief-grid .field:last-child:nth-child(odd){grid-column:1/-1}
+#quoteBrief input,#quoteBrief select{width:100%;min-width:0;color-scheme:dark}
+.brief-toggle:focus-visible{outline:2px solid var(--signal);outline-offset:4px}
+@media(max-width:600px){.brief-shell{padding:16px}.brief-grid{grid-template-columns:1fr}#services .services-stage .package-card.is-chosen{transform:scale(1.012)!important}}
+@media(prefers-reduced-motion:reduce){#services .services-stage .package-card.is-chosen{transform:none!important}#services .services-stage .package-card,.brief-extra,.brief-toggle span{transition:none}}

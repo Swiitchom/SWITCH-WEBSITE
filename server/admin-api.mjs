@@ -3,7 +3,7 @@ import {database,base,unpack} from './firestore-rest.mjs';
 import {sendConfirmation,sendOwnerNotification} from './gmail.mjs';
 const reply=(status,body)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 const validId=id=>/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
-const safeDoc=doc=>{const data=unpack(doc);if(!data)return null;const result={id:doc.name.split('/').pop(),version:doc.updateTime};for(const key of ['reference','name','email','phone','service','message','context','kind','quantity','addWorkshop','totalOMR','status','notes','followUpDate','quoteBaisa','createdAt','updatedAt','emailStatus','emailAttempts','emailSentAt','emailAttemptAt','ownerEmailStatus','ownerEmailAttempts','ownerEmailSentAt'])if(key in data)result[key]=data[key];return result;};
+const safeDoc=doc=>{const data=unpack(doc);if(!data)return null;const result={id:doc.name.split('/').pop(),version:doc.updateTime};for(const key of ['packageKey','briefJson','reference','name','email','phone','service','message','context','kind','quantity','addWorkshop','totalOMR','status','notes','followUpDate','quoteBaisa','createdAt','updatedAt','emailStatus','emailAttempts','emailSentAt','emailAttemptAt','ownerEmailStatus','ownerEmailAttempts','ownerEmailSentAt'])if(key in data)result[key]=data[key];return result;};
 export async function adminAPI(request,env,{auth=authenticate,db=database(env.FIREBASE_SERVICE_ACCOUNT_JSON),notify=sendConfirmation,notifyOwner=sendOwnerNotification}={}){
  const user=await auth(request,env);if(!user)return reply(401,{error:'unauthorized'});
  const url=new URL(request.url),route=url.pathname.replace('/api/admin/','');

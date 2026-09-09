@@ -359,9 +359,12 @@ function renderSocial(){
 }
 function renderServiceSelect(){
   const sel=document.getElementById('fService');
-  const previous=sel.selectedIndex;
+  const previous=sel.value;
+  const service=servicesData.find(s=>s.ar===previous||s.en===previous);
+  const workshop=workshopsData.find(w=>w.ar.title===previous||w.en.title===previous);
   sel.innerHTML = servicesData.map(s=>`<option>${currentLang==='ar'?s.ar:s.en}</option>`).join('');
-  if(previous>=0&&previous<sel.options.length)sel.selectedIndex=previous;
+  const label=service?.[currentLang]||workshop?.[currentLang].title;
+  if(label){if(![...sel.options].some(option=>option.value===label))sel.add(new Option(label,label));sel.value=label;}
 }
 
 /* =========================================================

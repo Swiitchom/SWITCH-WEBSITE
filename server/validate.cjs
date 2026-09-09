@@ -1,3 +1,4 @@
+const {validateBrief}=require('./quote-brief.cjs');
 function validate(data){
   if(!data||typeof data!=='object')throw Error('invalid');
   const text=(key,min,max)=>{if(typeof data[key]!=='string')throw Error(key);const value=data[key].trim();if(value.length<min||value.length>max)throw Error(key);return value;};
@@ -10,6 +11,7 @@ function validate(data){
     if(!Number.isInteger(data.quantity)||data.quantity<1||data.quantity>100||typeof data.addWorkshop!=='boolean')throw Error('quantity');
     result.quantity=data.quantity;result.addWorkshop=data.addWorkshop;result.totalOMR=(19900*data.quantity+(data.addWorkshop?59000:0))/1000;
   }
+  validateBrief(data,result);
   return result;
 }
 module.exports={validate};

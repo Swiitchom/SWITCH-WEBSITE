@@ -2,6 +2,7 @@ import {authenticate,sameOrigin,OWNER} from './admin-auth.mjs';
 import {database,base,unpack} from './firestore-rest.mjs';
 import {sendConfirmation,sendOwnerNotification} from './gmail.mjs';
 import replyValidation from './reply-draft.cjs';
+import {invoicesAPI} from './invoices.mjs';
 const reply=(status,body)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 const validId=id=>/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
 const safeDoc=doc=>{const data=unpack(doc);if(!data)return null;const result={id:doc.name.split('/').pop(),version:doc.updateTime};for(const key of ['replyDetails','whatsappDraft','replyLanguage','replyPhone','replySavedAt','language','packageKey','briefJson','reference','name','email','phone','service','message','context','kind','quantity','addWorkshop','totalOMR','status','notes','followUpDate','quoteBaisa','createdAt','updatedAt','emailStatus','emailAttempts','emailSentAt','emailAttemptAt','ownerEmailStatus','ownerEmailAttempts','ownerEmailSentAt'])if(key in data)result[key]=data[key];return result;};
@@ -9,6 +10,7 @@ export async function adminAPI(request,env,{auth=authenticate,db=database(env.FI
  const user=await auth(request,env);if(!user)return reply(401,{error:'unauthorized'});
  const url=new URL(request.url),route=url.pathname.replace('/api/admin/','');
  try{
+  if(route==='invoices'||route.startsWith('invoices/'))return await invoicesAPI(request,env,db,route);
   if(route==='session'&&request.method==='GET'){
    const gmail=unpack(await db.read('portfolioSettings/gmail'));
    return reply(200,{email:OWNER,gmailConnected:!!gmail?.credential});

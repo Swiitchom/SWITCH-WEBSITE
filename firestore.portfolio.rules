@@ -7,5 +7,6 @@ service cloud.firestore {
   match /portfolioInvoices/{id} { allow read, write: if false; }
   match /portfolioExpenses/{id} { allow read, write: if false; }
   match /portfolioSettings/{id} { allow read, write: if false; }
+  match /portfolioConsultationSlots/{id} { allow read, write: if false; }
  }
 }

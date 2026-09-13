@@ -135,3 +135,8 @@ All financial APIs use the existing owner session; Firestore client access is de
 The invoice's direct WhatsApp link uses the validated saved customer number and a reference-specific message. Clicking it opens that conversation and prepares/downloads the PDF locally, without opening a contact picker. The owner still attaches the downloaded PDF and presses Send in WhatsApp; click-to-chat cannot carry a file attachment. Generic native file sharing remains a separate option. Unsaved changes revoke the link.
 
 Monthly ZIP export reads saved invoices by invoice date through the owner-only paginated endpoint, generates their PDFs locally and packages them into one ZIP. It includes every invoice status and publishes no archive URL. Exports are limited to 200 invoices or 80 MB; failures never download an incomplete archive.
+
+
+## Consultation booking
+
+`/consultation.html` lists owner-configured types, OMR prices and available Muscat times. Configure these at `/admin/consultations.html` (also linked from invoices). Bookings create private inquiries and use the existing email outbox. No payment is taken online. Slot reservation, price version, rate limit and request reference are committed atomically. Overlapping availability is rejected; booked slots cannot be deleted. Public responses exclude customer data. No default prices are deployed by the source code.

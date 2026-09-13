@@ -40,12 +40,16 @@ for(const id of ['contactForm','storeForm']){
 }
 // Delegated handlers survive language-driven re-rendering of service cards.
 document.addEventListener('click',event=>{
- const link=event.target.closest('#serviceRequest,.wksp-card .proj-link');if(!link)return;
- const form=document.getElementById('contactForm'),isService=link.id==='serviceRequest';
- const service=servicesData.find(s=>s.visual===link.dataset.serviceKey);
+ const link=event.target.closest('#serviceRequest,.service-select,.wksp-card .proj-link');if(!link)return;
+ const form=document.getElementById('contactForm'),isService=link.id==='serviceRequest'||link.classList.contains('service-select');if(form.dataset.submitting)return;
+ const service=servicesData.find(s=>s.visual===(link.dataset.serviceKey||link.closest('[data-service]')?.dataset.service));
  const title=isService?(service?.[currentLang]||(currentLang==='ar'?'استفسار عام':'General inquiry')):link.closest('.wksp-card').querySelector('h4').textContent;const select=document.getElementById('fService');
  if(![...select.options].some(o=>o.value===title))select.add(new Option(title,title));select.value=title;
  form.dataset.context=isService?'services':'workshops';delete form.dataset.requestId;
+ form.dataset.selectedService=title;select.closest('.field').hidden=true;
+ let summary=document.getElementById('selectedServiceSummary');if(!summary){summary=document.createElement('p');summary.id='selectedServiceSummary';form.prepend(summary);}summary.textContent=title;
  select.dispatchEvent(new Event('change',{bubbles:true}));
  document.getElementById('fName').focus({preventScroll:true});
+ if(link.classList.contains('service-select'))document.getElementById('contact').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
 });
+(()=>{if(typeof MutationObserver==='undefined')return;const form=document.getElementById('contactForm'),select=document.getElementById('fService');new MutationObserver(()=>{if(!form.dataset.selectedService)return;form.dataset.selectedService=select.value;document.getElementById('selectedServiceSummary').textContent=select.value;}).observe(select,{childList:true});form.addEventListener('reset',()=>{const value=form.dataset.selectedService;if(value)setTimeout(()=>{select.value=value;select.dispatchEvent(new Event('change',{bubbles:true}));},0);});})();

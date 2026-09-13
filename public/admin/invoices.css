@@ -5,3 +5,4 @@
 
 #customerWhatsApp[aria-disabled="true"]{opacity:.45;cursor:not-allowed}#delivery{padding:24px 0}#delivery .invoice-actions{align-items:center}
 .invoice-archive{padding:20px;border:1px solid var(--line);border-radius:12px;margin:10px 0 28px}.invoice-archive summary{cursor:pointer;color:var(--sage)}.invoice-archive input{max-width:230px}.invoice-archive .button{margin-top:14px}
+.topbar{flex-wrap:wrap}

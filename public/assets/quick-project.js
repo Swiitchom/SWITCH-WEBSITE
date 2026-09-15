@@ -1,0 +1,4 @@
+(()=>{'use strict';const dialog=document.getElementById('quickProjectDialog'),form=document.getElementById('contactForm'),trigger=document.getElementById('projectQuickRequest');const marker=document.createComment('contact-form-position');form.before(marker);let overflow='';
+// Use the existing form so validation, saved requests and drafts stay consistent.
+document.addEventListener('click',event=>{if(!event.target.closest('#projectQuickRequest')||form.dataset.submitting)return;document.getElementById('quickProjectForm').append(form);overflow=document.body.style.overflow;document.body.style.overflow='hidden';dialog.showModal();document.getElementById('fName').focus({preventScroll:true});});
+document.getElementById('closeQuickProject').onclick=()=>dialog.close();dialog.addEventListener('close',()=>{marker.after(form);document.body.style.overflow=overflow;trigger.focus({preventScroll:true});});})();

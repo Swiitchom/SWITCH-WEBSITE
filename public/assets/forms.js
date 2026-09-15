@@ -40,8 +40,8 @@ for(const id of ['contactForm','storeForm']){
 }
 // Delegated handlers survive language-driven re-rendering of service cards.
 document.addEventListener('click',event=>{
- const link=event.target.closest('#serviceRequest,.service-select,.wksp-card .proj-link');if(!link)return;
- const form=document.getElementById('contactForm'),isService=link.id==='serviceRequest'||link.classList.contains('service-select');if(form.dataset.submitting)return;
+ const link=event.target.closest('#serviceRequest,#projectQuickRequest,.service-select,.wksp-card .proj-link');if(!link)return;
+ const form=document.getElementById('contactForm'),isService=link.id==='serviceRequest'||link.id==='projectQuickRequest'||link.classList.contains('service-select');if(form.dataset.submitting)return;
  const service=servicesData.find(s=>s.visual===(link.dataset.serviceKey||link.closest('[data-service]')?.dataset.service));
  const title=isService?(service?.[currentLang]||(currentLang==='ar'?'استفسار عام':'General inquiry')):link.closest('.wksp-card').querySelector('h4').textContent;const select=document.getElementById('fService');
  if(![...select.options].some(o=>o.value===title))select.add(new Option(title,title));select.value=title;

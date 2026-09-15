@@ -96,6 +96,7 @@
           <a href="/consultation.html" class="btn btn-primary consultation-entry"><span aria-hidden="true" class="consult-spark">✦</span><span data-layout-ar="احجز استشارتك" data-layout-en="Book a consultation">احجز استشارتك</span></a><a href="#projects" class="btn btn-primary" data-i18n="heroBtn1">استكشف مشاريعي</a>
           <a href="#contact" class="btn btn-ghost" data-i18n="heroBtn2">تواصل معي</a>
         </div>
+        <button type="button" id="projectQuickRequest" data-service-key="innovation" class="project-quick" aria-haspopup="dialog"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M32 7 52 18v25L32 55 12 43V18L32 7Z" stroke="currentColor" stroke-width="2"/><path d="m12 18 20 12 20-12M32 30v25M22 12l20 12v12" stroke="currentColor" stroke-width="2"/><path d="M4 31h12M48 31h12M32 2v10" stroke="currentColor" stroke-width="2"/><circle cx="32" cy="30" r="5" fill="currentColor"/></svg><span class="project-quick-copy"><small data-layout-ar="الأكثر طلبًا" data-layout-en="Popular request">الأكثر طلبًا</small><strong data-layout-ar="طوّر مشروعك التقني" data-layout-en="Develop your technical project">طوّر مشروعك التقني</strong><span data-layout-ar="شارك فكرتك وابدأ طلبك مباشرة" data-layout-en="Share your idea and start your request">شارك فكرتك وابدأ طلبك مباشرة</span></span><span class="quick-arrow" aria-hidden="true">↗</span></button>
       </div>
       <div class="hero-photo-wrap">
         <svg width="0" height="0" class="portrait-filter" aria-hidden="true" focusable="false"><defs><filter id="portrait-edge-trim" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="erode" radius="1.15" result="trimmed"/><feComposite in="SourceGraphic" in2="trimmed" operator="in"/></filter></defs></svg>
@@ -346,9 +347,11 @@
   <div class="lightbox-inner" id="lightboxInner"></div>
 </div>
 
+<dialog id="quickProjectDialog" aria-labelledby="quickProjectTitle"><div class="quick-dialog-head"><h2 id="quickProjectTitle" data-layout-ar="لنبدأ تطوير مشروعك" data-layout-en="Let’s develop your project">لنبدأ تطوير مشروعك</h2><button type="button" id="closeQuickProject" aria-label="إغلاق / Close">✕</button></div><div id="quickProjectForm"></div></dialog>
 <script src="assets/projects.js" defer></script>
 <script src="assets/app.js?v=refined-flow-2" defer></script>
 <script src="assets/forms.js?v=firebase-1" defer></script>
+<script src="assets/quick-project.js" defer></script>
 <script src="assets/analytics.js?v=firebase-1" defer></script>
 <script src="assets/participation-data.js" defer></script>
 <script src="assets/participation-ribbon.js" defer></script>

@@ -3,14 +3,48 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>المدونة | سالم العبري</title>
-<meta name="description" content="ملاحظات وتجارب سالم العبري في الابتكار، التقنية، الذكاء الاصطناعي، وتطوير الأفكار إلى حلول عملية.">
+<title>مكتبة سالم | مدونات في الابتكار والتقنية</title>
+<meta name="description" content="مدونات سالم العبري بصيغة مكتبة قراءة: تجارب وقصص عملية في الابتكار، التقنية، الذكاء الاصطناعي وتحويل المشكلات إلى أفكار لها قيمة.">
 <link rel="canonical" href="https://salimalabri.pages.dev/blog/">
 <meta name="theme-color" content="#fbfaf7">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/blog.css">
+<style>
+.library-index{max-width:1080px;margin:auto;padding:72px 24px 110px}
+.library-head{max-width:780px;margin-bottom:58px}
+.library-head .eyebrow{display:inline-flex;align-items:center;gap:9px;font:600 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#168f86;margin-bottom:18px}
+.library-head .eyebrow:before{content:"";width:28px;height:1px;background:#168f86}
+.library-head h1{font-size:clamp(38px,6.8vw,66px);max-width:760px;margin:0 0 18px;line-height:1.24}
+.library-head p{font-size:19px;line-height:1.9;color:#657180;max-width:700px;margin:0}
+.library-head mark{background:linear-gradient(transparent 58%,#f6d96d 58%);color:inherit;padding:0 .05em}
+.books-label{display:flex;justify-content:space-between;align-items:end;gap:20px;border-bottom:1px solid #e6e0d7;padding-bottom:14px;margin-bottom:30px}
+.books-label strong{font-size:17px}
+.books-label span{font:500 11px 'JetBrains Mono',monospace;color:#7a8490;direction:ltr}
+.book-shelf{display:grid;grid-template-columns:minmax(260px,360px) minmax(280px,1fr);gap:52px;align-items:center}
+.book-link{display:block;max-width:360px;perspective:1100px}
+.book-cover{position:relative;min-height:500px;padding:34px 34px 30px;border-radius:5px 18px 18px 5px;background:linear-gradient(145deg,#111922 0%,#182530 48%,#0e151c 100%);color:#f7f3e9;box-shadow:-10px 10px 0 #d7d0c2,0 28px 55px rgba(18,24,32,.18);overflow:hidden;display:flex;flex-direction:column;transform-origin:right center;transition:transform .35s ease,box-shadow .35s ease}
+.book-cover:before{content:"";position:absolute;right:0;top:0;bottom:0;width:9px;background:linear-gradient(90deg,rgba(0,0,0,.42),rgba(255,255,255,.08),rgba(0,0,0,.18));opacity:.9}
+.book-cover:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 15%,rgba(217,109,52,.22),transparent 33%),radial-gradient(circle at 80% 75%,rgba(22,143,134,.16),transparent 30%);pointer-events:none}
+.book-link:hover .book-cover{transform:rotateY(-5deg) translateY(-5px);box-shadow:-13px 12px 0 #d7d0c2,0 34px 66px rgba(18,24,32,.24)}
+.book-no{position:relative;z-index:1;font:600 11px 'JetBrains Mono',monospace;letter-spacing:.08em;color:#86d7ce;direction:ltr;margin-bottom:66px}
+.book-cover h2{position:relative;z-index:1;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:clamp(32px,4vw,43px);line-height:1.38;letter-spacing:-.025em;margin:0 0 22px;color:#fff}
+.book-cover h2 span{display:inline;background:linear-gradient(transparent 70%,rgba(246,217,109,.38) 70%)}
+.book-sub{position:relative;z-index:1;font-size:16px;line-height:1.9;color:#cbd5dc;margin:0;max-width:270px}
+.book-foot{position:relative;z-index:1;margin-top:auto;padding-top:34px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid rgba(255,255,255,.12);font-size:12px;color:#aebcc6}
+.book-foot b{color:#fff;font-weight:600}
+.book-copy{max-width:520px}
+.book-copy .mini{font:600 11px 'JetBrains Mono',monospace;color:#d96d34;letter-spacing:.07em;margin-bottom:10px}
+.book-copy h3{font-size:clamp(27px,4vw,38px);line-height:1.45;margin:0 0 15px;letter-spacing:-.02em}
+.book-copy p{font-size:17px;line-height:1.95;color:#657180;margin:0 0 24px}
+.read-link{display:inline-flex;align-items:center;gap:10px;font-weight:700;border-bottom:2px solid #d96d34;padding-bottom:4px;transition:gap .2s ease}
+.book-link:hover + .book-copy .read-link,.book-copy:hover .read-link{gap:15px}
+.library-note{margin-top:72px;padding-top:24px;border-top:1px solid #e6e0d7;color:#657180;font-size:14px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.library-note strong{color:#121820}
+@media(max-width:760px){.library-index{padding:50px 20px 80px}.library-head{margin-bottom:42px}.library-head p{font-size:17px}.book-shelf{grid-template-columns:1fr;gap:32px}.book-link{max-width:330px;margin:auto}.book-cover{min-height:450px;padding:30px}.book-no{margin-bottom:52px}.book-copy{max-width:560px}.books-label span{display:none}}
+@media(prefers-reduced-motion:reduce){.book-cover,.read-link{transition:none}.book-link:hover .book-cover{transform:none}}
+</style>
 </head>
 <body>
 <div class="blog-shell">
@@ -18,18 +52,35 @@
   <a class="brand" href="/"><span class="brand-dot"></span><span>سالم العبري</span></a>
   <nav class="nav" aria-label="التنقل الرئيسي"><a href="/">الرئيسية</a><a href="/blog/">المدونة</a><a class="nav-cta" href="https://www.instagram.com/s_mr8/" target="_blank" rel="noopener">@s_mr8 ↗</a></nav>
 </div></header>
-<main class="blog-index">
-  <div class="kicker">SALIM NOTES / 01</div>
-  <h1>ملاحظات من الرحلة، مو كلام من بعيد.</h1>
-  <p class="intro">هنا أشارك ما أتعلمه من التجربة: كيف نلاحظ المشكلة، نبحث، نستخدم التقنية بذكاء، ونحوّل الفكرة إلى شيء له قيمة فعلية.</p>
-  <section aria-label="المقالات">
-    <a class="post-card" href="/blog/self-innovation.html">
-      <div class="post-meta">16 SEP 2026 · 7 MIN READ</div>
-      <h2>كيف تبدأ رحلة الابتكار الذاتي؟</h2>
-      <p>من ملاحظة بسيطة إلى فكرة لها قيمة: قصتي مع التجربة، وكيف تغيّر عندي معنى الابتكار من «أداة» إلى «مشكلة تستحق الحل».</p>
+
+<main class="library-index">
+  <header class="library-head">
+    <div class="eyebrow">مكتبة سالم · مدونات من التجربة</div>
+    <h1>كل مدونة هنا <mark>فصل من رحلة</mark>… مو مجرد مقال.</h1>
+    <p>أكتب عن الأشياء اللي جربتها وتعلمتها: كيف نلاحظ المشكلة، نفهمها، ونستخدم التقنية والذكاء الاصطناعي لصناعة شيء له قيمة فعلية.</p>
+  </header>
+
+  <div class="books-label"><strong>على الرف الآن</strong><span>READ · THINK · BUILD</span></div>
+
+  <section class="book-shelf" aria-label="المقالات">
+    <a class="book-link" href="/blog/self-innovation.html" aria-label="قراءة: لا تبحث عن فكرة، ابدأ من المشكلة">
+      <article class="book-cover">
+        <div class="book-no">BOOK 01 · SELF INNOVATION</div>
+        <h2><span>لا تبحث عن فكرة…</span><br>ابدأ من المشكلة.</h2>
+        <p class="book-sub">كيف تتحول ملاحظة بسيطة حولك إلى بداية فكرة لها قيمة؟</p>
+        <div class="book-foot"><b>سالم العبري</b><span>7 دقائق قراءة</span></div>
+      </article>
     </a>
+
+    <div class="book-copy">
+      <div class="mini">الكتاب الأول · الابتكار الذاتي</div>
+      <h3>الفكرة القوية غالبًا ما تبدأ قبل ما تعرف الحل.</h3>
+      <p>في هذا الفصل أشارك كيف تغيّر عندي معنى الابتكار: من البحث عن جهاز أو تقنية، إلى البحث عن مشكلة حقيقية وفهمها قبل اختيار الأداة المناسبة.</p>
+      <a class="read-link" href="/blog/self-innovation.html">ابدأ القراءة <span aria-hidden="true">←</span></a>
+    </div>
   </section>
-  <div class="index-note">هذه البداية. المقالات القادمة بتكون حول اكتشاف الفرص، بناء النموذج الأول، استخدام الذكاء الاصطناعي كأداة بحث، وما أتعلمه من المشاريع والورش والتجارب.</div>
+
+  <div class="library-note"><span><strong>المكتبة تكبر مع كل تجربة جديدة.</strong> كل تدوينة قادمة بتظهر هنا ككتاب مستقل.</span><span>الابتكار · التقنية · الذكاء الاصطناعي · التجارب</span></div>
 </main>
 </div>
 </body>

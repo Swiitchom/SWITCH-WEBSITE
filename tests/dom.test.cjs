@@ -23,12 +23,12 @@ test('service inquiry collects email and phone, preserves failure data, and show
  d.querySelector('[data-service="training"] .service-select').click();
  d.querySelector('#serviceRequest').click();assert.equal(form.dataset.context,'services');assert.equal(d.getElementById('fService').value,'باقة الورشة التدريبية');
  d.getElementById('fName').value='Test Person';d.getElementById('fPhone').value='+96899999999';d.getElementById('fEmail').value='test@example.com';d.getElementById('fMsg').value='Please arrange a workshop';form.elements.consent.checked=true;
- let calls=0;w.fetch=async()=>{calls++;return {ok:false,status:503};};
+ let calls=0;w.fetch=async url=>{if(String(url)==='/api/inquiry'){calls++;return {ok:false,status:503};}return {ok:false,status:404,text:async()=>''};};
  let savedEvents=0,savedService;d.addEventListener('portfolio:inquiry-saved',e=>{savedEvents++;savedService=e.detail.serviceKey;});
  form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));
  assert.equal(calls,1);assert.equal(d.querySelector('#fSentMsg a'),null);assert.equal(d.getElementById('fEmail').value,'test@example.com');
  assert.equal(savedEvents,0);
- w.fetch=async(url,opts)=>({ok:true,json:async()=>({id:JSON.parse(opts.body).requestId,reference:'SAL-1001'})});
+ w.fetch=async(url,opts)=>String(url)==='/api/inquiry'?({ok:true,json:async()=>({id:JSON.parse(opts.body).requestId,reference:'SAL-1001'})}):({ok:false,status:404,text:async()=>''});
  form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));
  assert.equal(d.querySelector('#fSentMsg a'),null);assert.match(d.getElementById('fSentMsg').textContent,/SAL-1001/);assert.equal(d.getElementById('fEmail').value,'');
  assert.equal(savedEvents,1);assert.equal(savedService,'training');

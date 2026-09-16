@@ -57,3 +57,19 @@
  new MutationObserver(translate).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
  translate();banner.hidden=choice!==null;if(choice==='granted')start();else stop();
 })();
+
+/* Keep the blog visible from the main site navigation without changing the existing layout. */
+(() => {
+  const addBlogLink=(menu)=>{
+    if(!menu || menu.querySelector('a[href="/blog/"]')) return;
+    const link=document.createElement('a');
+    link.href='/blog/';
+    link.textContent=document.documentElement.lang==='en'?'Blog':'المدونة';
+    link.setAttribute('data-layout-ar','المدونة');
+    link.setAttribute('data-layout-en','Blog');
+    const contact=menu.querySelector('a[href="#contact"]');
+    menu.insertBefore(link,contact||null);
+  };
+  addBlogLink(document.querySelector('.nav-links'));
+  addBlogLink(document.querySelector('.mobile-menu'));
+})();

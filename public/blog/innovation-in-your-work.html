@@ -16,60 +16,140 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/blog.css?v=20260918-2">
+<link rel="stylesheet" href="/assets/blog.css?v=20260918-4">
 <style>
-:root{--work-bg:#f1efe5;--work-paper:#faf9f4;--work-ink:#17332d;--work-muted:#66736f;--work-green:#557861;--work-sage:#dfe7d8;--work-gold:#e7c871;--work-line:#d9d7cc}
-body{background:var(--work-bg);color:#202b28}
-.topbar{background:rgba(241,239,229,.93);border-bottom:1px solid rgba(23,51,45,.09)}
-.hero-work{max-width:940px;padding-top:78px}.hero-work .kicker{color:var(--work-green)}
-.hero-work h1{font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;font-size:clamp(40px,6.8vw,70px);line-height:1.32;letter-spacing:-.035em;color:var(--work-ink);max-width:900px}
-.hero-work .subtitle{font-size:20px;max-width:760px;color:#586561}
-.article-work{max-width:820px;background:var(--work-paper);border:1px solid var(--work-line);border-radius:28px;margin:18px auto 90px;padding:46px 42px 72px;box-shadow:0 24px 70px rgba(39,52,45,.07)}
-.article-work p{font-size:18px;line-height:2;margin:0 0 25px}.article-work .lead{font-size:22px!important;line-height:2;color:#32443f}
-.article-work h2{font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;color:var(--work-ink);font-size:clamp(27px,4vw,36px);line-height:1.55;margin:68px 0 20px;letter-spacing:-.02em}
-.marker{font-weight:700;background:linear-gradient(transparent 62%,rgba(231,200,113,.58) 62%);padding:0 .05em}.marker-green{background:linear-gradient(transparent 62%,rgba(184,210,183,.7) 62%)}
-.opening-note{margin:34px 0 46px;padding:26px 28px;border-radius:20px;background:#e7ecdf;border:1px solid #d3ddcf;font-size:21px;line-height:1.9;font-weight:600;color:#254338}
-.signal-board{margin:30px 0 42px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.signal{padding:19px 20px;border-radius:16px;border:1px solid var(--work-line);background:#fff}.signal b{display:block;color:var(--work-ink);margin-bottom:6px;font-size:16.5px}.signal span{font-size:14.5px;color:var(--work-muted);line-height:1.7}
-.observe-track{margin:35px 0 48px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.observe-step{padding:20px 14px 17px;border-radius:18px;background:#f0f3ea;border:1px solid #dbe3d7;text-align:center;position:relative}.observe-step strong{display:block;color:var(--work-ink);margin-top:7px}.observe-step small{display:block;color:#718078;margin-top:5px;line-height:1.5}.observe-step:not(:last-child):after{content:'←';position:absolute;left:-14px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--work-ink);color:#fff;font-size:12px;z-index:3}
-.field-example{margin:30px 0;padding:26px;border-right:4px solid var(--work-green);background:#f5f3e9;border-radius:18px 0 0 18px}.field-example h3{font-family:'Noto Kufi Arabic',sans-serif;font-size:20px;color:var(--work-ink);margin:0 0 10px}.field-example p{font-size:16.5px;margin-bottom:12px}.field-example p:last-child{margin-bottom:0}
-.search-lab{margin:34px 0 46px;padding:30px;border-radius:22px;background:#17332d;color:#eef4ef}.search-lab h3{font-family:'Noto Kufi Arabic',sans-serif;margin:0 0 16px;color:#fff;font-size:23px}.search-lab p{font-size:16px;color:#d2ded8;margin-bottom:14px}.query{margin:10px 0;padding:13px 15px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:#21453b}.query b{display:block;font-size:14px;color:#fff;margin-bottom:4px}.query code{display:block;direction:ltr;text-align:left;font:500 12px/1.7 'JetBrains Mono',monospace;color:#b9ddd1;white-space:normal}
-.ai-note{margin:38px 0;padding:26px;border-radius:20px;background:#fff4d8;border:1px solid #ead9a8}.ai-note strong{display:block;color:#5a4716;font-size:21px;margin-bottom:9px}.ai-note p{font-size:16.5px;margin:0;color:#66592f}
-.self-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:26px 0 42px}.self-card{padding:20px;border-radius:16px;background:#edf0e7;border:1px solid #d8ddd1}.self-card b{display:block;color:var(--work-ink);margin-bottom:5px}.self-card span{font-size:15px;color:#66736f;line-height:1.7}
-.quote-work{margin:42px 0;padding:30px 0;border-top:1px solid var(--work-line);border-bottom:1px solid var(--work-line);font-family:'Noto Kufi Arabic',sans-serif;font-size:clamp(23px,3.8vw,31px);font-weight:600;line-height:1.75;color:var(--work-ink)}
-.challenge{margin:58px 0 10px;padding:30px;border-radius:22px;background:linear-gradient(135deg,#dfe8dc,#f8edcf);border:1px solid #d6ddcf}.challenge h2{margin:0 0 14px!important;font-size:30px}.challenge p{font-size:17px}.challenge-list{display:grid;gap:10px;margin-top:18px}.challenge-list div{padding:13px 15px;border-radius:12px;background:rgba(255,255,255,.72);border:1px solid rgba(23,51,45,.08)}
-.article-nav{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-top:38px;padding-top:24px;border-top:1px solid var(--work-line)}.article-nav a{font-weight:700;color:var(--work-green)}.article-nav span{font-size:13px;color:var(--work-muted)}
-.article-footer{max-width:820px}.sharebar{border-color:var(--work-line)}
-.visual-block{margin:46px 0 54px;padding:26px 0 0;border:0;border-top:1px solid var(--work-line);border-radius:0;background:transparent}
-.visual-block .vb-kicker{font:600 11px 'JetBrains Mono',monospace;letter-spacing:.07em;color:var(--work-green);direction:ltr;margin-bottom:8px}
-.visual-block h3{font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;font-size:23px;line-height:1.6;color:var(--work-ink);margin:0 0 8px}
-.visual-block>p{font-size:15.5px!important;color:var(--work-muted);margin-bottom:20px!important}
-.opportunity-filter{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.filter-card{padding:18px 15px;border-radius:16px;background:#f4f3ec;border:1px solid #e2e0d7;min-height:132px}
-.filter-card .num{font:600 11px 'JetBrains Mono',monospace;color:#8c997f}.filter-card b{display:block;color:var(--work-ink);font-size:17px;margin:9px 0 5px}.filter-card span{font-size:14px;color:var(--work-muted);line-height:1.65}
-.filter-result{margin-top:13px;padding:13px 15px;border-radius:13px;background:#e6eddf;color:#315043;font-weight:700;font-size:15px}
-.problem-frame{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.frame-card{padding:20px 17px;border-radius:16px;background:#faf8ef;border:1px solid #e1ded0}
-.frame-card small{display:block;color:#8b8060;margin-bottom:7px}.frame-card b{display:block;color:var(--work-ink);font-size:17px;line-height:1.55;margin-bottom:7px}.frame-card span{font-size:14px;color:var(--work-muted);line-height:1.7}
-.cause-path{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;direction:rtl}
-.cause-node{position:relative;padding:17px 14px;border-radius:15px;background:#f3f6f0;border:1px solid #dbe3d8;min-height:122px}
-.cause-node:not(:last-child):after{content:'←';position:absolute;left:-12px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--work-ink);color:#fff;font-size:11px;z-index:2}
-.cause-node small{display:block;color:#7c897f;margin-bottom:6px}.cause-node b{display:block;color:var(--work-ink);font-size:16px;line-height:1.55}
-.research-ladder{display:grid;gap:8px}
-.research-rung{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:center;padding:12px 14px;border-radius:13px;background:#f7f5ed;border:1px solid #e1ded2}
-.research-rung i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--work-ink);color:#fff;font-style:normal;font:600 11px 'JetBrains Mono',monospace}
-.research-rung b{display:block;color:var(--work-ink);font-size:15.5px}.research-rung span{font-size:13.5px;color:var(--work-muted)}
-.book-note{margin:54px 0 10px;padding:24px 26px;border-radius:18px;background:#f5efe1;border:1px solid #e2d8c2}
-.book-note h3{font-family:'Noto Kufi Arabic',sans-serif;color:var(--work-ink);font-size:20px;margin:0 0 10px}.book-note p{font-size:15.5px!important;color:#665f50;margin:0!important}
-.book-note a{color:var(--work-green);font-weight:700;text-decoration:underline;text-underline-offset:4px}
-.editorial-figure{margin:48px 0 56px}.editorial-figure img{display:block;width:100%;max-width:720px;margin:0 auto;border-radius:0;background:#fff}.editorial-figure figcaption{max-width:700px;margin:14px auto 0;font-size:13.5px;line-height:1.8;color:var(--work-muted);text-align:center}.editorial-figure figcaption a{color:var(--work-green);font-weight:700;text-decoration:underline;text-underline-offset:3px}
-.book-quote{margin:52px 0;padding:10px 0 10px 24px;border-left:3px solid var(--work-gold);border-right:0;background:transparent}
-.book-quote p{font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;font-size:clamp(23px,3.7vw,31px)!important;line-height:1.8!important;color:var(--work-ink);margin:0 0 10px!important}
-.book-quote cite{display:block;font-style:normal;font-size:13.5px;color:var(--work-muted)}.book-quote cite a{color:var(--work-green);font-weight:700;text-decoration:underline;text-underline-offset:3px}
-.reading-note{margin:46px 0 0;padding-top:22px;border-top:1px solid var(--work-line)}.reading-note h3{font-family:'Noto Kufi Arabic',sans-serif;font-size:18px;color:var(--work-ink);margin:0 0 10px}.reading-note p{font-size:15.5px!important;color:var(--work-muted);margin:0!important}.reading-note a{color:var(--work-green);font-weight:700;text-decoration:underline;text-underline-offset:3px}
-@media(max-width:760px){.opportunity-filter{grid-template-columns:1fr 1fr}.problem-frame{grid-template-columns:1fr}.cause-path{grid-template-columns:1fr 1fr}.cause-node:nth-child(2):after{display:none}}
-@media(max-width:470px){.opportunity-filter,.cause-path{grid-template-columns:1fr}.cause-node:not(:last-child):after{content:'↓';left:50%;top:auto;bottom:-17px;transform:translateX(-50%)}.cause-node:nth-child(2):after{display:grid}}
-@media(max-width:760px){.hero-work{padding-top:50px}.article-work{margin:8px 14px 70px;padding:32px 22px 52px;border-radius:22px}.article-work p{font-size:17px}.article-work .lead{font-size:19px!important}.signal-board,.self-grid{grid-template-columns:1fr}.observe-track{grid-template-columns:1fr 1fr}.observe-step:nth-child(2):after{display:none}.observe-step:not(:last-child):after{left:-12px}.search-lab{padding:23px}.article-nav{align-items:flex-start;flex-direction:column}}
-@media(max-width:470px){.observe-track{grid-template-columns:1fr}.observe-step:not(:last-child):after{content:'↓';left:50%;top:auto;bottom:-18px;transform:translateX(-50%)}.observe-step:nth-child(2):after{display:grid}}
+:root{
+  --paper:#f7f3ea;
+  --ink:#1d2f2b;
+  --muted:#6b746f;
+  --green:#536f61;
+  --gold:#e7cd79;
+  --line:#d9d2c4;
+}
+body{background:var(--paper);color:var(--ink)}
+.topbar{background:rgba(247,243,234,.94);border-bottom:1px solid rgba(29,47,43,.08)}
+.hero-work{max-width:860px;padding-top:76px}
+.hero-work .kicker{color:var(--green)}
+.hero-work h1{
+  font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;
+  font-size:clamp(38px,6vw,64px);
+  line-height:1.34;
+  letter-spacing:-.03em;
+  color:var(--ink);
+  max-width:820px
+}
+.hero-work .subtitle{font-size:20px;max-width:730px;color:#5f6964}
+.article-work{
+  max-width:760px;
+  margin:10px auto 90px;
+  padding:28px 24px 72px;
+  background:transparent;
+  border:0;
+  box-shadow:none
+}
+.article-work p{font-size:18px;line-height:2.05;margin:0 0 26px}
+.article-work .lead{font-size:22px!important;line-height:2.05;color:#30453f}
+.article-work h2{
+  font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;
+  color:var(--ink);
+  font-size:clamp(26px,3.8vw,34px);
+  line-height:1.6;
+  margin:68px 0 22px;
+  letter-spacing:-.018em
+}
+.marker{font-weight:700;background:linear-gradient(transparent 62%,rgba(231,205,121,.58) 62%);padding:0 .04em}
+.marker-green{background:linear-gradient(transparent 62%,rgba(193,213,196,.72) 62%)}
+.opening-note{
+  margin:40px 0 48px;
+  padding:0 24px 0 0;
+  border-right:3px solid var(--green);
+  background:transparent;
+  font-size:21px;
+  line-height:1.95;
+  font-weight:600;
+  color:#2b453d
+}
+.book-quote{
+  margin:52px 0;
+  padding:10px 24px 10px 0;
+  border-right:3px solid var(--gold);
+  background:transparent
+}
+.book-quote p{
+  font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;
+  font-size:clamp(22px,3.4vw,29px)!important;
+  line-height:1.85!important;
+  margin:0 0 10px!important
+}
+.book-quote cite{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.book-quote a,.reading-note a{color:var(--green);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.discovery-list{counter-reset:discover;margin:30px 0 54px;padding:0;list-style:none}
+.discovery-list li{
+  counter-increment:discover;
+  position:relative;
+  padding:0 62px 26px 0;
+  margin:0 0 26px;
+  border-bottom:1px solid var(--line)
+}
+.discovery-list li:before{
+  content:"0" counter(discover);
+  position:absolute;right:0;top:2px;
+  font:600 12px 'JetBrains Mono',monospace;
+  color:#879087
+}
+.discovery-list h3{
+  font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;
+  font-size:20px;
+  margin:0 0 7px;
+  color:var(--ink)
+}
+.discovery-list p{font-size:16.5px!important;color:#58635e;margin:0!important}
+.flow-figure{margin:54px 0 58px;padding:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.flow-title{font-family:'Noto Kufi Arabic',sans-serif;font-size:18px;margin-bottom:26px;color:var(--ink)}
+.flow-line{display:grid;grid-template-columns:repeat(5,1fr);align-items:start;gap:0;position:relative}
+.flow-line:before{content:"";position:absolute;top:10px;right:9%;left:9%;height:1px;background:#aab4ad}
+.flow-item{position:relative;text-align:center;padding-top:28px}
+.flow-item:before{content:"";position:absolute;top:3px;right:50%;transform:translateX(50%);width:14px;height:14px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px var(--paper)}
+.flow-item b{display:block;font-size:15.5px;color:var(--ink);margin-bottom:5px}
+.flow-item span{display:block;font-size:13px;color:var(--muted);line-height:1.55;padding:0 6px}
+.flow-caption{margin-top:22px;font-size:13.5px;color:var(--muted);text-align:center}
+.editorial-example{margin:34px 0 48px;padding:0 26px 0 0;border-right:1px solid var(--line)}
+.editorial-example h3{font-family:'Noto Kufi Arabic',sans-serif;font-size:20px;margin:0 0 12px;color:var(--ink)}
+.editorial-example p{font-size:16.5px;margin-bottom:14px}
+.search-lines{margin:30px 0 50px}
+.search-line{padding:16px 0;border-bottom:1px solid var(--line)}
+.search-line:first-child{border-top:1px solid var(--line)}
+.search-line b{display:block;font-size:16px;color:var(--ink);margin-bottom:5px}
+.search-line span{font:500 12px/1.7 'JetBrains Mono',monospace;direction:ltr;text-align:left;color:#64756e;display:block}
+.question-lines{margin:28px 0 50px}
+.question-lines p{margin:0!important;padding:16px 0;border-bottom:1px solid var(--line);font-size:17px!important}
+.question-lines strong{color:var(--green)}
+.ai-note{margin:46px 0;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent}
+.ai-note strong{display:block;font-family:'Noto Kufi Arabic',sans-serif;font-size:20px;margin-bottom:10px;color:var(--ink)}
+.ai-note p{font-size:16.5px!important;margin:0!important;color:#5f6964}
+.challenge{margin:58px 0 20px;padding:0;background:transparent;border:0}
+.challenge h2{margin:0 0 18px!important}
+.challenge-list{display:block;margin-top:10px}
+.challenge-list div{padding:14px 0;border-bottom:1px solid var(--line);background:transparent;border-radius:0}
+.reading-note{margin:56px 0 0;padding-top:24px;border-top:1px solid var(--line)}
+.reading-note h3{font-family:'Noto Kufi Arabic',sans-serif;font-size:18px;margin:0 0 10px}
+.reading-note p{font-size:15.5px!important;color:var(--muted);margin:0!important}
+.article-nav{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
+.article-nav a{font-weight:700;color:var(--green)}.article-nav span{font-size:13px;color:var(--muted)}
+.article-footer{max-width:760px}.sharebar{border-color:var(--line)}
+@media(max-width:760px){
+  .hero-work{padding-top:50px}
+  .article-work{margin:0 auto 70px;padding:24px 20px 50px}
+  .article-work p{font-size:17px}
+  .article-work .lead{font-size:19px!important}
+  .discovery-list li{padding-right:52px}
+  .flow-line{grid-template-columns:1fr}
+  .flow-line:before{top:8px;bottom:8px;right:7px;left:auto;width:1px;height:auto}
+  .flow-item{text-align:right;padding:0 34px 22px 0}
+  .flow-item:before{right:0;top:3px;transform:none}
+  .flow-item span{padding:0}
+  .article-nav{align-items:flex-start;flex-direction:column}
+}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"من تفاصيل دوامك… تبدأ فرص الابتكار","author":{"@type":"Person","name":"سالم العبري","url":"https://salimalabri.pages.dev/"},"datePublished":"2026-09-16","inLanguage":"ar","mainEntityOfPage":"https://salimalabri.pages.dev/blog/innovation-in-your-work.html"}</script>
 </head>
@@ -89,185 +169,139 @@ body{background:var(--work-bg);color:#202b28}
 </header>
 
 <main class="article article-work" id="article">
-  <p class="lead">أكثر شيء يضيع علينا فرص الابتكار إننا نتخيل إن الفكرة لازم تجي من خارج شغلنا. بينما كثير من الفرص تمر قدامنا يوميًا: خطوة تتكرر، ملف يضيع، معلومة تتأخر، شخص ينتظر، أو إجراء الكل يشتكي منه.</p>
+  <p class="lead">أكثر شيء يضيّع علينا فرص الابتكار إننا نتصور إن الفكرة لازم تجي من مكان بعيد. بينما كثير من الأفكار تبدأ من شيء صغير جدًا في يومنا: خطوة تتكرر، سؤال نسمعه كل يوم، انتظار طويل، أو طريقة عمل تعودنا عليها لدرجة ما عاد نسأل عنها.</p>
 
-  <div class="opening-note">الفكرة مو إنك تدور على «مشروع». الفكرة إنك تتعلم <span class="marker">تلاحظ الشي اللي يستحق يتغير</span>.</div>
+  <div class="opening-note">الفكرة مو إنك تدور على «مشروع». الفكرة إنك تتعلم <span class="marker">تشوف الشي اللي غيرك يمر عليه بدون ما ينتبه له</span>.</div>
 
-  <p>وهذي تنطبق على المعلم، الطبيب، المهندس، المحاسب، الموظف الإداري، صاحب المشروع وغيرهم. كل شخص يشوف من داخل تخصصه تفاصيل غيره ما يشوفها.</p>
+  <p>وهذا ينطبق على المعلم، الطبيب، المهندس، المحاسب، الموظف الإداري وصاحب المشروع. كل واحد فيهم قريب من تفاصيل ما يشوفها الشخص اللي خارج المجال. وهذي القرب نفسه ممكن يكون بداية ابتكار.</p>
 
-  <figure class="editorial-figure">
-    <img src="https://www.designcouncil.org.uk/fileadmin/uploads/dc/Photos/banners/Double_Diamond.png" alt="مخطط الماسة المزدوجة من Design Council: Discover, Define, Develop, Deliver" loading="lazy">
-    <figcaption>
-      مخطط <strong>Double Diamond</strong> يوضح فكرة مهمة: وسّع فهمك للمشكلة أولًا، ثم حدّدها، وبعدها فقط وسّع احتمالات الحل واختبر الأنسب. الصورة الأصلية من
-      <a href="https://www.designcouncil.org.uk/resources/the-double-diamond/" target="_blank" rel="noopener">Design Council</a>
-      ومستخدمة بترخيص CC BY 4.0.
-    </figcaption>
+  <h2>كيف نكتشف الفكرة أصلًا؟</h2>
+  <p>في كتاب <strong>The Innovator’s DNA</strong> تتكرر مجموعة سلوكيات عند المبتكرين: الملاحظة، السؤال، الربط بين أشياء مختلفة، التجربة، والتواصل مع أشخاص من زوايا مختلفة. بالنسبة لي، هذي مو «وصفة جاهزة»، لكنها طريقة ممتازة نخلي فيها عقلنا أفتح للفرص.</p>
+
+  <ol class="discovery-list">
+    <li>
+      <h3>اسأل أكثر من المعتاد</h3>
+      <p>إذا كل الناس يقولون «هذي هي الطريقة»، جرّب تسأل: ليش؟ وش اللي يمنعها تكون أبسط؟ وش اللي تغير من يوم انحط هذا الإجراء؟ السؤال الجيد يفتح لك زاوية ما كانت واضحة.</p>
+    </li>
+    <li>
+      <h3>راقب اللي يتكرر</h3>
+      <p>الخطأ اللي يتكرر، الانتظار اللي يتكرر، نفس الملف اللي ينرسل أكثر من مرة، أو نفس الشكوى اللي تسمعها من أكثر من شخص… هذي كلها إشارات تستحق التوقف.</p>
+    </li>
+    <li>
+      <h3>اربط بين مجالين</h3>
+      <p>أحيانًا الفكرة ما تكون جديدة بالكامل؛ تكون طريقة معروفة في مجال ونقلناها بذكاء لمجال ثاني. التعليم ممكن يستفيد من أدوات إدارة المشاريع، والهندسة من أساليب المتابعة الصحية، والعكس.</p>
+    </li>
+    <li>
+      <h3>جرّب قبل لا تتوسع</h3>
+      <p>مو لازم تبدأ بمنصة كاملة أو جهاز نهائي. تجربة صغيرة تكشف لك أشياء ما تكشفها جلسات التفكير الطويلة. جرّب أبسط نسخة ممكنة وشوف وش يتغير.</p>
+    </li>
+    <li>
+      <h3>اسمع شخص يشوف المشكلة غيرك</h3>
+      <p>زميلك، المستخدم، الطالب، المريض، أو الموظف في قسم ثاني ممكن يشوف السبب من زاوية أنت ما تشوفها. الابتكار غالبًا يكبر لما تتقاطع أكثر من وجهة نظر.</p>
+    </li>
+  </ol>
+
+  <figure class="flow-figure" aria-label="مسار عربي من الملاحظة إلى الابتكار">
+    <div class="flow-title">من موقف يومي… إلى فرصة ابتكار</div>
+    <div class="flow-line">
+      <div class="flow-item"><b>لاحظ</b><span>وش يتكرر أو يزعج؟</span></div>
+      <div class="flow-item"><b>سمِّ المشكلة</b><span>وش اللي يصير فعلًا؟</span></div>
+      <div class="flow-item"><b>افهم السبب</b><span>ليش يتكرر؟ ومن يتأثر؟</span></div>
+      <div class="flow-item"><b>ابحث</b><span>كيف يتعامل غيرك معه؟</span></div>
+      <div class="flow-item"><b>جرّب</b><span>اختبر أصغر تغيير ممكن.</span></div>
+    </div>
+    <div class="flow-caption">هذا المخطط مبسط ومصمم للمقال عشان يعطيك مسار تفكير، مو خطوات جامدة لازم تمشي عليها حرفيًا.</div>
   </figure>
 
-  <h2>وش الإشارات اللي تستحق توقف عندها؟</h2>
-  <p>في بيئة العمل عندنا في الخليج والعالم العربي، فيه جمل ومواقف تتكرر لين نحسبها جزء طبيعي من الدوام. لكن بعضها ممكن يكون إشارة واضحة لمشكلة تستحق الفهم.</p>
+  <h2>المشكلة مو دايم هي اللي تشوفها أول مرة</h2>
+  <p>خلنا ناخذ مثال قريب: معلم يحس إن وقت كبير يضيع في تجميع ملفات الطلاب ومتابعة من سلّم ومن تأخر. أول رد ممكن يكون: «نسوي منصة». لكن هنا إحنا قفزنا للحل قبل ما نفهم المشكلة.</p>
 
-  <div class="signal-board">
-    <div class="signal"><b>«أرسل الملف مرة ثانية»</b><span>يمكن المعلومة موزعة في أكثر من مكان أو ما فيه مرجع واضح.</span></div>
-    <div class="signal"><b>«وين وصل الطلب؟»</b><span>يمكن حالة الإجراء غير واضحة أو المسؤولية تنتقل بدون متابعة.</span></div>
-    <div class="signal"><b>«دخل البيانات هنا وبعدها هناك»</b><span>يمكن عندك تكرار في نفس الشغل أكثر من مرة.</span></div>
-    <div class="signal"><b>«كل أسبوع نسوي نفس التقرير»</b><span>يمكن العمل متكرر ويحتاج نفهم ليش ما زال يدوي.</span></div>
-    <div class="signal"><b>«من عنده آخر نسخة؟»</b><span>يمكن المشكلة في التوثيق أو مشاركة الملفات.</span></div>
-    <div class="signal"><b>«هذا نظامنا من زمان»</b><span>مو معناته غلط، بس يستحق نسأل إذا ما زال يخدمنا بنفس الكفاءة.</span></div>
+  <div class="editorial-example">
+    <h3>خل السؤال يتغير</h3>
+    <p>هل المشكلة فعلًا في عدم وجود منصة؟ أو في إن التسليم موزع بين أكثر من مكان؟ هل النظام الموجود صعب؟ هل الطالب ما يعرف وين يسلّم؟ هل المعلم يدخل نفس البيانات مرتين؟</p>
+    <p>كل سؤال من هذي ممكن يوديك لمسار مختلف تمامًا. ويمكن في النهاية تكتشف إن الحل مو منصة أصلًا.</p>
   </div>
 
-  <p>المهم هنا: <span class="marker marker-green">لا تقفز للحل</span>. لا تقول مباشرة منصة، تطبيق، جهاز أو AI. يمكن الحل موجود أصلًا. يمكن المشكلة في طريقة الاستخدام. ويمكن تغيير بسيط في الإجراء يحل نصف التعب.</p>
-
-  <section class="visual-block" aria-label="مصفاة الفرصة">
-    <div class="vb-kicker">OPPORTUNITY FILTER</div>
-    <h3>مصفاة بسيطة: هل اللي لاحظته يستحق البحث؟</h3>
-    <p>مو كل إزعاج يصير فرصة ابتكار. قبل ما تتحمس للحل، مرّر الموقف على أربع إشارات.</p>
-    <div class="opportunity-filter">
-      <div class="filter-card"><span class="num">01</span><b>يتكرر؟</b><span>صار أكثر من مرة، مو موقف عابر.</span></div>
-      <div class="filter-card"><span class="num">02</span><b>له أثر؟</b><span>يضيع وقت، يسبب خطأ، تأخير أو ضغط.</span></div>
-      <div class="filter-card"><span class="num">03</span><b>يمس أكثر من شخص؟</b><span>مو بس أنت؛ غيرك يواجه الشي نفسه.</span></div>
-      <div class="filter-card"><span class="num">04</span><b>الحل الحالي ناقص؟</b><span>فيه طريقة موجودة، لكن القصور ما زال واضح.</span></div>
-    </div>
-    <div class="filter-result">إذا اجتمعت أكثر من إشارة، هنا يستحق الموضوع توقف وتبحث أعمق.</div>
-  </section>
-
-  <h2>ابدأ بالملاحظة… مو بالاختراع</h2>
-  <p>جرب يوم واحد فقط تتعامل مع دوامك كأنك تشوفه لأول مرة. لا تحاول تحل. فقط راقب وسجّل.</p>
-
-  <section class="visual-block" aria-label="إطار فهم المشكلة">
-    <div class="vb-kicker">PROBLEM FRAME</div>
-    <h3>قبل ما تسميها «مشكلة»… شوف المشهد من ثلاث زوايا</h3>
-    <p>الفكرة هنا قريبة من أدوات فهم العميل في كتب تصميم القيمة: نفهم العمل اللي يحاول الشخص ينجزه، الشي اللي يعطله، والسياق اللي تظهر فيه المعاناة.</p>
-    <div class="problem-frame">
-      <div class="frame-card"><small>01 · المطلوب</small><b>وش الشخص يحاول ينجز؟</b><span>مهمة، إجراء، قرار، تسليم، متابعة… حدده بدون ما تقترح حل.</span></div>
-      <div class="frame-card"><small>02 · العائق</small><b>وش اللي يوقفه أو يبطّئه؟</b><span>وقت، تكرار، نقص معلومة، تعقيد، انتظار أو خطأ.</span></div>
-      <div class="frame-card"><small>03 · السياق</small><b>متى تصير المشكلة أوضح؟</b><span>مع ضغط العمل؟ مع عدد أكبر؟ بين قسمين؟ عند التسليم؟</span></div>
-    </div>
-  </section>
-
-  <div class="observe-track" aria-label="خطوات الملاحظة والبحث">
-    <div class="observe-step"><div>👀</div><strong>راقب</strong><small>وش يتكرر أو يرهق الناس؟</small></div>
-    <div class="observe-step"><div>📝</div><strong>سجّل</strong><small>اكتب الموقف كما هو.</small></div>
-    <div class="observe-step"><div>❓</div><strong>اسأل ليش</strong><small>وش السبب الحقيقي؟</small></div>
-    <div class="observe-step"><div>🔎</div><strong>ابحث</strong><small>كيف يتعامل غيرك معه؟</small></div>
-  </div>
-
-  <div class="quote-work">إذا الشي يتكرر كثير… فهو يستحق إنك <span class="marker">تفهمه أكثر</span>.</div>
+  <p>ونفس الشي ينطبق على الطبيب اللي يشوف تأخيرًا إداريًا، والمهندس اللي ينقل نفس الملاحظات من الموقع للتقرير، والموظف اللي يتابع المعاملة في أكثر من قناة.</p>
 
   <blockquote class="book-quote">
     <p>«لا يحتاج أصحاب الأعمال لأن يفهموا المصممين فقط، وإنما هم بحاجة لأن يصبحوا مصممين.»</p>
-    <cite>اقتباس وارد في النسخة العربية من <a href="https://japublishers.com/bmg-arabic/" target="_blank" rel="noopener">«ابتكار نموذج العمل التجاري»</a> — جبل عمّان ناشرون.</cite>
+    <cite>اقتباس قصير من النسخة العربية لكتاب <a href="https://japublishers.com/bmg-arabic/" target="_blank" rel="noopener">«ابتكار نموذج العمل التجاري»</a>.</cite>
   </blockquote>
 
-  <h2>مثال المعلم: لا تقول «أحتاج منصة»</h2>
-  <div class="field-example">
-    <h3>خلك قريب من المشكلة نفسها</h3>
-    <p>معلم يلاحظ إن جزء من وقته يروح في تجميع ملفات، متابعة من سلّم، والبحث عن آخر نسخة. الخطأ إننا نقول له فورًا: «سو منصة».</p>
-    <p>الأصح نسأله: <strong>وين بالضبط يضيع الوقت؟</strong> هل الملفات موزعة؟ هل الطلاب ما يعرفون قناة التسليم؟ هل النظام الموجود صعب؟ هل نفس البيانات تنكتب أكثر من مرة؟</p>
-    <p>بعد ما نفهم السبب، يمكن نكتشف إن المدرسة أصلًا عندها أداة مناسبة، لكن المشكلة في الإجراء. ويمكن نكتشف فجوة فعلية تستحق حل مختلف.</p>
+  <h2>طيب… كيف أبحث عن المشكلة صح؟</h2>
+  <p>الفرق هنا بسيط لكنه مهم. لا تبدأ بحثك بكلمة «فكرة». ابدأ بالموقف نفسه.</p>
+
+  <div class="search-lines">
+    <div class="search-line">
+      <b>وش أسباب تأخر الإجراءات المتكررة داخل فرق العمل؟</b>
+      <span>causes of repeated workflow delays in teams</span>
+    </div>
+    <div class="search-line">
+      <b>كيف تتعامل المؤسسات مع الملفات اللي تمر على أكثر من شخص؟</b>
+      <span>how teams track files across multiple approvals</span>
+    </div>
+    <div class="search-line">
+      <b>وش المشاكل اللي يسببها إدخال نفس البيانات أكثر من مرة؟</b>
+      <span>problems caused by duplicate data entry</span>
+    </div>
+    <div class="search-line">
+      <b>وش الحلول الموجودة؟ وش أكثر شيء يشتكي منه المستخدمون؟</b>
+      <span>existing solutions + user complaints + limitations</span>
+    </div>
   </div>
 
-  <section class="visual-block" aria-label="من المشهد إلى السبب">
-    <div class="vb-kicker">FROM SYMPTOM TO CAUSE</div>
-    <h3>لا توقف عند العرض الظاهر</h3>
-    <p>المشهد اللي تشوفه أول مرة غالبًا ما يكون مجرد علامة. مهمتك إنك تتحرك خطوة خطوة إلى الشي اللي يحتاج تحقق.</p>
-    <div class="cause-path">
-      <div class="cause-node"><small>المشهد</small><b>التسليم يتأخر</b></div>
-      <div class="cause-node"><small>وش الظاهر؟</small><b>الملفات موزعة</b></div>
-      <div class="cause-node"><small>وش يمكن السبب؟</small><b>الإجراء غير موحد</b></div>
-      <div class="cause-node"><small>وش نتحقق منه؟</small><b>أداة؟ استخدام؟ مسؤولية؟ توقيت؟</b></div>
-    </div>
-  </section>
+  <p>إذا بحثت بهالطريقة، أنت ما تدور «فكرة مبتكرة»؛ أنت تجمع صورة أوضح. وبعدها تبدأ تشوف الأنماط: نفس الشكوى تتكرر، نفس السبب يظهر في أكثر من مصدر، أو الحلول الموجودة عندها نفس القصور.</p>
 
-  <p>نفس الطريقة تنطبق على الطبيب اللي يشوف تكرارًا في خطوات إدارية، والمهندس اللي يكرر نقل الملاحظات بين الموقع والتقرير، والموظف اللي يتابع نفس المعاملة في أكثر من قناة.</p>
-
-  <h2>كيف تبحث صح عن المشكلة؟</h2>
-  <p>هنا الفرق الكبير بين شخص يبحث عن «فكرة» وشخص يبحث عن <strong>فهم</strong>.</p>
-
-  <p>بدل ما تكتب في Google أو ChatGPT:</p>
-  <div class="field-example"><h3>❌ «أفكار ابتكار للمعلمين»</h3><p>غالبًا بتحصل نتائج عامة، متشابهة، ويمكن ما لها علاقة ببيئتك أصلًا.</p></div>
-
-  <p>ابدأ بوصف المشكلة بشكل محدد، ثم وسّع البحث تدريجيًا.</p>
-
-  <div class="search-lab">
-    <h3>مثال على طريقة بحث أذكى</h3>
-    <p>لو لاحظت إن الموافقات أو الملفات تتأخر، جرب تبحث عن المشكلة نفسها:</p>
-    <div class="query"><b>وش أسباب تأخر الإجراءات المتكررة داخل فرق العمل؟</b><code>causes of repeated workflow delays in teams</code></div>
-    <div class="query"><b>كيف تتابع المؤسسات الملفات أو الطلبات اللي تمر على أكثر من شخص؟</b><code>how teams track files across multiple approvals</code></div>
-    <div class="query"><b>وش مشاكل إدخال نفس البيانات أكثر من مرة؟</b><code>problems caused by duplicate data entry</code></div>
-    <div class="query"><b>وش الحلول الموجودة حاليًا؟ ووش شكاوى المستخدمين منها؟</b><code>existing solutions + user complaints + limitations</code></div>
+  <h2>كيف أعرف إن المشكلة تستحق أكمل فيها؟</h2>
+  <div class="question-lines">
+    <p><strong>هل تتكرر؟</strong> ولا كانت مجرد حالة عابرة؟</p>
+    <p><strong>هل لها أثر؟</strong> وقت، تكلفة، خطأ، انتظار أو تجربة سيئة؟</p>
+    <p><strong>هل غيرك يعاني منها؟</strong> ولا هي مرتبطة بطريقتك أنت فقط؟</p>
+    <p><strong>هل الحل الحالي فيه فجوة؟</strong> موجود لكنه ما زال يخلّي الناس تتحايل أو تشتكي؟</p>
   </div>
 
-  <section class="visual-block" aria-label="سلم البحث">
-    <div class="vb-kicker">RESEARCH LADDER</div>
-    <h3>سلم البحث: من ملاحظة بسيطة إلى صورة أوضح</h3>
-    <p>لا تبدأ بكلمة «ابتكار». كل خطوة في البحث تضيق الغموض وتخليك أقرب للمشكلة الحقيقية.</p>
-    <div class="research-ladder">
-      <div class="research-rung"><i>1</i><div><b>اكتب الموقف كما حدث</b><span>بدون تفسير وبدون حل.</span></div></div>
-      <div class="research-rung"><i>2</i><div><b>حوّله لعبارة مشكلة محددة</b><span>من يتأثر؟ وش يتكرر؟ وش الأثر؟</span></div></div>
-      <div class="research-rung"><i>3</i><div><b>ابحث بالعربي والإنجليزي</b><span>عن الأسباب، الدراسات، التجارب والحلول الحالية.</span></div></div>
-      <div class="research-rung"><i>4</i><div><b>دور على الشكاوى والقيود</b><span>وش اللي ما زال ما انحل؟ وين الناس تتحايل على الحل الحالي؟</span></div></div>
-      <div class="research-rung"><i>5</i><div><b>اجمع نمطًا… مو رأيًا واحدًا</b><span>تكرار نفس الملاحظة من أكثر من مصدر هو اللي يستحق الاهتمام.</span></div></div>
-    </div>
-  </section>
+  <p>كل ما اجتمعت أكثر من علامة، صار عندك سبب أقوى إنك تكمل بحث. وهنا تبدأ الفرصة تصير أوضح.</p>
 
-  <p>وابحث بالإنجليزي بعد العربي. كثير من الأبحاث، دراسات الحالة، الأدوات وتجارب المؤسسات بتطلع لك بشكل أوسع.</p>
-
-  <h2>وين تستخدم الذكاء الاصطناعي؟</h2>
+  <h2>وين يدخل الذكاء الاصطناعي؟</h2>
   <div class="ai-note">
-    <strong>استخدم AI كباحث معك… مو كآلة ترمي لك أفكار جاهزة.</strong>
-    <p>خله يساعدك تفكك المشكلة، تجمع كلمات بحث، تقارن حلولًا موجودة، تلخص أبحاثًا، وتكشف جوانب ما انتبهت لها.</p>
+    <strong>خله يساعدك تفهم… مو يفكر بدالك.</strong>
+    <p>استخدمه عشان يجمع لك كلمات بحث، يشرح أسباب محتملة، يقارن حلولًا موجودة، يلخص أبحاثًا، ويعطيك زوايا جديدة تسأل عنها. لكن لا تبدأ بـ «اعطني فكرة مبتكرة» وتعتبر أول جواب هو مشروعك.</p>
   </div>
 
-  <p>مثلًا بدل ما تقول:</p>
-  <p><strong>«اعطني فكرة مبتكرة في عملي.»</strong></p>
-  <p>قل:</p>
-  <p><strong>«أنا أعمل في مجال كذا، ولاحظت إن هذا الإجراء يتكرر بهذه الطريقة. ساعدني أفهم الأسباب المحتملة، من يتأثر بالمشكلة، وما الكلمات المناسبة للبحث عنها بالعربي والإنجليزي. لا تقترح لي حلًا الآن.»</strong></p>
+  <p>ممكن تقول له مثلًا: <strong>«أنا أعمل في مجال كذا، ولاحظت هذا الموقف يتكرر. ساعدني أفهم الأسباب المحتملة ومن يتأثر، واعطني كلمات بحث بالعربي والإنجليزي. لا تقترح حلًا الآن.»</strong></p>
 
-  <p>هنا أنت اللي تقود التفكير، والذكاء الاصطناعي يساعدك توسع البحث.</p>
+  <h2>واكتشف زاويتك أنت</h2>
+  <p>أحيانًا الفرصة مو بس في المشكلة، بل في العلاقة بين المشكلة وبين الشي اللي أنت تعرفه. المعلم عنده فهم للصف والطلاب. الطبيب عنده فهم لرحلة المريض. المهندس يعرف تفاصيل الموقع. الموظف يعرف وين تتعطل المعاملة.</p>
 
-  <h2>اكتشف نفسك داخل تخصصك</h2>
-  <p>الابتكار مو بس فهم المشكلة. جزء كبير منه إنك تعرف <span class="marker marker-green">وش زاويتك أنت</span>.</p>
-
-  <div class="self-grid">
-    <div class="self-card"><b>وش أفهم أكثر من غيري؟</b><span>يمكن لأنك تعيش المشكلة كل يوم وتعرف تفاصيلها الصغيرة.</span></div>
-    <div class="self-card"><b>وش المهارة اللي عندي؟</b><span>تنظيم، تحليل، تقنية، تصميم، تواصل، تعليم، بيانات…</span></div>
-    <div class="self-card"><b>وش المشكلة اللي أشوفها كثير؟</b><span>التكرار يعطيك فرصة تفهم السبب بدل ما تتعامل معه كشي طبيعي.</span></div>
-    <div class="self-card"><b>وش الشي اللي أقدر أتعلمه بسرعة؟</b><span>أحيانًا الفرصة تظهر لما تربط خبرتك الحالية بمهارة جديدة.</span></div>
+  <div class="question-lines">
+    <p>وش الشي اللي <strong>أفهمه أكثر من غيري</strong> بحكم تخصصي؟</p>
+    <p>وش المهارة اللي عندي وأقدر <strong>أربطها بالمشكلة</strong>؟</p>
+    <p>وش الشي اللي أقدر أتعلمه بسرعة لو احتجته؟</p>
   </div>
 
-  <p>المعلم يمكن يفهم تفاصيل الصف أكثر من مطور البرامج. الطبيب يفهم رحلة المريض. المهندس يعرف ظروف الموقع. الموظف يعرف وين تتعطل المعاملة.</p>
-
-  <div class="quote-work">مو لازم تكون أكثر شخص تقني… يمكن قيمتك إنك <span class="marker">أكثر شخص فاهم المشكلة</span>.</div>
-
-  <h2>وبعدها فقط… فكر في الأداة</h2>
-  <p>بعد الملاحظة والفهم والبحث، هنا تبدأ تسأل: هل الحل يحتاج تغيير إجراء؟ أداة موجودة؟ أتمتة؟ نظام بسيط؟ ذكاء اصطناعي؟ جهاز؟</p>
-
-  <p>يمكن تستخدم AI في التصنيف، التلخيص، استخراج البيانات، البحث أو الأتمتة. ويمكن ما تحتاجه أصلًا. القيمة مو في إن الحل فيه AI؛ القيمة في إن المشكلة صارت <strong>أسهل، أسرع، أوضح أو أقل أخطاء</strong>.</p>
+  <div class="opening-note">مو لازم تكون أكثر شخص تقني… أحيانًا قيمتك إنك <span class="marker-green">أكثر شخص فاهم المشكلة</span>.</div>
 
   <section class="challenge">
-    <h2>جربها بكرة في دوامك</h2>
-    <p>لا تدور فكرة. خل هدفك تجمع ملاحظات فقط.</p>
+    <h2>جربها بكرة</h2>
+    <p>لا تدور فكرة. بس خل نفسك تلاحظ.</p>
     <div class="challenge-list">
-      <div>1. كل مرة تقول: «ليش نسوي كذا؟» — سجّلها.</div>
-      <div>2. كل مرة تعيد نفس الخطوة — سجّلها.</div>
-      <div>3. كل مرة تنتظر معلومة أو ملف — سجّلها.</div>
-      <div>4. كل مرة تسمع نفس الشكوى من أكثر من شخص — سجّلها.</div>
-      <div>5. نهاية اليوم اختر أكثر مشكلة تكررت، وابدأ ابحث عنها فقط.</div>
+      <div>كل مرة تقول «ليش نسوي كذا؟» — اكتبها.</div>
+      <div>كل مرة تعيد نفس الخطوة — اكتبها.</div>
+      <div>كل مرة تسمع نفس الشكوى من أكثر من شخص — اكتبها.</div>
+      <div>نهاية اليوم اختَر أكثر ملاحظة تكررت… وابدأ البحث عنها.</div>
     </div>
   </section>
 
   <aside class="reading-note">
     <h3>قراءة جانبية</h3>
-    <p>إذا شدّك هذا الأسلوب، راجع النسخة العربية من <a href="https://japublishers.com/bmg-arabic/" target="_blank" rel="noopener">«ابتكار نموذج العمل التجاري»</a> و<a href="https://japublishers.com/vpd/" target="_blank" rel="noopener">«تصميم القيمة المقدمة»</a>. الأول مميز في التفكير البصري، والثاني في فهم أعمال الناس ومتاعبهم قبل القفز للحل. كذلك كتاب <a href="https://japublishers.com/how-to-create-better-ideas/" target="_blank" rel="noopener">«كيف تبتكر أفكارًا أفضل»</a> يركز على أن الإبداع كثيرًا ما يأتي من ربط أمور موجودة بطريقة جديدة.</p>
+    <p>لو حبيت تتوسع في طريقة التفكير، راجع النسخة العربية من <a href="https://japublishers.com/bmg-arabic/" target="_blank" rel="noopener">«ابتكار نموذج العمل التجاري»</a> و<a href="https://japublishers.com/vpd/" target="_blank" rel="noopener">«تصميم القيمة المقدمة»</a>. ولجانب اكتشاف الأفكار من الملاحظة والربط، يفيد كذلك كتاب <a href="https://japublishers.com/how-to-create-better-ideas/" target="_blank" rel="noopener">«كيف تبتكر أفكارًا أفضل»</a>.</p>
   </aside>
 
   <h2>الخلاصة</h2>
-  <p>الفرص مو دائمًا بعيدة، وأحيانًا ما تحتاج جلسة عصف ذهني كبيرة. يمكن تكون قدامك في تفاصيل يومك: خطوة متكررة، معلومة مشتتة، تأخير، أو سؤال الكل يعيده.</p>
+  <p>الابتكار مو لحظة سحرية تجيك فيها فكرة من لا شيء. غالبًا يبدأ من شيء صغير: ملاحظة، سؤال، ربط، تجربة. كل ما صرت أهدأ في ملاحظة يومك وأدق في صياغة أسئلتك، بدأت تشوف فرص كانت موجودة من البداية.</p>
 
-  <p>إذا تعلمت تراقب أكثر، وتسأل ليش، وتبحث صح، وتفهم نقاط قوتك… تبدأ تشوف فرص ما كنت تنتبه لها قبل.</p>
-
-  <div class="opening-note">ابدأ من واقعك. <span class="marker">راقب أكثر… ابحث أعمق… وبعدها ابتكر.</span></div>
+  <p>يمكن الفكرة ما تحتاج منك تدور بعيد. يمكن تحتاج فقط <strong>تشوف شغلك بعين جديدة</strong>.</p>
 
   <div class="article-nav"><a href="/blog/self-innovation.html">← المقال الأول: كيف تبدأ رحلة الابتكار الذاتي؟</a><span>المقال 02 · الابتكار في العمل</span></div>
 </main>
@@ -288,6 +322,6 @@ body{background:var(--work-bg);color:#202b28}
   });
 })();
 </script>
-<!-- deployment-refresh: 2026-09-18-3 -->
+<!-- deployment-refresh: 2026-09-18-4 -->
 </body>
 </html>

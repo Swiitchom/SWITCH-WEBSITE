@@ -77,6 +77,15 @@ html[dir=ltr] #services .package-card.is-chosen .service-discover .package-arrow
 #services .package-timing{margin:0 0 20px!important;padding:0!important;color:var(--text-dim)!important;font-size:12px!important}
 #services .service-start{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--surface) 48%,transparent);color:var(--text);padding:10px 15px;font-size:12.5px;cursor:pointer}
 #services .service-start:hover{border-color:var(--signal);color:var(--signal)}
+#services .service-process-flow{
+ margin-top:72px;padding-top:24px;border-top:1px solid var(--line-soft);
+ display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;
+ color:var(--text-muted);font-size:13px;letter-spacing:.01em
+}
+#services .service-process-flow span{color:var(--text)}
+#services .service-process-flow i{font-style:normal;color:var(--signal);opacity:.65;animation:process-pulse 2.8s ease-in-out infinite}
+#services .service-process-flow i:nth-of-type(2){animation-delay:-1.4s}
+@keyframes process-pulse{50%{transform:translateX(4px);opacity:1}}
 
 /* Projects: visual editorial cards + one small discovery arrow. */
 #projects .project-section-head{max-width:800px;margin-bottom:34px}
@@ -139,6 +148,7 @@ html[dir=ltr] #projects .project-showcase.is-open .project-reveal{transform:rota
  .ambient-flow{opacity:.08}.ambient-orb{opacity:.1}
  .expertise-rail{gap:6px}.expertise-pill{padding:7px 10px}.expertise-pill strong{font-size:11.5px}
  #services .svc-grid{gap:52px}
+ #services .service-process-flow{margin-top:52px;gap:10px;font-size:12px}
  #services .service-scene-media::before{display:none}
  #services .service-scene-media img{border-radius:18px;height:68vw;min-height:250px}
  #services .service-scene-copy h3{font-size:28px}
@@ -148,5 +158,6 @@ html[dir=ltr] #projects .project-showcase.is-open .project-reveal{transform:rota
 }
 @media(prefers-reduced-motion:reduce){
  .ambient-field *{animation:none!important}
+ #services .service-process-flow i{animation:none!important}
  #projects .project-showcase-media img,#projects .project-reveal,#projects .project-details,#services .package-details,#services .package-arrow{transition:none!important}
 }

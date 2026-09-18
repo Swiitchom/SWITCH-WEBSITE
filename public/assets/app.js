@@ -194,26 +194,32 @@ function renderProjects(){
  const list=showAllProjects?all:all.slice(0,4);
  const host=document.getElementById('projGrid');
  host.innerHTML=list.map((p,i)=>{
-  const t=p[currentLang],techs=Array.isArray(p.techs)&&p.techs.length?p.techs.join(' · '):'';
-  const value=t.benefit||t.result||t.desc;
+  const t=p[currentLang],index=projectsData.indexOf(p),techs=Array.isArray(p.techs)&&p.techs.length?p.techs.join(' · '):'';
   const visualClass=p.screenshot||p.kind==='platform'?'project-visual-ui':p.image?'project-visual-photo':'project-visual-symbol';
-  return `<article class="proj-card project-showcase reveal" data-project-card="${i}">
-    <div class="project-showcase-media ${visualClass}">
-      <span class="project-index">${String(projectsData.indexOf(p)+1).padStart(2,'0')}</span>
+  const first=t.problem||t.overview||t.desc;
+  const second=t.solution||t.benefit||t.desc;
+  const third=t.result||t.deployment||'';
+  return `<article class="proj-card project-case reveal ${i%2?'project-case-reverse':''}" data-project-card="${index}">
+    <div class="project-case-media ${visualClass}">
+      <span class="project-index">${String(index+1).padStart(2,'0')}</span>
       ${projMediaHTML(p)}
     </div>
-    <div class="project-showcase-body">
-      <div class="project-showcase-meta"><span>${t.tag}</span>${t.deployment?`<span>${t.deployment}</span>`:''}</div>
-      <div class="project-showcase-title-row">
-        <div><h3>${t.title}</h3><p>${t.desc}</p></div>
-        <button type="button" class="project-reveal" aria-expanded="false" aria-controls="project-detail-${projectsData.indexOf(p)}" aria-label="${currentLang==='ar'?'اكتشف تفاصيل المشروع':'Explore project details'}"><span>↗</span></button>
+    <div class="project-case-copy">
+      <div class="project-case-meta">
+        ${p.logo?`<img class="project-case-logo" src="${p.logo}" alt="" loading="lazy" decoding="async">`:''}
+        <span>${t.tag}</span>
       </div>
-      <div class="project-details" id="project-detail-${projectsData.indexOf(p)}" aria-hidden="true">
-        <div>
-          <p class="project-detail-label">${currentLang==='ar'?'الفكرة':'The idea'}</p>
-          <p>${t.overview||t.desc}</p>
-          <p class="project-detail-label">${currentLang==='ar'?'ما الذي يقدمه؟':'What does it offer?'}</p>
-          <p>${value}</p>
+      <h3>${t.title}</h3>
+      <p class="project-case-lead">${t.desc}</p>
+      ${t.deployment?`<p class="project-case-proof">${t.deployment}</p>`:''}
+      <button type="button" class="project-reveal" aria-expanded="false" aria-controls="project-detail-${index}">
+        <span>${currentLang==='ar'?'تفاصيل المشروع':'Project details'}</span><i aria-hidden="true">↗</i>
+      </button>
+      <div class="project-details" id="project-detail-${index}" aria-hidden="true">
+        <div class="project-detail-grid">
+          <section><span>${currentLang==='ar'?(t.problem?'التحدي':'الفكرة'):(t.problem?'Challenge':'The idea')}</span><p>${first}</p></section>
+          <section><span>${currentLang==='ar'?(t.solution?'ما تم تنفيذه':'التنفيذ'):(t.solution?'What was built':'Implementation')}</span><p>${second}</p></section>
+          ${third?`<section><span>${currentLang==='ar'?(t.result?'النتيجة':'التطبيق'):(t.result?'Outcome':'In use')}</span><p>${third}</p></section>`:''}
           ${techs?`<p class="project-tech-line">${techs}</p>`:''}
           ${p.video?`<video class="project-inline-video" controls playsinline preload="none" poster="${p.video.poster}" aria-label="${p.video[currentLang].title}"><source src="${p.video.src}" type="video/mp4"></video>`:''}
         </div>
@@ -243,25 +249,42 @@ function closeModal(){const box=document.getElementById('modalOverlay');if(!box.
  document.addEventListener('keydown',e=>{const box=document.getElementById('modalOverlay');if(!box.classList.contains('open'))return;if(e.key==='Escape')closeModal();if(e.key==='Tab'){const targets=[...box.querySelectorAll('button,a[href],video[controls]')],first=targets[0],last=targets[targets.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
 
 function renderServices(){
+ const requestModel={
+  training:{
+   ar:{method:'نحدد الهدف ومستوى المشاركين، ثم نبني المحتوى والتطبيق العملي بما يناسب الجهة.',request:'موضوع الورشة · عدد المشاركين · مكان التدريب · الموعد المقترح'},
+   en:{method:'We define the goal and participant level, then shape the content and practical work around the organization.',request:'Workshop topic · participant count · training location · preferred date'}
+  },
+  web:{
+   ar:{method:'نراجع هوية الجهة والهدف، نصمم تجربة التفاعل، ثم نختبرها قبل التسليم والتشغيل.',request:'نوع أو اسم الجهة · هدف المنصة أو المناسبة · أسلوب التفاعل · الموعد'},
+   en:{method:'We review the organization and goal, design the interaction, then test the experience before delivery.',request:'Organization · platform purpose/event · interaction style · preferred date'}
+  },
+  innovation:{
+   ar:{method:'نبدأ بالمشكلة والنتيجة المطلوبة، نحدد التقنية المناسبة، ثم نبني نموذجًا قابلًا للاختبار والتحسين.',request:'مرحلة المشروع · الموعد المقترح · الفكرة والنتيجة المطلوبة في وصف المشروع'},
+   en:{method:'We start with the problem and desired outcome, choose the right technology, then build a testable prototype.',request:'Project stage · preferred date · idea and desired outcome in the project description'}
+  }
+ };
  document.getElementById('svcGrid').innerHTML=servicesData.map((s,index)=>{
-  const ar=currentLang==='ar',d=s[ar?'arDetails':'enDetails'];
-  const detailLine=d.includes.join(' · ');
+  const ar=currentLang==='ar',d=s[ar?'arDetails':'enDetails'],model=requestModel[s.visual][currentLang];
   return `<article class="service-scene package-card ${index%2?'service-scene-reverse':''}" data-service="${s.visual}">
     <figure class="service-scene-media">
       <img src="${s.image}" alt="${ar?s.imageAr:s.imageEn}" loading="lazy" decoding="async">
       <figcaption>${ar?s.imageAr:s.imageEn}</figcaption>
     </figure>
     <div class="service-scene-copy">
-      <span class="service-scene-kicker">${String(index+1).padStart(2,'0')}</span>
+      <span class="service-scene-kicker">${String(index+1).padStart(2,'0')} · ${ar?'خدمة':'SERVICE'}</span>
       <h3>${s[currentLang]}</h3>
       <p class="service-scene-lead">${ar?s.descAr:s.descEn}</p>
-      <button type="button" class="service-discover" aria-controls="package-${s.visual}" aria-expanded="false"><span>${ar?'اكتشف الخدمة':'Explore service'}</span><span class="package-arrow" aria-hidden="true">↗</span></button>
+      <div class="service-action-row">
+        <button type="button" class="service-discover" aria-controls="package-${s.visual}" aria-expanded="false"><span>${ar?'تفاصيل الخدمة':'Service details'}</span><span class="package-arrow" aria-hidden="true">↗</span></button>
+        <button type="button" class="service-start service-start-primary" data-service-key="${s.visual}">${ar?'اطلب الخدمة مباشرة':'Request this service'} <span aria-hidden="true">↗</span></button>
+      </div>
       <div class="package-details" id="package-${s.visual}" aria-hidden="true">
-        <div class="service-detail-prose">
-          <p class="package-audience">${d.audience}</p>
-          <p class="service-detail-line">${detailLine}</p>
-          <p class="package-timing">${d.timing}</p>
-          <button type="button" class="service-start" data-service-key="${s.visual}">${ar?'ابدأ بهذه الخدمة':'Start with this service'} <span aria-hidden="true">↗</span></button>
+        <div class="service-company-detail">
+          <section><span>${ar?'مناسبة لـ':'Best for'}</span><p>${d.audience}</p></section>
+          <section><span>${ar?'طريقة العمل':'How we work'}</span><p>${model.method}</p></section>
+          <section><span>${ar?'نطاق التنفيذ':'Scope'}</span><p>${d.includes.join(' · ')}</p></section>
+          <section><span>${ar?'بيانات الطلب':'Request details'}</span><p>${model.request}</p></section>
+          <p class="package-timing"><strong>${ar?'المدة:':'Timeline:'}</strong> ${d.timing}</p>
         </div>
       </div>
     </div>

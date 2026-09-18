@@ -196,8 +196,12 @@ function renderProjects(){
  host.innerHTML=list.map((p,i)=>{
   const t=p[currentLang],techs=Array.isArray(p.techs)&&p.techs.length?p.techs.join(' · '):'';
   const value=t.benefit||t.result||t.desc;
+  const visualClass=p.screenshot||p.kind==='platform'?'project-visual-ui':p.image?'project-visual-photo':'project-visual-symbol';
   return `<article class="proj-card project-showcase reveal" data-project-card="${i}">
-    <div class="project-showcase-media ${p.image?'has-photo':'is-symbol'}">${projMediaHTML(p)}</div>
+    <div class="project-showcase-media ${visualClass}">
+      <span class="project-index">${String(projectsData.indexOf(p)+1).padStart(2,'0')}</span>
+      ${projMediaHTML(p)}
+    </div>
     <div class="project-showcase-body">
       <div class="project-showcase-meta"><span>${t.tag}</span>${t.deployment?`<span>${t.deployment}</span>`:''}</div>
       <div class="project-showcase-title-row">

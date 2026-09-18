@@ -1,7 +1,6 @@
 /* 2026 visual flow: editorial spacing + ambient liquid/space motion. */
-body{overflow-x:hidden}
-body>.ambient-field{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;opacity:.72}
-body>nav,body>.mobile-menu,body>header,body>main,body>footer,body>.trace-rail,body>.modal-overlay,body>.lightbox,body>dialog,body>aside{position:relative;z-index:1}
+body{overflow-x:hidden;position:relative;isolation:isolate}
+body>.ambient-field{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden;opacity:.72}
 
 .ambient-field::before{
  content:"";position:absolute;inset:-12%;

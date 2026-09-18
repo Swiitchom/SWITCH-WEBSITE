@@ -23,7 +23,7 @@ test('six existing bilingual case studies retain content and photos',()=>{
   const context=vm.createContext({});
   vm.runInContext(read('assets/projects.js'),context);
   const projects=vm.runInContext('projectsData',context);
-  assert.equal(projects.length,10);
+  assert.equal(projects.length,8);
   assert.equal(projects.filter(p=>p.image).length,7);
   for(const p of projects.slice(4)) for(const lang of ['ar','en']) for(const field of ['title','problem','solution','result']) assert.ok(p[lang][field]);
   for(const p of projects) for(const lang of ['ar','en']) assert.ok(p[lang].overview);

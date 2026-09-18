@@ -21,8 +21,20 @@ export async function adminAPI(request,env,{auth=authenticate,db=database(env.FI
    return reply(200,{email:OWNER,gmailConnected:!!gmail?.credential});
   }
   if(route==='audience'&&request.method==='GET'){
-   const rows=await db.api(base+':runQuery',{structuredQuery:{from:[{collectionId:'portfolioAudience'}],orderBy:[{field:{fieldPath:'lastSeenAt'},direction:'DESCENDING'}],limit:500}});
-   const audience=rows.filter(row=>row.document).map(row=>safeAudience(row.document)).filter(Boolean);
+   const [audienceRows,inquiryRows]=await Promise.all([
+    db.api(base+':runQuery',{structuredQuery:{from:[{collectionId:'portfolioAudience'}],orderBy:[{field:{fieldPath:'lastSeenAt'},direction:'DESCENDING'}],limit:500}}),
+    db.api(base+':runQuery',{structuredQuery:{from:[{collectionId:'portfolioInquiries'}],orderBy:[{field:{fieldPath:'createdAt'},direction:'DESCENDING'}],limit:500}})
+   ]);
+   const map=new Map();
+   for(const row of audienceRows.filter(row=>row.document)){
+    const item=safeAudience(row.document);if(item?.email)map.set(item.email.trim().toLowerCase(),item);
+   }
+   for(const row of inquiryRows.filter(row=>row.document)){
+    const item=unpack(row.document);if(!item?.email)continue;const email=item.email.trim().toLowerCase(),current=map.get(email);
+    if(current)continue;
+    map.set(email,{id:'contact-'+map.size,email,name:item.name||'',language:item.language||'ar',marketingConsent:item.marketingConsent===true,marketingStatus:item.marketingConsent===true?'subscribed':'not_subscribed',sources:item.context||'',interests:item.service||'',firstSeenAt:item.createdAt||'',lastSeenAt:item.createdAt||''});
+   }
+   const audience=[...map.values()].sort((a,b)=>String(b.lastSeenAt||'').localeCompare(String(a.lastSeenAt||'')));
    return reply(200,{audience,subscribed:audience.filter(row=>row.marketingConsent===true&&row.marketingStatus==='subscribed').length,total:audience.length});
   }
   if(route==='requests'&&request.method==='GET'){

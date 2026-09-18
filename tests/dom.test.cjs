@@ -21,7 +21,7 @@ test('service inquiry collects email and phone, preserves failure data, and show
  const dom=boot(),w=dom.window,d=w.document,form=d.getElementById('contactForm');
  assert.equal(d.querySelectorAll('#serviceRequest').length,0);assert.equal(d.querySelectorAll('.service-start').length,3);
  d.querySelector('[data-service="training"] .service-discover').click();
- d.querySelector('[data-service="training"] .service-start').click();assert.equal(form.dataset.context,'services');assert.equal(d.getElementById('fService').value,'باقة الورشة التدريبية');
+ d.querySelector('[data-service="training"] .service-start').click();assert.equal(form.dataset.context,'services');assert.equal(d.getElementById('fService').value,'التدريب والورش التقنية');
  d.getElementById('fName').value='Test Person';d.getElementById('fPhone').value='+96899999999';d.getElementById('fEmail').value='test@example.com';d.getElementById('fMsg').value='Please arrange a workshop';form.elements.consent.checked=true;
  let calls=0;w.fetch=async url=>{if(String(url)==='/api/inquiry'){calls++;return {ok:false,status:503};}return {ok:false,status:404,text:async()=>''};};
  let savedEvents=0,savedService;d.addEventListener('portfolio:inquiry-saved',e=>{savedEvents++;savedService=e.detail.serviceKey;});
@@ -41,14 +41,14 @@ test('service discovery expands inline and starting a service survives language 
  const dom=boot(),w=dom.window,d=w.document;
  try{
   assert.equal(d.querySelectorAll('.package-card').length,3);
-  for(const [key,label] of [['training','باقة الورشة التدريبية'],['web','باقة المنصة التفاعلية'],['innovation','باقة تطوير المشروع التقني']]){
+  for(const [key,label] of [['training','باقة الورشة التدريبية'],['web','المنصات والتجارب التفاعلية'],['innovation','تطوير المشاريع والنماذج التقنية']]){
    const button=d.querySelector(`[data-service="${key}"] .service-discover`);button.click();
    assert.equal(button.getAttribute('aria-expanded'),'true');assert.equal(d.querySelectorAll('.package-details[aria-hidden="false"]').length,1);
    d.querySelector(`[data-service="${key}"] .service-start`).click();assert.equal(d.querySelector('#fService').value,label);
    assert.equal(d.querySelector('#contactForm').dataset.context,'services');
   }
   d.querySelector('#langBtn').click();await new Promise(resolve=>setImmediate(resolve));
-  assert.equal(d.querySelector('#fService').value,'Technical Project');assert.equal(d.querySelector('[data-service="innovation"] .service-discover').getAttribute('aria-expanded'),'true');
+  assert.equal(d.querySelector('#fService').value,'Technical Projects & Prototypes');assert.equal(d.querySelector('[data-service="innovation"] .service-discover').getAttribute('aria-expanded'),'true');
  }finally{await new Promise(resolve=>setImmediate(resolve));w.close();}
 });
 test('guided quote preserves separate package drafts, language and failed sends, then clears after success',async()=>{
@@ -59,7 +59,7 @@ test('guided quote preserves separate package drafts, language and failed sends,
   choose('training');set('brief-topic','ESP32');d.querySelector('.brief-toggle').click();set('brief-participants','25');set('brief-location','مسقط');set('brief-date','2026-10-10');
   choose('web');set('brief-organization','مدرسة');assert.equal(d.querySelector('#brief-topic'),null);assert.equal(w.portfolioBrief.collect().packageKey,'web');
   choose('training');assert.equal(d.querySelector('#brief-topic').value,'ESP32');assert.equal(d.querySelector('#brief-participants').value,'25');
-  d.querySelector('#langBtn').click();await new Promise(resolve=>setImmediate(resolve));assert.equal(d.querySelector('#brief-topic').value,'ESP32');assert.equal(d.querySelector('#fService').value,'Practical Workshop');
+  d.querySelector('#langBtn').click();await new Promise(resolve=>setImmediate(resolve));assert.equal(d.querySelector('#brief-topic').value,'ESP32');assert.equal(d.querySelector('#fService').value,'Technical Training & Workshops');
   set('fName','Test Client');set('fPhone','+96899999999');set('fEmail','test@example.invalid');set('fMsg','Workshop inquiry');form.elements.consent.checked=true;
   let submitted;w.fetch=async(url,opts)=>{submitted=JSON.parse(opts.body);return {ok:false,status:503};};
   form.dispatchEvent(new w.Event('submit',{cancelable:true}));await new Promise(resolve=>setImmediate(resolve));assert.equal(submitted.packageKey,'training');assert.equal(JSON.parse(submitted.briefJson).participants,'25');assert.equal(d.querySelector('#brief-topic').value,'ESP32');

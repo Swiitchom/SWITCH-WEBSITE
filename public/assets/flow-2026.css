@@ -139,12 +139,43 @@ html[dir=ltr] #services .package-card.is-chosen .service-discover .package-arrow
  color:var(--text-muted);font:600 10px/1 var(--font-mono);letter-spacing:.08em
 }
 #projects .project-case-media img{display:block;transition:transform .7s var(--motion-ease)}
-#projects .project-visual-photo img{width:100%;height:100%;object-fit:cover;object-position:center}
-#projects .project-visual-ui{padding:24px}
-#projects .project-visual-ui img{width:100%;height:100%;object-fit:contain;border-radius:14px;box-shadow:0 14px 38px rgba(0,0,0,.16);background:var(--surface)}
+#projects .project-visual-photo{padding:14px}
+#projects .project-visual-photo img{
+ width:100%;height:100%;object-fit:contain;object-position:center;border-radius:16px;background:color-mix(in srgb,var(--surface) 76%,transparent)
+}
+#projects .project-visual-ui{padding:20px}
+#projects .project-platform-window{
+ width:100%;height:100%;display:grid;grid-template-rows:34px minmax(0,1fr);overflow:hidden;
+ border-radius:16px;background:color-mix(in srgb,var(--surface) 96%,var(--bg));
+ box-shadow:0 16px 42px rgba(0,0,0,.18)
+}
+#projects .project-platform-bar{
+ display:flex;align-items:center;gap:7px;padding-inline:13px;border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);
+ background:color-mix(in srgb,var(--surface) 88%,var(--bg))
+}
+#projects .project-platform-bar span{width:7px;height:7px;border-radius:50%;background:color-mix(in srgb,var(--text-muted) 45%,transparent)}
+#projects .project-platform-bar i{
+ display:block;height:7px;flex:1;max-width:160px;margin-inline-start:7px;border-radius:999px;
+ background:color-mix(in srgb,var(--line) 78%,transparent)
+}
+#projects .project-platform-content{
+ min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:12px;padding:12px;background:color-mix(in srgb,var(--bg) 58%,var(--surface))
+}
+#projects .project-platform-main,#projects .project-platform-secondary{margin:0;min-width:0;min-height:0}
+#projects .project-platform-main{
+ display:grid;place-items:center;overflow:hidden;border-radius:10px;background:var(--surface)
+}
+#projects .project-platform-main img{width:100%;height:100%;object-fit:contain}
+#projects .project-platform-secondary{
+ display:grid;grid-template-rows:minmax(0,1fr) auto;gap:7px;padding:8px;overflow:hidden;border-radius:10px;
+ background:color-mix(in srgb,var(--surface) 94%,var(--bg));border:1px solid color-mix(in srgb,var(--line) 70%,transparent)
+}
+#projects .project-platform-secondary img{width:100%;height:100%;object-fit:contain;border-radius:7px;background:var(--surface)}
+#projects .project-platform-secondary figcaption{color:var(--text-dim);font-size:9px;line-height:1.45}
 #projects .project-visual-symbol svg{width:72px;height:72px;color:var(--signal);opacity:.82;filter:drop-shadow(0 0 24px color-mix(in srgb,var(--signal) 20%,transparent))}
-#projects .project-case:hover .project-visual-photo img{transform:scale(1.018)}
-#projects .project-case:hover .project-visual-ui img{transform:translateY(-3px)}
+#projects .project-case:hover .project-visual-photo img{transform:scale(1.01)}
+#projects .project-case:hover .project-platform-window{transform:translateY(-2px)}
+#projects .project-platform-window{transition:transform .35s ease}
 #projects .project-case-copy{max-width:520px}
 #projects .project-case-meta{display:flex;align-items:center;gap:11px;color:var(--signal);font:600 10px/1.6 var(--font-mono);letter-spacing:.04em;margin-bottom:12px}
 #projects .project-case-logo{width:28px;height:28px;object-fit:contain;border-radius:7px}
@@ -206,7 +237,9 @@ html[dir=ltr] #projects .project-case.is-open .project-reveal i{transform:rotate
  #projects .project-case-reverse .project-case-media,#projects .project-case-reverse .project-case-copy{grid-column:1;grid-row:auto}
  #projects .project-case-reverse .project-case-media{grid-row:1}
  #projects .project-case-media{width:100%}
- #projects .project-visual-ui{padding:16px}
+ #projects .project-visual-photo{padding:12px}
+ #projects .project-visual-ui{padding:14px}
+ #projects .project-platform-content{grid-template-columns:minmax(0,1fr) 112px;gap:10px;padding:10px}
  #projects .projects-more-quiet{margin-top:40px!important}
 }
 @media(max-width:560px){
@@ -220,7 +253,11 @@ html[dir=ltr] #projects .project-case.is-open .project-reveal i{transform:rotate
  #services .service-action-row{align-items:flex-start}
  #services .service-start{padding:10px 14px}
  #projects .project-case-media{border-radius:18px}
- #projects .project-visual-ui{padding:12px}
+ #projects .project-visual-photo{padding:9px}
+ #projects .project-visual-ui{padding:9px}
+ #projects .project-platform-window{grid-template-rows:30px minmax(0,1fr);border-radius:12px}
+ #projects .project-platform-content{grid-template-columns:1fr;padding:8px}
+ #projects .project-platform-secondary{display:none}
  #projects .project-case h3{font-size:27px}
 }
 @media(prefers-reduced-motion:reduce){

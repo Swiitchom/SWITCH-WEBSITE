@@ -8,6 +8,7 @@ import {consultationAdmin} from './consultations.mjs';
 const reply=(status,body)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 const validId=id=>/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
 const safeDoc=doc=>{const data=unpack(doc);if(!data)return null;const result={id:doc.name.split('/').pop(),version:doc.updateTime};for(const key of ['replyDetails','whatsappDraft','replyLanguage','replyPhone','replySavedAt','language','packageKey','briefJson','reference','name','email','phone','service','message','context','kind','quantity','addWorkshop','totalOMR','status','notes','followUpDate','quoteBaisa','createdAt','updatedAt','emailStatus','emailAttempts','emailSentAt','emailAttemptAt','ownerEmailStatus','ownerEmailAttempts','ownerEmailSentAt'])if(key in data)result[key]=data[key];return result;};
+const safeAudience=doc=>{const data=unpack(doc);if(!data)return null;const result={id:doc.name.split('/').pop(),version:doc.updateTime};for(const key of ['email','name','language','marketingConsent','marketingStatus','sources','interests','firstSeenAt','lastSeenAt'])if(key in data)result[key]=data[key];return result;};
 export async function adminAPI(request,env,{auth=authenticate,db=database(env.FIREBASE_SERVICE_ACCOUNT_JSON),notify=sendConfirmation,notifyOwner=sendOwnerNotification}={}){
  const user=await auth(request,env);if(!user)return reply(401,{error:'unauthorized'});
  const url=new URL(request.url),route=url.pathname.replace('/api/admin/','');
@@ -18,6 +19,11 @@ export async function adminAPI(request,env,{auth=authenticate,db=database(env.FI
   if(route==='session'&&request.method==='GET'){
    const gmail=unpack(await db.read('portfolioSettings/gmail'));
    return reply(200,{email:OWNER,gmailConnected:!!gmail?.credential});
+  }
+  if(route==='audience'&&request.method==='GET'){
+   const rows=await db.api(base+':runQuery',{structuredQuery:{from:[{collectionId:'portfolioAudience'}],orderBy:[{field:{fieldPath:'lastSeenAt'},direction:'DESCENDING'}],limit:500}});
+   const audience=rows.filter(row=>row.document).map(row=>safeAudience(row.document)).filter(Boolean);
+   return reply(200,{audience,subscribed:audience.filter(row=>row.marketingConsent===true&&row.marketingStatus==='subscribed').length,total:audience.length});
   }
   if(route==='requests'&&request.method==='GET'){
    const cursor=url.searchParams.get('cursor');let startAt;

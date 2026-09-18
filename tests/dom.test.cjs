@@ -19,9 +19,9 @@ test('complete page renders both languages, all project filters and the new plat
 });
 test('service inquiry collects email and phone, preserves failure data, and shows a friendly reference without a WhatsApp handoff',async()=>{
  const dom=boot(),w=dom.window,d=w.document,form=d.getElementById('contactForm');
- assert.equal(d.querySelectorAll('.svc-cta').length,0);assert.equal(d.querySelectorAll('#serviceRequest').length,1);
- d.querySelector('[data-service="training"] .service-select').click();
- d.querySelector('#serviceRequest').click();assert.equal(form.dataset.context,'services');assert.equal(d.getElementById('fService').value,'باقة الورشة التدريبية');
+ assert.equal(d.querySelectorAll('#serviceRequest').length,0);assert.equal(d.querySelectorAll('.service-start').length,3);
+ d.querySelector('[data-service="training"] .service-discover').click();
+ d.querySelector('[data-service="training"] .service-start').click();assert.equal(form.dataset.context,'services');assert.equal(d.getElementById('fService').value,'باقة الورشة التدريبية');
  d.getElementById('fName').value='Test Person';d.getElementById('fPhone').value='+96899999999';d.getElementById('fEmail').value='test@example.com';d.getElementById('fMsg').value='Please arrange a workshop';form.elements.consent.checked=true;
  let calls=0;w.fetch=async url=>{if(String(url)==='/api/inquiry'){calls++;return {ok:false,status:503};}return {ok:false,status:404,text:async()=>''};};
  let savedEvents=0,savedService;d.addEventListener('portfolio:inquiry-saved',e=>{savedEvents++;savedService=e.detail.serviceKey;});
@@ -37,26 +37,24 @@ test('service inquiry collects email and phone, preserves failure data, and show
 
 
 
-test('package choice controls one quote action and survives image previews and language changes',async()=>{
+test('service discovery expands inline and starting a service survives language changes',async()=>{
  const dom=boot(),w=dom.window,d=w.document;
  try{
   assert.equal(d.querySelectorAll('.package-card').length,3);
   for(const [key,label] of [['training','باقة الورشة التدريبية'],['web','باقة المنصة التفاعلية'],['innovation','باقة تطوير المشروع التقني']]){
-   const button=d.querySelector(`[data-service="${key}"] .service-select`);button.click();
+   const button=d.querySelector(`[data-service="${key}"] .service-discover`);button.click();
    assert.equal(button.getAttribute('aria-expanded'),'true');assert.equal(d.querySelectorAll('.package-details[aria-hidden="false"]').length,1);
-   d.querySelector('#serviceRequest').click();assert.equal(d.querySelector('#fService').value,label);
+   d.querySelector(`[data-service="${key}"] .service-start`).click();assert.equal(d.querySelector('#fService').value,label);
    assert.equal(d.querySelector('#contactForm').dataset.context,'services');
   }
-  d.querySelector('[data-service="training"] .service-select').dispatchEvent(new w.FocusEvent('focusin',{bubbles:true}));
-  assert.equal(d.querySelector('#serviceRequest').dataset.serviceKey,'innovation');
   d.querySelector('#langBtn').click();await new Promise(resolve=>setImmediate(resolve));
-  assert.equal(d.querySelector('#fService').value,'Technical Project');assert.equal(d.querySelector('[data-service="innovation"] .service-select').getAttribute('aria-expanded'),'true');
+  assert.equal(d.querySelector('#fService').value,'Technical Project');assert.equal(d.querySelector('[data-service="innovation"] .service-discover').getAttribute('aria-expanded'),'true');
  }finally{await new Promise(resolve=>setImmediate(resolve));w.close();}
 });
 test('guided quote preserves separate package drafts, language and failed sends, then clears after success',async()=>{
  const dom=boot(),w=dom.window,d=w.document,form=d.querySelector('#contactForm');
  const set=(id,value)=>{const input=d.getElementById(id);input.value=value;input.dispatchEvent(new w.Event('input',{bubbles:true}));};
- const choose=key=>{d.querySelector(`[data-service="${key}"] .service-select`).click();d.querySelector('#serviceRequest').click();};
+ const choose=key=>{const row=d.querySelector(`[data-service="${key}"]`);if(row.querySelector('.service-discover').getAttribute('aria-expanded')!=='true')row.querySelector('.service-discover').click();row.querySelector('.service-start').click();};
  try{
   choose('training');set('brief-topic','ESP32');d.querySelector('.brief-toggle').click();set('brief-participants','25');set('brief-location','مسقط');set('brief-date','2026-10-10');
   choose('web');set('brief-organization','مدرسة');assert.equal(d.querySelector('#brief-topic'),null);assert.equal(w.portfolioBrief.collect().packageKey,'web');

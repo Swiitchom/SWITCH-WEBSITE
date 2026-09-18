@@ -1,0 +1,1 @@
+(()=>{'use strict';if(location.hostname==='localhost'||location.hostname==='127.0.0.1')return;const key='salim.visit.session.v1';try{if(sessionStorage.getItem(key))return;}catch{}fetch('/api/visit',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'text/plain'}}).then(r=>{if(r.ok)try{sessionStorage.setItem(key,'1');}catch{}}).catch(()=>{});})();

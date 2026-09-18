@@ -102,7 +102,7 @@ html[dir=ltr] #services .package-card.is-chosen .service-discover .package-arrow
 #projects .project-section-head{max-width:760px;margin-bottom:32px}
 #projects .project-showcase-grid{
  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:46px 30px;align-items:start;
+ gap:46px 30px;align-items:start;max-width:1080px;margin-inline:auto;
 }
 #projects .project-showcase{
  margin:0;background:transparent!important;border:0!important;border-radius:0!important;

@@ -66,6 +66,8 @@ export function createStore(raw, {request=fetch, accessToken=()=>tokenFor(raw), 
   return async (input, ipHash) => {
     const name = base+'/portfolioInquiries/'+input.requestId;
     const limitName = base+'/portfolioRateLimits/'+ipHash;
+    const normalizedEmail=input.email.trim().toLowerCase();
+    const audienceName=base+'/portfolioAudience/'+await hash(normalizedEmail);
     const payloadHash = await hash(JSON.stringify(input));
     // An atomic commit with version preconditions prevents concurrent quota bypass.
     // Retry after another request wins; an existing identical receipt never costs quota.
@@ -81,13 +83,19 @@ export function createStore(raw, {request=fetch, accessToken=()=>tokenFor(raw), 
       if(count>=5) throw failure('RATE_LIMIT');
       const counterName=base+'/portfolioSettings/requestCounter';
       const counter=await read(counterName);
+      const audience=await read(audienceName),oldAudience=unpack(audience)||{},seenAt=new Date(now).toISOString();
+      const sources=new Set(String(oldAudience.sources||'').split('|').filter(Boolean));sources.add(input.context);
+      const interests=new Set(String(oldAudience.interests||'').split('|').filter(Boolean));interests.add(input.service);
+      const marketingConsent=oldAudience.marketingConsent===true||input.marketingConsent===true;
+      const audienceData={email:normalizedEmail,name:input.name,language:input.language||oldAudience.language||'ar',marketingConsent,marketingStatus:marketingConsent?'subscribed':'not_subscribed',sources:[...sources].join('|'),interests:[...interests].join('|'),firstSeenAt:oldAudience.firstSeenAt||seenAt,lastSeenAt:seenAt};
       const sequence=Number(counter?.fields?.sequence?.integerValue||1000)+1;
       const reference='SAL-'+sequence;
       try {
         await api(base+':commit', {writes:[
           {update:{name,fields:fields({...input,payloadHash,reference,status:'new',notes:'',emailStatus:'pending',emailAttempts:0,ownerEmailStatus:'pending',ownerEmailAttempts:0})},currentDocument:{exists:false},updateTransforms:[{fieldPath:'createdAt',setToServerValue:'REQUEST_TIME'}]},
           {update:{name:limitName,fields:{...fields({count:count+1,windowStart:count?start:now}),expiresAt:{timestampValue:new Date(now+7200000).toISOString()}}},currentDocument:previous?{updateTime:previous.updateTime}:{exists:false}},
-          {update:{name:counterName,fields:fields({sequence})},currentDocument:counter?{updateTime:counter.updateTime}:{exists:false}}
+          {update:{name:counterName,fields:fields({sequence})},currentDocument:counter?{updateTime:counter.updateTime}:{exists:false}},
+          {update:{name:audienceName,fields:fields(audienceData)},currentDocument:audience?{updateTime:audience.updateTime}:{exists:false}}
         ]});
         return {reference,emailStatus:'pending'};
       } catch (error) {

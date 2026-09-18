@@ -7,14 +7,15 @@ function boot(){
  for(const script of w.document.querySelectorAll('script[src]'))require('node:vm').runInContext(fs.readFileSync(path.join(root,script.getAttribute('src').split(/[?#]/)[0]),'utf8'),dom.getInternalVMContext());
  return dom;
 }
-test('complete page renders both languages, all project filters and the new platform icons',async()=>{
+test('homepage renders bilingual selected work with inline project discovery',async()=>{
  const dom=boot(),d=dom.window.document;assert.equal(d.querySelectorAll('.proj-card').length,4);
  assert.equal(d.querySelectorAll('.hero-stat').length,0);
  assert.ok(d.querySelector('.proj-card').textContent.includes('معبر المدرسة'));
+ const reveal=d.querySelector('.project-reveal');reveal.click();
+ assert.equal(reveal.getAttribute('aria-expanded'),'true');assert.equal(d.querySelectorAll('.project-details[aria-hidden="false"]').length,1);
  d.getElementById('projectsMore').click();assert.equal(d.querySelectorAll('.proj-card').length,10);
- d.querySelector('[data-cat="platform"]').click();assert.equal(d.querySelectorAll('.proj-card').length,4);
  d.getElementById('langBtn').click();assert.equal(d.documentElement.dir,'ltr');assert.ok(d.querySelector('.proj-card').textContent.includes('Interactive School Gateway'));
- d.querySelector('[data-project]').click();assert.ok(d.getElementById('modalOverlay').classList.contains('open'));assert.equal(d.querySelectorAll('#modalContent img').length,2);assert.match(d.querySelector('.project-overview').textContent,/welcome character/);d.getElementById('modalCloseBtn').click();
+ assert.equal(d.querySelectorAll('#filters').length,0);
  await new Promise(resolve=>setImmediate(resolve));dom.window.close();
 });
 test('service inquiry collects email and phone, preserves failure data, and shows a friendly reference without a WhatsApp handoff',async()=>{
@@ -40,8 +41,9 @@ test('service inquiry collects email and phone, preserves failure data, and show
 test('service discovery expands inline and starting a service survives language changes',async()=>{
  const dom=boot(),w=dom.window,d=w.document;
  try{
+  assert.equal(d.querySelectorAll('.expertise-pill').length,8);
   assert.equal(d.querySelectorAll('.package-card').length,3);
-  for(const [key,label] of [['training','باقة الورشة التدريبية'],['web','المنصات والتجارب التفاعلية'],['innovation','تطوير المشاريع والنماذج التقنية']]){
+  for(const [key,label] of [['training','التدريب والورش التقنية'],['web','المنصات والتجارب التفاعلية'],['innovation','تطوير المشاريع والنماذج التقنية']]){
    const button=d.querySelector(`[data-service="${key}"] .service-discover`);button.click();
    assert.equal(button.getAttribute('aria-expanded'),'true');assert.equal(d.querySelectorAll('.package-details[aria-hidden="false"]').length,1);
    d.querySelector(`[data-service="${key}"] .service-start`).click();assert.equal(d.querySelector('#fService').value,label);

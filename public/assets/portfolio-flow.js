@@ -1,39 +1,44 @@
-/* Automatic previews change only media; inquiry links keep their own service context. */
+/* Service discovery and project media previews. */
 (() => {
- const grid=document.getElementById('svcGrid'),media=document.getElementById('servicePreviewMedia'),caption=document.getElementById('serviceExampleTitle');
- if(!grid||!media||!caption)return;
- const exampleProjects={web:'code',innovation:'helmet'};
- const examples={};
+ const grid=document.getElementById('svcGrid');
+ if(!grid)return;
+ const exampleProjects={web:'code',innovation:'helmet'},examples={};
  for(const [key,icon] of Object.entries(exampleProjects)){
-  const p=projectsData.find(p=>p.icon===icon&&p.image);if(p)examples[key]={image:p.image,ar:p.ar.title,en:p.en.title};
+  const p=projectsData.find(p=>p.icon===icon&&p.image);
+  if(p)examples[key]={image:p.image,ar:p.ar.title,en:p.en.title};
  }
- examples.training={image:participationPhotos[0].image,ar:'تدريب عملي من مشاركاتي',en:'Hands-on training from my workshops'};
- const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- let selected='training',rows=[];
- const request=document.getElementById('serviceRequest'),requestLabel=document.getElementById('serviceRequestSelection');
- request.dataset.serviceKey='training';
- function renderRequest(){const item=servicesData.find(s=>s.visual===request.dataset.serviceKey);if(item){requestLabel.removeAttribute('data-layout-ar');requestLabel.removeAttribute('data-layout-en');requestLabel.textContent=(currentLang==='ar'?'الباقة المختارة: ':'Selected package: ')+item[currentLang];}}
- function choose(key){
-  if(!examples[key])return;selected=key;const lang=document.documentElement.lang==='en'?'en':'ar';caption.textContent=examples[key][lang];
-  const label=servicesData.find(service=>service.visual===key);document.querySelector('.service-preview-kicker').textContent=label?.[lang]||'';
-  rows.forEach(row=>{const active=row.dataset.service===key;row.classList.toggle('is-previewed',active);const chosen=row.dataset.service===request.dataset.serviceKey;row.classList.toggle('is-chosen',chosen);const button=row.querySelector('.service-select');button.setAttribute('aria-pressed',String(chosen));button.setAttribute('aria-expanded',String(chosen));row.querySelector('.package-details').setAttribute('aria-hidden',String(!chosen));});
-  media.querySelectorAll('img').forEach(img=>{const active=img.dataset.service===key;img.classList.toggle('is-active',active);img.setAttribute('aria-hidden',String(!active));});
- }
- function setup(){
-  rows=[...grid.querySelectorAll('[data-service]')];
-  if(!media.children.length)for(const [key,p] of Object.entries(examples)){
-   const img=document.createElement('img');img.src=p.image;img.dataset.service=key;img.loading='lazy';img.decoding='async';media.append(img);
+ if(typeof participationPhotos!=='undefined'&&participationPhotos[0])examples.training={image:participationPhotos[0].image,ar:'تدريب عملي من مشاركاتي',en:'Hands-on training from my workshops'};
+ let openKey='';
+
+ function decorate(){
+  const lang=document.documentElement.lang==='en'?'en':'ar';
+  for(const row of grid.querySelectorAll('[data-service]')){
+   const key=row.dataset.service,visual=row.querySelector('[data-service-visual]'),example=examples[key];
+   if(visual&&example){
+    const media=visual.querySelector('.service-inline-media'),caption=visual.querySelector('figcaption');
+    if(media&&!media.children.length){
+     const img=document.createElement('img');img.src=example.image;img.loading='lazy';img.decoding='async';media.append(img);
+    }
+    const img=media?.querySelector('img');if(img)img.alt=example[lang];if(caption)caption.textContent=example[lang];
+   }
+   const expanded=key===openKey;
+   row.classList.toggle('is-chosen',expanded);
+   const button=row.querySelector('.service-discover'),details=row.querySelector('.package-details');
+   if(button)button.setAttribute('aria-expanded',String(expanded));
+   if(details)details.setAttribute('aria-hidden',String(!expanded));
   }
-  media.querySelectorAll('img').forEach(img=>{img.alt=examples[img.dataset.service][document.documentElement.lang==='en'?'en':'ar'];});
-  choose(request.dataset.serviceKey);renderRequest();
  }
- grid.addEventListener('pointerover',e=>{if(e.pointerType==='touch')return;const row=e.target.closest('[data-service]');if(row&&!row.contains(e.relatedTarget)){if(!reduced.matches)choose(row.dataset.service);}});
- grid.addEventListener('focusin',e=>{const row=e.target.closest('[data-service]');if(row)choose(row.dataset.service);});
- grid.addEventListener('pointerleave',()=>choose(request.dataset.serviceKey));
- grid.addEventListener('focusout',()=>{setTimeout(()=>{if(!grid.contains(document.activeElement))choose(request.dataset.serviceKey);},0);});
- grid.addEventListener('click',e=>{const row=e.target.closest('[data-service]');if(row){request.dataset.serviceKey=row.dataset.service;choose(row.dataset.service);renderRequest();}});
- new MutationObserver(setup).observe(grid,{childList:true});
- setup();
+
+ grid.addEventListener('click',event=>{
+  const button=event.target.closest('.service-discover');
+  if(!button)return;
+  const row=button.closest('[data-service]'),key=row?.dataset.service;if(!key)return;
+  openKey=openKey===key?'':key;
+  decorate();
+ });
+ new MutationObserver(decorate).observe(grid,{childList:true});
+ new MutationObserver(decorate).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+ decorate();
 
  const projectGrid=document.getElementById('projGrid'),sequences=new Map();
  function setupSequences(){

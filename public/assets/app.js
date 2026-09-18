@@ -121,13 +121,13 @@ const expertiseData = [
 ];
 
 const servicesData = [
- {visual:'training',ar:'باقة الورشة التدريبية',en:'Practical Workshop',descAr:'تعلّم بالتجربة، وطبّق الفكرة بيدك.',descEn:'Learn by doing and put an idea into practice.',
+ {visual:'training',ar:'التدريب والورش التقنية',en:'Technical Training & Workshops',descAr:'تجارب عملية مصممة حسب الفئة والهدف، من الفكرة إلى التطبيق.',descEn:'Hands-on experiences shaped around the audience and goal, from concept to practice.',
   arDetails:{audience:'للمدارس والطلبة والمهتمين بالتقنية',timing:'المدة حسب البرنامج والفئة المستهدفة',includes:['موضوع يناسب مستوى المشاركين','تدريب عملي وتطبيق موجّه','تنسيق الاحتياجات قبل التنفيذ']},
   enDetails:{audience:'Schools, students and technology enthusiasts',timing:'Duration depends on the program and audience',includes:['A topic suited to participant experience','Hands-on learning and guided practice','Requirements agreed before delivery']}},
- {visual:'web',ar:'باقة المنصة التفاعلية',en:'Interactive Platform',descAr:'تجربة تحمل هوية مدرستك أو معرضك.',descEn:'An experience shaped around your school or exhibition.',
+ {visual:'web',ar:'المنصات والتجارب التفاعلية',en:'Interactive Platforms & Experiences',descAr:'منصات وتجارب رقمية تحمل هوية الجهة وتحوّل المحتوى إلى تفاعل.',descEn:'Digital platforms and experiences that turn your identity and content into interaction.',
   arDetails:{audience:'للمدارس والمعارض والفعاليات',timing:'موعد التسليم يُحدّد بعد مراجعة المتطلبات',includes:['تصميم المحتوى والواجهة حسب الهوية','تحديد أسلوب التفاعل والتجهيزات','اختبار التجربة وشرح الاستخدام']},
   enDetails:{audience:'Schools, exhibitions and events',timing:'Delivery agreed after reviewing requirements',includes:['Content and interface matched to your identity','Interaction and equipment planning','Experience testing and usage walkthrough']}},
- {visual:'innovation',ar:'باقة تطوير المشروع التقني',en:'Technical Project',descAr:'من فكرة واضحة إلى نموذج عملي قابل للتجربة.',descEn:'From a clear idea to a working prototype.',
+ {visual:'innovation',ar:'تطوير المشاريع والنماذج التقنية',en:'Technical Projects & Prototypes',descAr:'نحوّل الفكرة إلى نموذج عملي يجمع البرمجة والإلكترونيات والذكاء الاصطناعي حسب الحاجة.',descEn:'Turn an idea into a working prototype using software, electronics and AI as needed.',
   arDetails:{audience:'لأصحاب الأفكار والمشاريع التعليمية والتقنية',timing:'النطاق والمدة حسب متطلبات المشروع',includes:['تحديد الفكرة وخطة التنفيذ','برمجة أو إلكترونيات أو ذكاء اصطناعي حسب الحاجة','اختبار النموذج وتوضيح طريقة تشغيله']},
   enDetails:{audience:'Founders, educators and technical project owners',timing:'Scope and timeline depend on the project',includes:['Idea definition and implementation plan','Software, electronics or AI as required','Prototype testing and operating guidance']}}
 ];

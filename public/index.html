@@ -50,7 +50,7 @@
 <link rel="stylesheet" href="assets/project-results.css">
 <link rel="stylesheet" href="assets/service-packages.css?v=1"><link rel="stylesheet" href="assets/quote-brief.css?v=1">
 <link rel="stylesheet" href="/assets/consultation-entry.css">
-<link rel="stylesheet" href="/assets/live-stats.css?v=1"></head>
+<link rel="stylesheet" href="/assets/live-stats.css?v=2"></head>
 <body>
 
 <!-- ============ SIGNATURE TRACE RAIL ============ -->
@@ -155,15 +155,20 @@
         <article class="live-stat">
           <strong id="consultStat">—</strong>
           <span data-layout-ar="استشارات محجوزة" data-layout-en="Booked consultations">استشارات محجوزة</span>
-          <small data-layout-ar="من حجوزات الاستشارة المؤكدة في النظام" data-layout-en="From confirmed consultation bookings in the system">من حجوزات الاستشارة المؤكدة في النظام</small>
+          <small data-layout-ar="من الحجوزات المؤكدة فعليًا في النظام" data-layout-en="From consultation bookings actually confirmed in the system">من الحجوزات المؤكدة فعليًا في النظام</small>
         </article>
         <article class="live-stat">
           <strong id="projectStat">—</strong>
           <span data-layout-ar="مشاريع موثقة" data-layout-en="Documented projects">مشاريع موثقة</span>
           <small data-layout-ar="محسوبة تلقائيًا من المشاريع المنشورة في الموقع" data-layout-en="Counted automatically from projects published on the site">محسوبة تلقائيًا من المشاريع المنشورة في الموقع</small>
         </article>
+        <article class="live-stat">
+          <strong id="completedProjectStat">—</strong>
+          <span data-layout-ar="مشاريع مكتملة عبر النظام" data-layout-en="Projects completed through the system">مشاريع مكتملة عبر النظام</span>
+          <small data-layout-ar="تُحتسب من الطلبات المكتملة فعليًا، مع استبعاد حجوزات الاستشارة وطلبات المتجر" data-layout-en="Counted from completed requests, excluding consultation bookings and store orders">تُحتسب من الطلبات المكتملة فعليًا، مع استبعاد حجوزات الاستشارة وطلبات المتجر</small>
+        </article>
       </div>
-      <p class="live-stats-note" data-layout-ar="عداد الزيارات يسجل جلسة واحدة في كل تبويب متصفح، بدون حفظ اسم أو بريد أو رقم هاتف." data-layout-en="The visit counter records one session per browser tab and stores no name, email, or phone number.">عداد الزيارات يسجل جلسة واحدة في كل تبويب متصفح، بدون حفظ اسم أو بريد أو رقم هاتف.</p>
+      <p class="live-stats-note" data-layout-ar="الأرقام تتحدث تلقائيًا من بيانات الموقع الفعلية. عداد الزيارات يسجل جلسة واحدة في كل تبويب متصفح، بدون حفظ اسم أو بريد أو رقم هاتف." data-layout-en="Figures update automatically from live site data. The visit counter records one session per browser tab and stores no name, email, or phone number."><strong>الأرقام تتحدث تلقائيًا</strong> من بيانات الموقع الفعلية. عداد الزيارات يسجل جلسة واحدة في كل تبويب متصفح، بدون حفظ اسم أو بريد أو رقم هاتف.</p>
     </div>
   </div>
 </section>
@@ -383,7 +388,7 @@
 <dialog id="quickProjectDialog" aria-labelledby="quickProjectTitle"><div class="quick-dialog-head"><h2 id="quickProjectTitle" data-layout-ar="لنبدأ تطوير مشروعك" data-layout-en="Let’s develop your project">لنبدأ تطوير مشروعك</h2><button type="button" id="closeQuickProject" aria-label="إغلاق / Close">✕</button></div><div id="quickProjectForm"></div></dialog>
 <script src="assets/projects.js" defer></script>
 <script src="/assets/visit.js?v=1" defer></script>
-<script src="/assets/live-stats.js?v=1" defer></script>
+<script src="/assets/live-stats.js?v=2" defer></script>
 <script src="assets/app.js?v=refined-flow-2" defer></script>
 <script src="assets/forms.js?v=firebase-1" defer></script>
 <script src="assets/quick-project.js" defer></script>

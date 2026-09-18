@@ -13,7 +13,7 @@ test('homepage renders bilingual selected work with inline project discovery',as
  assert.ok(d.querySelector('.proj-card').textContent.includes('معبر المدرسة'));
  const reveal=d.querySelector('.project-reveal');reveal.click();
  assert.equal(reveal.getAttribute('aria-expanded'),'true');assert.equal(d.querySelectorAll('.project-details[aria-hidden="false"]').length,1);
- d.getElementById('projectsMore').click();assert.equal(d.querySelectorAll('.proj-card').length,10);
+ d.getElementById('projectsMore').click();assert.equal(d.querySelectorAll('.proj-card').length,8);
  d.getElementById('langBtn').click();assert.equal(d.documentElement.dir,'ltr');assert.ok(d.querySelector('.proj-card').textContent.includes('Interactive School Gateway'));
  assert.equal(d.querySelectorAll('#filters').length,0);
  await new Promise(resolve=>setImmediate(resolve));dom.window.close();

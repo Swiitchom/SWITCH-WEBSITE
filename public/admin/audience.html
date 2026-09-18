@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>قائمة البريد | سالم العبري</title>
+<link rel="icon" href="/favicon-32.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/admin/admin.css">
+<link rel="stylesheet" href="/admin/audience.css">
+</head>
+<body>
+<header class="topbar">
+  <a href="/admin/" class="brand"><img src="/assets/images/5cda8e7cdf0677c5.webp" alt="" width="36" height="36"><span>سالم العبري</span></a>
+  <nav><a href="/admin/">الطلبات</a><a href="/admin/invoices.html">الفواتير</a><button id="language" type="button">EN</button><a href="/">زيارة الموقع ↗</a></nav>
+</header>
+<main>
+  <section id="login" class="welcome" hidden>
+    <span class="eyebrow">مساحتك الخاصة</span>
+    <h1>قائمة البريد</h1>
+    <p>سجّل الدخول بحساب المالك للاطلاع على جهات الاتصال والمشتركين.</p>
+    <a class="button primary" href="/api/google/start">الدخول بحساب Google</a>
+  </section>
+
+  <section id="workspace" hidden>
+    <div class="heading">
+      <div><span class="eyebrow" data-ar="قائمة البريد" data-en="Email audience">قائمة البريد</span><h1 data-ar="جهات الاتصال والمشتركون" data-en="Contacts & subscribers">جهات الاتصال والمشتركون</h1><p data-ar="كل بريد يظهر مرة واحدة. الإرسال الإعلاني لاحقًا يقتصر على من وافق على الاشتراك." data-en="Each email appears once. Future marketing sends are limited to opted-in subscribers.">كل بريد يظهر مرة واحدة. الإرسال الإعلاني لاحقًا يقتصر على من وافق على الاشتراك.</p></div>
+      <button class="button" id="refresh" type="button" data-ar="تحديث" data-en="Refresh">تحديث</button>
+    </div>
+
+    <div class="audience-metrics">
+      <div><strong id="totalCount">—</strong><span data-ar="جهة اتصال" data-en="Contacts">جهة اتصال</span></div>
+      <div><strong id="subscribedCount">—</strong><span data-ar="موافقون على الرسائل" data-en="Opted-in subscribers">موافقون على الرسائل</span></div>
+      <div><strong id="notSubscribedCount">—</strong><span data-ar="بدون موافقة تسويقية" data-en="No marketing consent">بدون موافقة تسويقية</span></div>
+    </div>
+
+    <div class="audience-tools">
+      <label><span data-ar="بحث" data-en="Search">بحث</span><input id="search" type="search" autocomplete="off" placeholder="الاسم أو البريد أو الاهتمام"></label>
+      <label><span data-ar="الحالة" data-en="Status">الحالة</span><select id="filter"><option value="all" data-ar="الكل" data-en="All">الكل</option><option value="subscribed" data-ar="موافق على الرسائل" data-en="Opted in">موافق على الرسائل</option><option value="not_subscribed" data-ar="غير مشترك" data-en="Not subscribed">غير مشترك</option></select></label>
+      <button class="button primary" id="exportCsv" type="button" data-ar="تنزيل المشتركين CSV" data-en="Download subscribers CSV">تنزيل المشتركين CSV</button>
+    </div>
+
+    <p id="notice" role="status"></p>
+    <div class="audience-table-wrap">
+      <table class="audience-table">
+        <thead><tr><th data-ar="الاسم" data-en="Name">الاسم</th><th data-ar="البريد" data-en="Email">البريد</th><th data-ar="الحالة" data-en="Status">الحالة</th><th data-ar="المصدر" data-en="Source">المصدر</th><th data-ar="الاهتمامات" data-en="Interests">الاهتمامات</th><th data-ar="آخر تواصل" data-en="Last seen">آخر تواصل</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p id="empty" class="empty" hidden data-ar="لا توجد نتائج." data-en="No results.">لا توجد نتائج.</p>
+    </div>
+  </section>
+</main>
+<footer><span data-ar="قائمة خاصة بمالك الموقع." data-en="Private owner-only audience list.">قائمة خاصة بمالك الموقع.</span></footer>
+<script src="/admin/audience.js" defer></script>
+</body>
+</html>

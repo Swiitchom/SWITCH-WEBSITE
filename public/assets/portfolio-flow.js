@@ -3,11 +3,13 @@
  'use strict';
  const serviceGrid=document.getElementById('svcGrid');
  const projectGrid=document.getElementById('projGrid');
+ let openServiceKey='';
 
  function closeServiceExcept(active){
   if(!serviceGrid)return;
   serviceGrid.querySelectorAll('.package-card').forEach(card=>{
    const open=card===active;
+   if(open)openServiceKey=card.dataset.service||'';
    card.classList.toggle('is-chosen',open);
    const button=card.querySelector('.service-discover');
    const details=card.querySelector('.package-details');
@@ -22,11 +24,17 @@
    const card=button.closest('.package-card');if(!card)return;
    const wasOpen=button.getAttribute('aria-expanded')==='true';
    if(wasOpen){
+    openServiceKey='';
     card.classList.remove('is-chosen');
     button.setAttribute('aria-expanded','false');
     card.querySelector('.package-details')?.setAttribute('aria-hidden','true');
    }else closeServiceExcept(card);
   });
+  new MutationObserver(()=>{
+   if(!openServiceKey)return;
+   const card=serviceGrid.querySelector('[data-service="'+openServiceKey+'"]');
+   if(card)closeServiceExcept(card);
+  }).observe(serviceGrid,{childList:true});
  }
 
  function closeProjectExcept(active){

@@ -48,15 +48,26 @@ body>.ambient-field{position:fixed;inset:0;pointer-events:none;z-index:-1;overfl
 #services .service-section-head{margin-bottom:42px}
 #services .svc-grid{display:flex;flex-direction:column;gap:68px}
 #services .service-scene{
- display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:clamp(34px,6vw,82px);
+ display:grid;grid-template-columns:minmax(300px,.76fr) minmax(0,1.24fr);gap:clamp(34px,6vw,82px);
  align-items:center;border:0!important;background:transparent!important;border-radius:0!important;overflow:visible!important;padding:0!important;
 }
 #services .service-scene-reverse .service-scene-media{grid-column:2;grid-row:1}
 #services .service-scene-reverse .service-scene-copy{grid-column:1;grid-row:1}
-#services .service-scene-media{margin:0;position:relative;min-width:0}
+#services .service-scene-media{
+ margin:0;position:relative;min-width:0;width:min(100%,440px);justify-self:center;
+ aspect-ratio:4/5;
+}
 #services .service-scene-media::before{content:"";position:absolute;inset:8% -5% -7% 7%;border:1px solid color-mix(in srgb,var(--signal) 22%,transparent);border-radius:26px;z-index:-1;opacity:.65}
-#services .service-scene-media img{display:block;width:100%;height:clamp(300px,36vw,500px);object-fit:cover;border-radius:24px;border:1px solid var(--line-soft);box-shadow:0 26px 80px rgba(0,0,0,.16)}
+#services .service-scene-media img{
+ display:block;width:100%;height:100%;object-fit:cover;border-radius:24px;border:1px solid var(--line-soft);
+ box-shadow:0 24px 68px rgba(0,0,0,.15);background:color-mix(in srgb,var(--surface) 82%,transparent);
+}
 #services .service-scene-media figcaption{margin-top:10px;color:var(--text-dim);font-size:11px}
+#services [data-service="web"] .service-scene-media img{
+ object-fit:contain;padding:18px;background:linear-gradient(145deg,color-mix(in srgb,var(--surface) 92%,transparent),color-mix(in srgb,var(--bg) 96%,transparent));
+}
+#services [data-service="training"] .service-scene-media img,
+#services [data-service="innovation"] .service-scene-media img{object-position:center}
 #services .service-scene-copy{max-width:560px}
 #services .service-scene-kicker{display:block;font:500 11px/1 var(--font-mono);letter-spacing:.16em;color:var(--signal);margin-bottom:16px}
 #services .service-scene-copy h3{font-size:clamp(28px,4vw,48px);font-weight:500;line-height:1.32;letter-spacing:-.025em;margin:0 0 15px}
@@ -138,7 +149,8 @@ html[dir=ltr] #projects .project-showcase.is-open .project-reveal{transform:rota
  #services .service-scene,#services .service-scene-reverse{grid-template-columns:1fr;gap:24px}
  #services .service-scene-reverse .service-scene-media,#services .service-scene-reverse .service-scene-copy{grid-column:1;grid-row:auto}
  #services .service-scene-reverse .service-scene-media{grid-row:1}
- #services .service-scene-media img{height:min(70vw,420px)}
+ #services .service-scene-media{width:min(86vw,410px)}
+ #services .service-scene-media img{height:100%}
  #projects .project-showcase-grid{grid-template-columns:1fr;gap:50px}
  #projects .project-showcase:nth-child(even){transform:none}
  #projects .project-showcase-media{height:min(72vw,460px);min-height:280px}
@@ -150,7 +162,8 @@ html[dir=ltr] #projects .project-showcase.is-open .project-reveal{transform:rota
  #services .svc-grid{gap:52px}
  #services .service-process-flow{margin-top:52px;gap:10px;font-size:12px}
  #services .service-scene-media::before{display:none}
- #services .service-scene-media img{border-radius:18px;height:68vw;min-height:250px}
+ #services .service-scene-media{width:min(84vw,360px)}
+ #services .service-scene-media img{border-radius:18px;height:100%;min-height:0}
  #services .service-scene-copy h3{font-size:28px}
  #projects .project-showcase-media{height:66vw;min-height:240px;border-radius:17px}
  #projects .project-showcase-title-row{gap:12px}

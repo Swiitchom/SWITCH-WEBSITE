@@ -216,9 +216,29 @@ function closeModal(){const box=document.getElementById('modalOverlay');if(!box.
  document.addEventListener('keydown',e=>{const box=document.getElementById('modalOverlay');if(!box.classList.contains('open'))return;if(e.key==='Escape')closeModal();if(e.key==='Tab'){const targets=[...box.querySelectorAll('button,a[href],video[controls]')],first=targets[0],last=targets[targets.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
 
 function renderServices(){
- document.getElementById('svcGrid').innerHTML=servicesData.map(s=>{
-  const ar=currentLang==='ar',d=s[ar?'arDetails':'enDetails'];
-  return `<article class="svc-card package-card" data-service="${s.visual}"><div class="svc-body"><div><h4><button type="button" class="service-select" aria-controls="package-${s.visual}" aria-expanded="false" aria-pressed="false"><span>${s[currentLang]}</span><span class="package-arrow" aria-hidden="true">↗</span></button></h4><p>${ar?s.descAr:s.descEn}</p><div class="package-details" id="package-${s.visual}"><div><p class="package-audience">${d.audience}</p><ul>${d.includes.map(item=>`<li>${item}</li>`).join('')}</ul><p class="package-timing">${d.timing}</p></div></div></div></div></article>`;
+ document.getElementById('svcGrid').innerHTML=servicesData.map((s,index)=>{
+  const ar=currentLang==='ar',d=s[ar?'arDetails':'enDetails'],number=String(index+1).padStart(2,'0');
+  return `<article class="svc-card package-card" data-service="${s.visual}">
+    <button type="button" class="service-discover" aria-controls="package-${s.visual}" aria-expanded="false">
+      <span class="service-number">${number}</span>
+      <span class="service-summary">
+        <strong>${s[currentLang]}</strong>
+        <span>${ar?s.descAr:s.descEn}</span>
+      </span>
+      <span class="service-discover-cta"><span>${ar?'اضغط للاكتشاف':'Explore service'}</span><span class="package-arrow" aria-hidden="true">↗</span></span>
+    </button>
+    <div class="package-details" id="package-${s.visual}" aria-hidden="true">
+      <div class="service-detail-layout">
+        <div class="service-detail-copy">
+          <p class="package-audience">${d.audience}</p>
+          <ul>${d.includes.map(item=>`<li>${item}</li>`).join('')}</ul>
+          <p class="package-timing">${d.timing}</p>
+          <button type="button" class="service-start" data-service-key="${s.visual}">${ar?'ابدأ بهذه الخدمة':'Start with this service'} <span aria-hidden="true">↗</span></button>
+        </div>
+        <figure class="service-inline-visual" data-service-visual="${s.visual}"><div class="service-inline-media"></div><figcaption></figcaption></figure>
+      </div>
+    </div>
+  </article>`;
  }).join('');
 }
 function renderWorkshops(){

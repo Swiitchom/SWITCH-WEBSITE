@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/blog.css?v=20260916-6">
+<link rel="stylesheet" href="/assets/blog.css?v=20260918-1">
 <style>
 :root{--work-bg:#f1efe5;--work-paper:#faf9f4;--work-ink:#17332d;--work-muted:#66736f;--work-green:#557861;--work-sage:#dfe7d8;--work-gold:#e7c871;--work-line:#d9d7cc}
 body{background:var(--work-bg);color:#202b28}
@@ -39,6 +39,30 @@ body{background:var(--work-bg);color:#202b28}
 .challenge{margin:58px 0 10px;padding:30px;border-radius:22px;background:linear-gradient(135deg,#dfe8dc,#f8edcf);border:1px solid #d6ddcf}.challenge h2{margin:0 0 14px!important;font-size:30px}.challenge p{font-size:17px}.challenge-list{display:grid;gap:10px;margin-top:18px}.challenge-list div{padding:13px 15px;border-radius:12px;background:rgba(255,255,255,.72);border:1px solid rgba(23,51,45,.08)}
 .article-nav{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-top:38px;padding-top:24px;border-top:1px solid var(--work-line)}.article-nav a{font-weight:700;color:var(--work-green)}.article-nav span{font-size:13px;color:var(--work-muted)}
 .article-footer{max-width:820px}.sharebar{border-color:var(--work-line)}
+.visual-block{margin:38px 0 50px;padding:28px;border:1px solid var(--work-line);border-radius:22px;background:#fff}
+.visual-block .vb-kicker{font:600 11px 'JetBrains Mono',monospace;letter-spacing:.07em;color:var(--work-green);direction:ltr;margin-bottom:8px}
+.visual-block h3{font-family:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif;font-size:23px;line-height:1.6;color:var(--work-ink);margin:0 0 8px}
+.visual-block>p{font-size:15.5px!important;color:var(--work-muted);margin-bottom:20px!important}
+.opportunity-filter{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.filter-card{padding:18px 15px;border-radius:16px;background:#f4f3ec;border:1px solid #e2e0d7;min-height:132px}
+.filter-card .num{font:600 11px 'JetBrains Mono',monospace;color:#8c997f}.filter-card b{display:block;color:var(--work-ink);font-size:17px;margin:9px 0 5px}.filter-card span{font-size:14px;color:var(--work-muted);line-height:1.65}
+.filter-result{margin-top:13px;padding:13px 15px;border-radius:13px;background:#e6eddf;color:#315043;font-weight:700;font-size:15px}
+.problem-frame{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.frame-card{padding:20px 17px;border-radius:16px;background:#faf8ef;border:1px solid #e1ded0}
+.frame-card small{display:block;color:#8b8060;margin-bottom:7px}.frame-card b{display:block;color:var(--work-ink);font-size:17px;line-height:1.55;margin-bottom:7px}.frame-card span{font-size:14px;color:var(--work-muted);line-height:1.7}
+.cause-path{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;direction:rtl}
+.cause-node{position:relative;padding:17px 14px;border-radius:15px;background:#f3f6f0;border:1px solid #dbe3d8;min-height:122px}
+.cause-node:not(:last-child):after{content:'←';position:absolute;left:-12px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--work-ink);color:#fff;font-size:11px;z-index:2}
+.cause-node small{display:block;color:#7c897f;margin-bottom:6px}.cause-node b{display:block;color:var(--work-ink);font-size:16px;line-height:1.55}
+.research-ladder{display:grid;gap:8px}
+.research-rung{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:center;padding:12px 14px;border-radius:13px;background:#f7f5ed;border:1px solid #e1ded2}
+.research-rung i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--work-ink);color:#fff;font-style:normal;font:600 11px 'JetBrains Mono',monospace}
+.research-rung b{display:block;color:var(--work-ink);font-size:15.5px}.research-rung span{font-size:13.5px;color:var(--work-muted)}
+.book-note{margin:54px 0 10px;padding:24px 26px;border-radius:18px;background:#f5efe1;border:1px solid #e2d8c2}
+.book-note h3{font-family:'Noto Kufi Arabic',sans-serif;color:var(--work-ink);font-size:20px;margin:0 0 10px}.book-note p{font-size:15.5px!important;color:#665f50;margin:0!important}
+.book-note a{color:var(--work-green);font-weight:700;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:760px){.opportunity-filter{grid-template-columns:1fr 1fr}.problem-frame{grid-template-columns:1fr}.cause-path{grid-template-columns:1fr 1fr}.cause-node:nth-child(2):after{display:none}}
+@media(max-width:470px){.opportunity-filter,.cause-path{grid-template-columns:1fr}.cause-node:not(:last-child):after{content:'↓';left:50%;top:auto;bottom:-17px;transform:translateX(-50%)}.cause-node:nth-child(2):after{display:grid}}
 @media(max-width:760px){.hero-work{padding-top:50px}.article-work{margin:8px 14px 70px;padding:32px 22px 52px;border-radius:22px}.article-work p{font-size:17px}.article-work .lead{font-size:19px!important}.signal-board,.self-grid{grid-template-columns:1fr}.observe-track{grid-template-columns:1fr 1fr}.observe-step:nth-child(2):after{display:none}.observe-step:not(:last-child):after{left:-12px}.search-lab{padding:23px}.article-nav{align-items:flex-start;flex-direction:column}}
 @media(max-width:470px){.observe-track{grid-template-columns:1fr}.observe-step:not(:last-child):after{content:'↓';left:50%;top:auto;bottom:-18px;transform:translateX(-50%)}.observe-step:nth-child(2):after{display:grid}}
 </style>
@@ -56,7 +80,7 @@ body{background:var(--work-bg);color:#202b28}
   <div class="kicker">الابتكار في العمل · المقال الثاني</div>
   <h1>من تفاصيل دوامك… تبدأ فرص الابتكار</h1>
   <p class="subtitle">كيف تكتشف المشاكل اللي تستحق البحث داخل تخصصك، وتستخدم الذكاء الاصطناعي كأداة فهم مو كصانع أفكار؟</p>
-  <div class="meta"><strong>سالم العبري</strong><span class="sep"></span><span>16 سبتمبر 2026</span><span class="sep"></span><span>9 دقائق قراءة</span></div>
+  <div class="meta"><strong>سالم العبري</strong><span class="sep"></span><span>16 سبتمبر 2026</span><span class="sep"></span><span>11 دقيقة قراءة</span></div>
 </header>
 
 <main class="article article-work" id="article">
@@ -80,8 +104,32 @@ body{background:var(--work-bg);color:#202b28}
 
   <p>المهم هنا: <span class="marker marker-green">لا تقفز للحل</span>. لا تقول مباشرة منصة، تطبيق، جهاز أو AI. يمكن الحل موجود أصلًا. يمكن المشكلة في طريقة الاستخدام. ويمكن تغيير بسيط في الإجراء يحل نصف التعب.</p>
 
+  <section class="visual-block" aria-label="مصفاة الفرصة">
+    <div class="vb-kicker">OPPORTUNITY FILTER</div>
+    <h3>مصفاة بسيطة: هل اللي لاحظته يستحق البحث؟</h3>
+    <p>مو كل إزعاج يصير فرصة ابتكار. قبل ما تتحمس للحل، مرّر الموقف على أربع إشارات.</p>
+    <div class="opportunity-filter">
+      <div class="filter-card"><span class="num">01</span><b>يتكرر؟</b><span>صار أكثر من مرة، مو موقف عابر.</span></div>
+      <div class="filter-card"><span class="num">02</span><b>له أثر؟</b><span>يضيع وقت، يسبب خطأ، تأخير أو ضغط.</span></div>
+      <div class="filter-card"><span class="num">03</span><b>يمس أكثر من شخص؟</b><span>مو بس أنت؛ غيرك يواجه الشي نفسه.</span></div>
+      <div class="filter-card"><span class="num">04</span><b>الحل الحالي ناقص؟</b><span>فيه طريقة موجودة، لكن القصور ما زال واضح.</span></div>
+    </div>
+    <div class="filter-result">إذا اجتمعت أكثر من إشارة، هنا يستحق الموضوع توقف وتبحث أعمق.</div>
+  </section>
+
   <h2>ابدأ بالملاحظة… مو بالاختراع</h2>
   <p>جرب يوم واحد فقط تتعامل مع دوامك كأنك تشوفه لأول مرة. لا تحاول تحل. فقط راقب وسجّل.</p>
+
+  <section class="visual-block" aria-label="إطار فهم المشكلة">
+    <div class="vb-kicker">PROBLEM FRAME</div>
+    <h3>قبل ما تسميها «مشكلة»… شوف المشهد من ثلاث زوايا</h3>
+    <p>الفكرة هنا قريبة من أدوات فهم العميل في كتب تصميم القيمة: نفهم العمل اللي يحاول الشخص ينجزه، الشي اللي يعطله، والسياق اللي تظهر فيه المعاناة.</p>
+    <div class="problem-frame">
+      <div class="frame-card"><small>01 · المطلوب</small><b>وش الشخص يحاول ينجز؟</b><span>مهمة، إجراء، قرار، تسليم، متابعة… حدده بدون ما تقترح حل.</span></div>
+      <div class="frame-card"><small>02 · العائق</small><b>وش اللي يوقفه أو يبطّئه؟</b><span>وقت، تكرار، نقص معلومة، تعقيد، انتظار أو خطأ.</span></div>
+      <div class="frame-card"><small>03 · السياق</small><b>متى تصير المشكلة أوضح؟</b><span>مع ضغط العمل؟ مع عدد أكبر؟ بين قسمين؟ عند التسليم؟</span></div>
+    </div>
+  </section>
 
   <div class="observe-track" aria-label="خطوات الملاحظة والبحث">
     <div class="observe-step"><div>👀</div><strong>راقب</strong><small>وش يتكرر أو يرهق الناس؟</small></div>
@@ -99,6 +147,18 @@ body{background:var(--work-bg);color:#202b28}
     <p>الأصح نسأله: <strong>وين بالضبط يضيع الوقت؟</strong> هل الملفات موزعة؟ هل الطلاب ما يعرفون قناة التسليم؟ هل النظام الموجود صعب؟ هل نفس البيانات تنكتب أكثر من مرة؟</p>
     <p>بعد ما نفهم السبب، يمكن نكتشف إن المدرسة أصلًا عندها أداة مناسبة، لكن المشكلة في الإجراء. ويمكن نكتشف فجوة فعلية تستحق حل مختلف.</p>
   </div>
+
+  <section class="visual-block" aria-label="من المشهد إلى السبب">
+    <div class="vb-kicker">FROM SYMPTOM TO CAUSE</div>
+    <h3>لا توقف عند العرض الظاهر</h3>
+    <p>المشهد اللي تشوفه أول مرة غالبًا ما يكون مجرد علامة. مهمتك إنك تتحرك خطوة خطوة إلى الشي اللي يحتاج تحقق.</p>
+    <div class="cause-path">
+      <div class="cause-node"><small>المشهد</small><b>التسليم يتأخر</b></div>
+      <div class="cause-node"><small>وش الظاهر؟</small><b>الملفات موزعة</b></div>
+      <div class="cause-node"><small>وش يمكن السبب؟</small><b>الإجراء غير موحد</b></div>
+      <div class="cause-node"><small>وش نتحقق منه؟</small><b>أداة؟ استخدام؟ مسؤولية؟ توقيت؟</b></div>
+    </div>
+  </section>
 
   <p>نفس الطريقة تنطبق على الطبيب اللي يشوف تكرارًا في خطوات إدارية، والمهندس اللي يكرر نقل الملاحظات بين الموقع والتقرير، والموظف اللي يتابع نفس المعاملة في أكثر من قناة.</p>
 
@@ -118,6 +178,19 @@ body{background:var(--work-bg);color:#202b28}
     <div class="query"><b>وش مشاكل إدخال نفس البيانات أكثر من مرة؟</b><code>problems caused by duplicate data entry</code></div>
     <div class="query"><b>وش الحلول الموجودة حاليًا؟ ووش شكاوى المستخدمين منها؟</b><code>existing solutions + user complaints + limitations</code></div>
   </div>
+
+  <section class="visual-block" aria-label="سلم البحث">
+    <div class="vb-kicker">RESEARCH LADDER</div>
+    <h3>سلم البحث: من ملاحظة بسيطة إلى صورة أوضح</h3>
+    <p>لا تبدأ بكلمة «ابتكار». كل خطوة في البحث تضيق الغموض وتخليك أقرب للمشكلة الحقيقية.</p>
+    <div class="research-ladder">
+      <div class="research-rung"><i>1</i><div><b>اكتب الموقف كما حدث</b><span>بدون تفسير وبدون حل.</span></div></div>
+      <div class="research-rung"><i>2</i><div><b>حوّله لعبارة مشكلة محددة</b><span>من يتأثر؟ وش يتكرر؟ وش الأثر؟</span></div></div>
+      <div class="research-rung"><i>3</i><div><b>ابحث بالعربي والإنجليزي</b><span>عن الأسباب، الدراسات، التجارب والحلول الحالية.</span></div></div>
+      <div class="research-rung"><i>4</i><div><b>دور على الشكاوى والقيود</b><span>وش اللي ما زال ما انحل؟ وين الناس تتحايل على الحل الحالي؟</span></div></div>
+      <div class="research-rung"><i>5</i><div><b>اجمع نمطًا… مو رأيًا واحدًا</b><span>تكرار نفس الملاحظة من أكثر من مصدر هو اللي يستحق الاهتمام.</span></div></div>
+    </div>
+  </section>
 
   <p>وابحث بالإنجليزي بعد العربي. كثير من الأبحاث، دراسات الحالة، الأدوات وتجارب المؤسسات بتطلع لك بشكل أوسع.</p>
 
@@ -164,6 +237,11 @@ body{background:var(--work-bg);color:#202b28}
       <div>5. نهاية اليوم اختر أكثر مشكلة تكررت، وابدأ ابحث عنها فقط.</div>
     </div>
   </section>
+
+  <aside class="book-note">
+    <h3>وش ألهم هذي المخططات؟</h3>
+    <p>استفدت من طريقة العرض البصرية في النسخ العربية من <a href="https://japublishers.com/bmg-arabic/" target="_blank" rel="noopener">«ابتكار نموذج العمل التجاري»</a>، ومن أسلوب فهم الأعمال والمتاعب والسياق في <a href="https://japublishers.com/vpd/" target="_blank" rel="noopener">«تصميم القيمة المقدمة»</a>. المخططات هنا مصممة من جديد لتخدم فكرة «راقب عملك»، وليست نسخًا من رسومات الكتب.</p>
+  </aside>
 
   <h2>الخلاصة</h2>
   <p>الفرص مو دائمًا بعيدة، وأحيانًا ما تحتاج جلسة عصف ذهني كبيرة. يمكن تكون قدامك في تفاصيل يومك: خطوة متكررة، معلومة مشتتة، تأخير، أو سؤال الكل يعيده.</p>

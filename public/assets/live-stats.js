@@ -1,8 +1,7 @@
 (()=>{'use strict';
 const section=document.getElementById('liveStats');if(!section)return;
 let latest={};
-const lang=()=>document.documentElement.lang==='en'?'en':'ar-OM';
-const fmt=n=>new Intl.NumberFormat(lang()).format(Number(n)||0);
+const fmt=n=>new Intl.NumberFormat('en-US').format(Number(n)||0);
 function set(id,value){const el=document.getElementById(id);if(el)el.textContent=fmt(value);}
 function renderTrend(points){
  const host=document.getElementById('visitTrend');if(!host)return;

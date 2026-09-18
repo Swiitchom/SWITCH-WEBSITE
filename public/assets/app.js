@@ -183,7 +183,21 @@ function renderFilters(){
  const host=document.getElementById('filters');if(!host)return;
  host.replaceChildren();
 }
-function projMediaHTML(p){return p.image?`<img src="${p.image}" alt="${p[currentLang].title}" loading="lazy" decoding="async">`:ICON[p.icon];}
+function projMediaHTML(p){
+ if(!p.image)return ICON[p.icon];
+ const t=p[currentLang];
+ if(p.kind==='platform'||p.screenshot){
+  const secondary=(p.gallery||[])[0];
+  return `<div class="project-platform-window">
+    <div class="project-platform-bar" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+    <div class="project-platform-content">
+      <figure class="project-platform-main"><img src="${p.image}" alt="${t.imageCaption||t.title}" loading="lazy" decoding="async"></figure>
+      ${secondary?`<figure class="project-platform-secondary"><img src="${secondary.image}" alt="${secondary[currentLang]}" loading="lazy" decoding="async"><figcaption>${secondary[currentLang]}</figcaption></figure>`:''}
+    </div>
+  </div>`;
+ }
+ return `<img src="${p.image}" alt="${t.imageCaption||t.title}" loading="lazy" decoding="async">`;
+}
 function projectVideoHTML(p){
  if(!p.video)return '';
  const ar=currentLang==='ar',v=p.video;

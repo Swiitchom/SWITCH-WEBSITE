@@ -43,9 +43,9 @@ const i18n = {
     aboutTitle:"مهندس يبني الفكرة حتى تصبح نموذجًا حقيقيًا",
     aboutP1:"أنا سالم العبري، مهتم ببناء وتطوير الحلول التقنية وتحويل الأفكار إلى نماذج ومشاريع عملية، مع تركيز على الذكاء الاصطناعي، الأنظمة المدمجة، إنترنت الأشياء، الإلكترونيات، تطوير المنصات والطباعة ثلاثية الأبعاد.",
     aboutP2:"كما أعمل في التدريب وتقديم الورش، ودعم الابتكارات وتطوير المشاريع الطلابية والتقنية من خلال Switch، مبادرتي التعليمية التقنية.",
-    expEyebrow:"مجالات الخبرة", expTitle:"أدوات ومجالات أعمل بها يوميًا",
-    projEyebrow:"المشاريع", projTitle:"مشاريع ومنصات",
-    projSub:"مجموعة مختارة من المشاريع في الذكاء الاصطناعي، إنترنت الأشياء، والتطبيقات التفاعلية.",
+    expEyebrow:"مجالات أعمل بها", expTitle:"تقنيات أستخدمها حسب ما يحتاجه المشروع.",
+    projEyebrow:"من الفكرة إلى التطبيق", projTitle:"نماذج من العمل",
+    projSub:"مشاريع مختارة. الصورة تعطيك البداية، والسهم يكشف الفكرة وما تم تنفيذه.",
     filterAll:"الكل",
     svcEyebrow:"الخدمات", svcTitle:"كيف يمكنني مساعدتك؟", svcCta:"اطلب الخدمة",
     wkspEyebrow:"التدريب والورش", wkspTitle:"برامج تدريبية عملية وممتعة", wkspCta:"استفسر عن الورشة",
@@ -81,9 +81,9 @@ const i18n = {
     aboutTitle:"An engineer who takes an idea all the way to a real prototype",
     aboutP1:"I'm Salim Alabri, focused on building and developing technical solutions — turning ideas into working prototypes and real projects, with an emphasis on AI, embedded systems, IoT, electronics, platform development, and 3D printing.",
     aboutP2:"I also work in training and workshops, supporting innovation and student/technical projects through Switch, my educational technology initiative.",
-    expEyebrow:"Expertise", expTitle:"Tools and domains I work with daily",
-    projEyebrow:"Projects", projTitle:"Projects & platforms",
-    projSub:"A selected set of projects across AI, IoT, and interactive applications.",
+    expEyebrow:"What I work with", expTitle:"Technologies I use according to what the project needs.",
+    projEyebrow:"From idea to implementation", projTitle:"Selected work",
+    projSub:"A selection of projects. The image gives you the starting point; the arrow reveals the idea and what was built.",
     filterAll:"All",
     svcEyebrow:"Services", svcTitle:"How can I help you?", svcCta:"Request service",
     wkspEyebrow:"Training & Workshops", wkspTitle:"Hands-on, practical training programs", wkspCta:"Ask about this workshop",
@@ -121,13 +121,13 @@ const expertiseData = [
 ];
 
 const servicesData = [
- {visual:'training',ar:'التدريب والورش التقنية',en:'Technical Training & Workshops',descAr:'تجارب عملية مصممة حسب الفئة والهدف، من الفكرة إلى التطبيق.',descEn:'Hands-on experiences shaped around the audience and goal, from concept to practice.',
+ {visual:'training',image:'assets/images/be5a3c6d74a6e1fb.jpg',imageAr:'تدريب عملي ومتابعة أثناء التطبيق',imageEn:'Hands-on training during practical work',ar:'التدريب والورش التقنية',en:'Technical Training & Workshops',descAr:'تجارب عملية مصممة حسب الفئة والهدف، من الفكرة إلى التطبيق.',descEn:'Hands-on experiences shaped around the audience and goal, from concept to practice.',
   arDetails:{audience:'للمدارس والطلبة والمهتمين بالتقنية',timing:'المدة حسب البرنامج والفئة المستهدفة',includes:['موضوع يناسب مستوى المشاركين','تدريب عملي وتطبيق موجّه','تنسيق الاحتياجات قبل التنفيذ']},
   enDetails:{audience:'Schools, students and technology enthusiasts',timing:'Duration depends on the program and audience',includes:['A topic suited to participant experience','Hands-on learning and guided practice','Requirements agreed before delivery']}},
- {visual:'web',ar:'المنصات والتجارب التفاعلية',en:'Interactive Platforms & Experiences',descAr:'منصات وتجارب رقمية تحمل هوية الجهة وتحوّل المحتوى إلى تفاعل.',descEn:'Digital platforms and experiences that turn your identity and content into interaction.',
+ {visual:'web',image:'assets/images/0deef2b386513527.png',imageAr:'نموذج من منصة تفاعلية مطبقة',imageEn:'A real interactive platform example',ar:'المنصات والتجارب التفاعلية',en:'Interactive Platforms & Experiences',descAr:'منصات وتجارب رقمية تحمل هوية الجهة وتحوّل المحتوى إلى تفاعل.',descEn:'Digital platforms and experiences that turn your identity and content into interaction.',
   arDetails:{audience:'للمدارس والمعارض والفعاليات',timing:'موعد التسليم يُحدّد بعد مراجعة المتطلبات',includes:['تصميم المحتوى والواجهة حسب الهوية','تحديد أسلوب التفاعل والتجهيزات','اختبار التجربة وشرح الاستخدام']},
   enDetails:{audience:'Schools, exhibitions and events',timing:'Delivery agreed after reviewing requirements',includes:['Content and interface matched to your identity','Interaction and equipment planning','Experience testing and usage walkthrough']}},
- {visual:'innovation',ar:'تطوير المشاريع والنماذج التقنية',en:'Technical Projects & Prototypes',descAr:'نحوّل الفكرة إلى نموذج عملي يجمع البرمجة والإلكترونيات والذكاء الاصطناعي حسب الحاجة.',descEn:'Turn an idea into a working prototype using software, electronics and AI as needed.',
+ {visual:'innovation',image:'assets/images/4c44c55685cbc40c.jpg',imageAr:'نموذج تقني حقيقي من مشاريع السلامة الذكية',imageEn:'A real technical prototype from a smart-safety project',ar:'تطوير المشاريع والنماذج التقنية',en:'Technical Projects & Prototypes',descAr:'نحوّل الفكرة إلى نموذج عملي يجمع البرمجة والإلكترونيات والذكاء الاصطناعي حسب الحاجة.',descEn:'Turn an idea into a working prototype using software, electronics and AI as needed.',
   arDetails:{audience:'لأصحاب الأفكار والمشاريع التعليمية والتقنية',timing:'النطاق والمدة حسب متطلبات المشروع',includes:['تحديد الفكرة وخطة التنفيذ','برمجة أو إلكترونيات أو ذكاء اصطناعي حسب الحاجة','اختبار النموذج وتوضيح طريقة تشغيله']},
   enDetails:{audience:'Founders, educators and technical project owners',timing:'Scope and timeline depend on the project',includes:['Idea definition and implementation plan','Software, electronics or AI as required','Prototype testing and operating guidance']}}
 ];
@@ -170,18 +170,18 @@ const socialData = [
 let currentLang = 'ar';
 
 function renderExpertise(){
-  document.getElementById('expGrid').innerHTML = expertiseData.map(e=>{
-    const t = e[currentLang];
-    return `<div class="exp-card reveal"><div class="exp-icon">${ICON[e.icon]}</div><h4>${t[0]}</h4><p>${t[1]}</p></div>`;
+  const host=document.getElementById('expGrid');if(!host)return;
+  host.innerHTML=expertiseData.map(e=>{
+    const t=e[currentLang];
+    return `<div class="expertise-pill reveal"><span class="expertise-pill-icon">${ICON[e.icon]}</span><span><strong>${t[0]}</strong><small>${t[1]}</small></span></div>`;
   }).join('');
 }
 
 let activeFilter='all';
 let showAllProjects=false;
 function renderFilters(){
- const labels=currentLang==='ar'?['الكل','المنصات','المشاريع التطبيقية']:['All','Platforms','Applied projects'];
- document.getElementById('filters').innerHTML=['all','platform','hardware'].map((cat,i)=>`<button type="button" class="filter-btn ${cat===activeFilter?'active':''}" aria-pressed="${cat===activeFilter}" data-cat="${cat}">${labels[i]}</button>`).join('');
- document.querySelectorAll('.filter-btn').forEach(b=>b.addEventListener('click',()=>{activeFilter=b.dataset.cat;showAllProjects=false;renderFilters();renderProjects();}));
+ const host=document.getElementById('filters');if(!host)return;
+ host.replaceChildren();
 }
 function projMediaHTML(p){return p.image?`<img src="${p.image}" alt="${p[currentLang].title}" loading="lazy" decoding="async">`:ICON[p.icon];}
 function projectVideoHTML(p){
@@ -190,14 +190,37 @@ function projectVideoHTML(p){
  return `<figure class="case-film"><div class="case-film-frame"><div class="case-film-heading"><span>${ar?'التجربة بالفيديو':'The experience on film'}</span><span>${ar?'من داخل المنصة':'Inside the platform'}</span></div><video class="case-video" controls playsinline preload="none" tabindex="0" width="${v.width}" height="${v.height}" poster="${v.poster}" aria-label="${v[currentLang].title}" aria-describedby="caseVideoCaption"><source src="${v.src}" type="video/mp4">${ar?'متصفحك لا يدعم تشغيل الفيديو.':'Your browser does not support this video.'}</video></div><figcaption id="caseVideoCaption">${v[currentLang].caption}</figcaption></figure>`;
 }
 function renderProjects(){
- const all=activeFilter==='all'?projectsData:projectsData.filter(p=>p.kind===activeFilter);
+ const all=projectsData;
  const list=showAllProjects?all:all.slice(0,4);
- document.getElementById('projGrid').innerHTML=list.map(p=>`<article class="proj-card reveal">
- <button type="button" class="project-open" data-project="${projectsData.indexOf(p)}" aria-label="${p[currentLang].title}"><div class="proj-media ${p.screenshot?'screenshot-media':p.kind==='platform'?'platform-media':''} ${p.image?'has-photo':''}">${projMediaHTML(p)}</div></button>
- <div class="proj-body"><span class="project-kind">${p.logo?`<img class="project-logo" src="${p.logo}" alt="">`:ICON[p.icon]||ICON.code}<span>${p[currentLang].tag}</span></span><h3>${p[currentLang].title}</h3><p>${p[currentLang].desc}</p>${p[currentLang].benefit?`<p class="project-outcome"><span>${currentLang==='ar'?'الفائدة':'The value'}</span>${p[currentLang].benefit}</p>`:''}${p[currentLang].deployment?`<p class="project-context">${p[currentLang].deployment}</p>`:''}<button type="button" class="proj-link" data-project="${projectsData.indexOf(p)}">${currentLang==='ar'?(p.video?'شاهد التجربة بالفيديو':p.image?'شاهد المشروع':'اكتشف المشروع'):(p.video?'Watch the experience':p.image?'See the project':'Explore the project')} ${ICON.arrow}</button></div></article>`).join('');
- document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>openModal(projectsData[Number(b.dataset.project)])));
- const more=document.getElementById('projectsMore');more.hidden=all.length<=4;more.textContent=currentLang==='ar'?(showAllProjects?'عرض مختصر':'عرض جميع الأعمال'):(showAllProjects?'Show fewer':'View all work');
- more.onclick=()=>{showAllProjects=!showAllProjects;renderProjects();if(!showAllProjects)document.getElementById('projects').scrollIntoView();};
+ const host=document.getElementById('projGrid');
+ host.innerHTML=list.map((p,i)=>{
+  const t=p[currentLang],techs=Array.isArray(p.techs)&&p.techs.length?p.techs.join(' · '):'';
+  const value=t.benefit||t.result||t.desc;
+  return `<article class="proj-card project-showcase reveal" data-project-card="${i}">
+    <div class="project-showcase-media ${p.image?'has-photo':'is-symbol'}">${projMediaHTML(p)}</div>
+    <div class="project-showcase-body">
+      <div class="project-showcase-meta"><span>${t.tag}</span>${t.deployment?`<span>${t.deployment}</span>`:''}</div>
+      <div class="project-showcase-title-row">
+        <div><h3>${t.title}</h3><p>${t.desc}</p></div>
+        <button type="button" class="project-reveal" aria-expanded="false" aria-controls="project-detail-${projectsData.indexOf(p)}" aria-label="${currentLang==='ar'?'اكتشف تفاصيل المشروع':'Explore project details'}"><span>↗</span></button>
+      </div>
+      <div class="project-details" id="project-detail-${projectsData.indexOf(p)}" aria-hidden="true">
+        <div>
+          <p class="project-detail-label">${currentLang==='ar'?'الفكرة':'The idea'}</p>
+          <p>${t.overview||t.desc}</p>
+          <p class="project-detail-label">${currentLang==='ar'?'ما الذي يقدمه؟':'What does it offer?'}</p>
+          <p>${value}</p>
+          ${techs?`<p class="project-tech-line">${techs}</p>`:''}
+          ${p.video?`<video class="project-inline-video" controls playsinline preload="none" poster="${p.video.poster}" aria-label="${p.video[currentLang].title}"><source src="${p.video.src}" type="video/mp4"></video>`:''}
+        </div>
+      </div>
+    </div>
+  </article>`;
+ }).join('');
+ const more=document.getElementById('projectsMore');
+ more.hidden=all.length<=4;
+ more.textContent=currentLang==='ar'?(showAllProjects?'عرض مختصر':'عرض المزيد من الأعمال'):(showAllProjects?'Show fewer':'View more work');
+ more.onclick=()=>{showAllProjects=!showAllProjects;renderProjects();if(!showAllProjects)document.getElementById('projects').scrollIntoView({behavior:'smooth',block:'start'});};
  observeReveals();
 }
 let projectTrigger,projectBodyOverflow;
@@ -217,25 +240,25 @@ function closeModal(){const box=document.getElementById('modalOverlay');if(!box.
 
 function renderServices(){
  document.getElementById('svcGrid').innerHTML=servicesData.map((s,index)=>{
-  const ar=currentLang==='ar',d=s[ar?'arDetails':'enDetails'],number=String(index+1).padStart(2,'0');
-  return `<article class="svc-card package-card" data-service="${s.visual}">
-    <button type="button" class="service-discover" aria-controls="package-${s.visual}" aria-expanded="false">
-      <span class="service-number">${number}</span>
-      <span class="service-summary">
-        <strong>${s[currentLang]}</strong>
-        <span>${ar?s.descAr:s.descEn}</span>
-      </span>
-      <span class="service-discover-cta"><span>${ar?'اضغط للاكتشاف':'Explore service'}</span><span class="package-arrow" aria-hidden="true">↗</span></span>
-    </button>
-    <div class="package-details" id="package-${s.visual}" aria-hidden="true">
-      <div class="service-detail-layout">
-        <div class="service-detail-copy">
+  const ar=currentLang==='ar',d=s[ar?'arDetails':'enDetails'];
+  const detailLine=d.includes.join(' · ');
+  return `<article class="service-scene package-card ${index%2?'service-scene-reverse':''}" data-service="${s.visual}">
+    <figure class="service-scene-media">
+      <img src="${s.image}" alt="${ar?s.imageAr:s.imageEn}" loading="lazy" decoding="async">
+      <figcaption>${ar?s.imageAr:s.imageEn}</figcaption>
+    </figure>
+    <div class="service-scene-copy">
+      <span class="service-scene-kicker">${String(index+1).padStart(2,'0')}</span>
+      <h3>${s[currentLang]}</h3>
+      <p class="service-scene-lead">${ar?s.descAr:s.descEn}</p>
+      <button type="button" class="service-discover" aria-controls="package-${s.visual}" aria-expanded="false"><span>${ar?'اكتشف الخدمة':'Explore service'}</span><span class="package-arrow" aria-hidden="true">↗</span></button>
+      <div class="package-details" id="package-${s.visual}" aria-hidden="true">
+        <div class="service-detail-prose">
           <p class="package-audience">${d.audience}</p>
-          <ul>${d.includes.map(item=>`<li>${item}</li>`).join('')}</ul>
+          <p class="service-detail-line">${detailLine}</p>
           <p class="package-timing">${d.timing}</p>
           <button type="button" class="service-start" data-service-key="${s.visual}">${ar?'ابدأ بهذه الخدمة':'Start with this service'} <span aria-hidden="true">↗</span></button>
         </div>
-        <figure class="service-inline-visual" data-service-visual="${s.visual}"><div class="service-inline-media"></div><figcaption></figcaption></figure>
       </div>
     </div>
   </article>`;

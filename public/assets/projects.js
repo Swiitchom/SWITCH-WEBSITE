@@ -88,7 +88,7 @@ const projectsData = [
     "kind": "hardware",
     "icon": "ai",
     "color": 0,
-    "image": "assets/images/97f8e755105736a9.jpg",
+    "image": "assets/images/hand-gesture-interaction.webp",
     "ar": {
       "title": "التفاعل بإشارات اليد",
       "tag": "مشروع تطبيقي",
@@ -198,68 +198,7 @@ const projectsData = [
     ],
     "kind": "hardware"
   },
-  {
-    "cat": "web",
-    "icon": "bell",
-    "color": 2,
-    "ar": {
-      "title": "SWITCH Notify",
-      "tag": "Web · Mobile App",
-      "desc": "تطبيق يربط Switch بمستخدميه عبر الإشعارات والتحديثات الفورية.",
-      "problem": "حاجة Switch لقناة إشعارات فورية موثوقة مع الطلاب والعملاء.",
-      "solution": "تطبيق Kotlin/Compose متكامل مع Firebase للإشعارات اللحظية والتحديثات.",
-      "result": "قناة تواصل فعالة تصل للمستخدمين فور صدور أي تحديث.",
-      "overview": "تطبيق أندرويد مبني باستخدام Kotlin وCompose ومتصل بـFirebase لإدارة وصول الإشعارات.",
-      "benefit": "يجمع تحديثات Switch في قناة واحدة لمستخدمي التطبيق."
-    },
-    "en": {
-      "title": "SWITCH Notify",
-      "tag": "Web · Mobile App",
-      "desc": "An app connecting Switch with its users through notifications and live updates.",
-      "problem": "Switch needed a reliable real-time channel to reach students and clients.",
-      "solution": "A Kotlin/Compose app integrated with Firebase for instant notifications and updates.",
-      "result": "An effective channel that reaches users the moment an update goes out.",
-      "overview": "An Android app built with Kotlin and Compose, connected to Firebase for notification delivery.",
-      "benefit": "Brings Switch updates into one channel for app users."
-    },
-    "techs": [
-      "Kotlin",
-      "Jetpack Compose",
-      "Firebase"
-    ],
-    "kind": "platform"
-  },
-  {
-    "cat": "ai",
-    "icon": "puzzle",
-    "color": 3,
-    "ar": {
-      "title": "قريتنا الجميلة",
-      "tag": "AI · Education · Web",
-      "desc": "لعبة عربية بأنشطة بصرية وتدرّج تعليمي، مصممة لأطفال طيف التوحد.",
-      "problem": "ندرة أدوات تعليمية تفاعلية بالعربية موجهة لأطفال طيف التوحد.",
-      "solution": "لعبة HTML تفاعلية قائمة بذاتها مصممة بعناية لتراعي الحمل الحسي والتعلم التدريجي.",
-      "result": "أداة تعليمية جاهزة للاستخدام المباشر في البيئة التعليمية والمنزلية.",
-      "overview": "تقدّم أنشطة تفاعلية في واجهة تراعي الحمل الحسي، للاستخدام في المنزل والبيئة التعليمية.",
-      "benefit": "أنشطة عربية تراعي اختلاف وتيرة التعلّم والحمل الحسي."
-    },
-    "en": {
-      "title": "Our Beautiful Village",
-      "tag": "AI · Education · Web",
-      "desc": "An Arabic game with visual activities and gradual learning, designed for autistic children.",
-      "problem": "A shortage of interactive Arabic-language learning tools for autistic children.",
-      "solution": "A self-contained interactive HTML game, carefully designed around sensory load and gradual learning.",
-      "result": "A ready-to-use tool for both classroom and home settings.",
-      "overview": "Offers interactive activities in an interface designed around sensory load, for home and educational use.",
-      "benefit": "Arabic activities that consider different learning paces and sensory needs."
-    },
-    "techs": [
-      "HTML5",
-      "JavaScript",
-      "Instructional Design"
-    ],
-    "kind": "platform"
-  },
+
   {
     "cat": "3d",
     "image": "assets/images/946660627de17fc8.webp",

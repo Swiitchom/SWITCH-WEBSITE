@@ -153,8 +153,6 @@ const galleryData = [
   {icon:'chip',h:150,color:3,ar:'لوحة إلكترونية',en:'Circuit board'},
   {icon:'ai',h:190,color:0,ar:'جلسة تدريب AI',en:'AI training session'},
   {icon:'glove',h:230,color:1,ar:'اختبار القفاز الذكي',en:'Smart glove testing'},
-  {icon:'bell',h:160,color:2,ar:'واجهة تطبيق Notify',en:'Notify app interface'},
-  {icon:'puzzle',h:200,color:3,ar:'لعبة قريتنا الجميلة',en:'Our Beautiful Village game'},
 ];
 
 const WHATSAPP_NUMBER = '96894144778'; /* 968 = Oman country code + 94144778 */

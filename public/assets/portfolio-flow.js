@@ -39,7 +39,7 @@
 
  function closeProjectExcept(active){
   if(!projectGrid)return;
-  projectGrid.querySelectorAll('.project-showcase').forEach(card=>{
+  projectGrid.querySelectorAll('.project-case').forEach(card=>{
    const open=card===active;
    card.classList.toggle('is-open',open);
    const button=card.querySelector('.project-reveal');
@@ -53,7 +53,7 @@
  if(projectGrid){
   projectGrid.addEventListener('click',event=>{
    const button=event.target.closest('.project-reveal');if(!button)return;
-   const card=button.closest('.project-showcase');if(!card)return;
+   const card=button.closest('.project-case');if(!card)return;
    const wasOpen=button.getAttribute('aria-expanded')==='true';
    if(wasOpen){
     card.classList.remove('is-open');

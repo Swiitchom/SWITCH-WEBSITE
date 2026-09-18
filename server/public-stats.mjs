@@ -14,17 +14,29 @@ async function aggregateCount(db,where){
   return Number(rows?.[0]?.result?.aggregateFields?.total?.integerValue||0);
 }
 
+async function completedProjectCount(db){
+  const rows=await db.api(base+':runQuery',{structuredQuery:{
+    from:[{collectionId:'portfolioInquiries'}],
+    where:{fieldFilter:{field:{fieldPath:'status'},op:'EQUAL',value:{stringValue:'completed'}}},
+    limit:1000
+  }});
+  return rows.filter(r=>r.document).map(r=>unpack(r.document)).filter(v=>v&&v.context!=='consultation'&&v.kind!=='store').length;
+}
+
 export async function publicStats(request,env,{db=database(env.FIREBASE_SERVICE_ACCOUNT_JSON)}={}){
   if(request.method!=='GET')return json(405,{error:'method'});
   if(!env.FIREBASE_SERVICE_ACCOUNT_JSON)return json(503,{error:'not_configured'});
   try{
     const total=unpack(await db.read('portfolioPublicStats/total'))||{};
-    const consultations=await aggregateCount(db,{fieldFilter:{field:{fieldPath:'context'},op:'EQUAL',value:{stringValue:'consultation'}}});
+    const [consultations,completedProjects]=await Promise.all([
+      aggregateCount(db,{fieldFilter:{field:{fieldPath:'context'},op:'EQUAL',value:{stringValue:'consultation'}}}),
+      completedProjectCount(db)
+    ]);
     const start=new Date(Date.now()-13*86400000);
     const startDay=omanDay(start);
     const rows=await db.api(base+':runQuery',{structuredQuery:{from:[{collectionId:'portfolioVisitDays'}],where:{fieldFilter:{field:{fieldPath:'day'},op:'GREATER_THAN_OR_EQUAL',value:{stringValue:startDay}}},orderBy:[{field:{fieldPath:'day'},direction:'ASCENDING'}],limit:14}});
     const trend=rows.filter(r=>r.document).map(r=>{const v=unpack(r.document);return {day:v.day,visits:Number(v.visits||0)};});
-    return json(200,{visits:Number(total.visits||0),consultations,trend,startedAt:total.startedAt||'2026-09-18'},'public, max-age=120, stale-while-revalidate=300');
+    return json(200,{visits:Number(total.visits||0),consultations,completedProjects,trend,startedAt:total.startedAt||'2026-09-18'},'public, max-age=120, stale-while-revalidate=300');
   }catch{return json(503,{error:'unavailable'});}
 }
 

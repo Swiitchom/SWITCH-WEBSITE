@@ -6,19 +6,21 @@ export async function serveProjectVideo(request,env){
  const assetURL=new URL(assetPath,request.url);
  const asset=await env.ASSETS.fetch(new Request(assetURL,{method:'GET'}));
  if(asset.status!==200)return new Response(null,{status:502});
- const headers=new Headers({'Content-Type':'video/mp4','Accept-Ranges':'bytes','Content-Length':String(assetBytes),'Cache-Control':'public, max-age=3600','X-Content-Type-Options':'nosniff'});
+ const reportedBytes=Number(asset.headers.get('content-length'));
+ const totalBytes=Number.isSafeInteger(reportedBytes)&&reportedBytes>0?reportedBytes:assetBytes;
+ const headers=new Headers({'Content-Type':'video/mp4','Accept-Ranges':'bytes','Content-Length':String(totalBytes),'Cache-Control':'public, max-age=3600','X-Content-Type-Options':'nosniff'});
  const etag=asset.headers.get('etag');if(etag)headers.set('ETag',etag);
  const range=request.headers.get('range'),ifRange=request.headers.get('if-range');
- let start=0,end=assetBytes-1,status=200;
+ let start=0,end=totalBytes-1,status=200;
  if(request.method==='GET'&&range&&(!ifRange||ifRange===etag)){
   const match=range.match(/^bytes=(\d*)-(\d*)$/);
   if(match&&(match[1]||match[2])){
-   start=match[1]?Number(match[1]):Math.max(0,assetBytes-Number(match[2]));
-   end=match[1]&&match[2]?Math.min(Number(match[2]),assetBytes-1):assetBytes-1;
-   if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start>end||start>=assetBytes){
-    await asset.body?.cancel();return new Response(null,{status:416,headers:{'Content-Range':`bytes */${assetBytes}`,'Accept-Ranges':'bytes'}});
+   start=match[1]?Number(match[1]):Math.max(0,totalBytes-Number(match[2]));
+   end=match[1]&&match[2]?Math.min(Number(match[2]),totalBytes-1):totalBytes-1;
+   if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start>end||start>=totalBytes){
+    await asset.body?.cancel();return new Response(null,{status:416,headers:{'Content-Range':`bytes */${totalBytes}`,'Accept-Ranges':'bytes'}});
    }
-   status=206;headers.set('Content-Range',`bytes ${start}-${end}/${assetBytes}`);headers.set('Content-Length',String(end-start+1));
+   status=206;headers.set('Content-Range',`bytes ${start}-${end}/${totalBytes}`);headers.set('Content-Length',String(end-start+1));
   }
  }
  if(request.method==='HEAD'){await asset.body?.cancel();return new Response(null,{headers});}

@@ -244,17 +244,17 @@ function projectCardHTML(p,position){
          ${techs?`<p class="project-tech-line">${techs}</p>`:''}
        </div>
      </div>
-     ${video?`<div class="project-video-panel" id="project-video-${index}" aria-hidden="true">
-       <div class="project-video-shell">
-         <div class="project-video-head"><span>${currentLang==='ar'?'عرض عملي':'LIVE DEMO'}</span><strong>${video[currentLang].title}</strong></div>
-         <video class="project-inline-video ${video.height>video.width?'is-portrait':''}" controls playsinline preload="metadata" poster="${video.poster}" src="${projectVideoSrc(p)}" aria-label="${video[currentLang].title}"></video>
-         <div class="project-video-foot">
-           <p>${video[currentLang].caption}</p>
-           <a class="project-video-open" href="${projectVideoSrc(p)}" target="_blank" rel="noopener">${currentLang==='ar'?'فتح الفيديو مباشرة':'Open video directly'} <span aria-hidden="true">${ICON.arrow}</span></a>
-         </div>
-       </div>
-     </div>`:''}
    </div>
+   ${video?`<div class="project-video-panel" id="project-video-${index}" aria-hidden="true">
+     <div class="project-video-shell">
+       <div class="project-video-head"><span>${currentLang==='ar'?'عرض عملي':'LIVE DEMO'}</span><strong>${video[currentLang].title}</strong></div>
+       <video class="project-inline-video ${video.height>video.width?'is-portrait':''}" controls playsinline preload="metadata" poster="${video.poster}" src="${projectVideoSrc(p)}" aria-label="${video[currentLang].title}"></video>
+       <div class="project-video-foot">
+         <p>${video[currentLang].caption}</p>
+         <a class="project-video-open" href="${projectVideoSrc(p)}" target="_blank" rel="noopener">${currentLang==='ar'?'فتح الفيديو مباشرة':'Open video directly'} <span aria-hidden="true">${ICON.arrow}</span></a>
+       </div>
+     </div>
+   </div>`:''}
  </article>`;
 }
 function renderProjects(){

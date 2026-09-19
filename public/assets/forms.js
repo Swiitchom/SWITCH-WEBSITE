@@ -40,7 +40,7 @@ const contactCopy={
 };
 function updateContactContext(){
  const form=document.getElementById('contactForm');if(!form)return;
- const key=form.dataset.selectedServiceKey||'general',lang=document.documentElement.lang==='en'?'en':'ar';
+ const key=form.dataset?.selectedServiceKey||'general',lang=document.documentElement?.lang==='en'?'en':'ar';
  const copy=(contactCopy[key]||contactCopy.general)[lang];
  const eyebrow=document.getElementById('contactEyebrow'),title=document.getElementById('contactTitle'),desc=document.getElementById('contactDesc');
  if(eyebrow)eyebrow.textContent=copy[0];if(title)title.textContent=copy[1];if(desc)desc.textContent=copy[2];

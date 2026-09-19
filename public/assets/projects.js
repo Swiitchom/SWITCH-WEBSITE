@@ -6,7 +6,7 @@ const projectsData = [
     "color": 0,
     "image": "assets/images/0deef2b386513527.png",
     "ar": {
-      "title": "استقبال الطلاب والترحيب عبر شخصيات تفاعلية",
+      "title": "استقبال الطلاب عبر شخصيات تفاعلية",
       "tag": "منصة تعليمية",
       "desc": "منصة استقبال للطلاب عبر شخصيات تفاعلية، تجمع الترحيب الذكي والتفاعل بالكاميرا وإشارات اليد في تجربة واحدة.",
       "overview": "تستقبل المنصة الطالب بشخصيات تفاعلية، ثم تنقله إلى تجربة مرئية وصوتية يمكن دمجها مع الكاميرا وإشارات اليد لبدء الأنشطة بطريقة أكثر تفاعلاً.",
@@ -15,7 +15,7 @@ const projectsData = [
       "deployment": "طُبّقت في المدارس والمعارض"
     },
     "en": {
-      "title": "Interactive Student Welcome",
+      "title": "Interactive Student Welcome Experience",
       "tag": "Learning platform",
       "desc": "A student welcome platform using interactive characters, camera interaction and hand gestures in one experience.",
       "overview": "Welcomes students through interactive characters, then connects them to visual and audio activities that can use camera interaction and hand gestures.",
@@ -107,6 +107,7 @@ const projectsData = [
     },
     "techs": [],
     "video": {
+      "showOnCard": true,
       "src": "assets/videos/hand-gesture-preview.mp4",
       "poster": "assets/images/hand-gesture-interaction.webp",
       "width": 240,

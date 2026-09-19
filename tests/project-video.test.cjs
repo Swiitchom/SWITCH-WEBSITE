@@ -22,7 +22,7 @@ test('hand-gesture preview supports full and ranged responses',async()=>{
   '/assets/videos/hand-gesture-preview.parts/part-01.bin',
   '/assets/videos/hand-gesture-preview.parts/part-02.bin'
  ];
- const lengths=[10837,10837,10837];
+ const lengths=[12288,12288,7935];
  let value=0;
  const parts=lengths.map(length=>{const out=new Uint8Array(length);for(let i=0;i<length;i++)out[i]=(value++)%251;return out;});
  const env={ASSETS:{fetch:async request=>{

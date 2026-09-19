@@ -19,6 +19,7 @@ test('all client scripts parse and local asset references exist',()=>{
   assert.equal(source.includes('data:image/'),false);
   assert.ok(fs.existsSync(path.join(root,'store','index.html')),'shareable /store/ route');
   assert.match(read('store/index.html'),/\/#store/);
+  for(const route of ['services/workshops/index.html','services/platforms/index.html','services/projects/index.html','platforms/student-welcome/index.html','platforms/uns/index.html','platforms/hand-gesture/index.html','store/arduino-kit/index.html']) assert.ok(fs.existsSync(path.join(root,route)),route);
 });
 
 test('six existing bilingual case studies retain content and photos',()=>{

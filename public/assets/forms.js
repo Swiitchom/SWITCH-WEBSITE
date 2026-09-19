@@ -45,7 +45,7 @@ function updateContactContext(){
  const eyebrow=document.getElementById('contactEyebrow'),title=document.getElementById('contactTitle'),desc=document.getElementById('contactDesc');
  if(eyebrow)eyebrow.textContent=copy[0];if(title)title.textContent=copy[1];if(desc)desc.textContent=copy[2];
 }
-window.updateContactContext=updateContactContext;
+if(typeof window!=='undefined')window.updateContactContext=updateContactContext;
 for(const id of ['contactForm','storeForm']){
  const form=document.getElementById(id);
  form.addEventListener('input',()=>{if(!form.dataset.submitting)delete form.dataset.requestId;});

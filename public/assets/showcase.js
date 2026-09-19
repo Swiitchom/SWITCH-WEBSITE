@@ -2,7 +2,7 @@
   const grid=document.getElementById('projGrid');
   const hero=document.querySelector('.hero');
   const portrait=document.querySelector('.hero-photo-wrap');
-  if(!grid||!hero||!portrait)return;
+  if(!hero||!portrait)return;
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const desktop=matchMedia('(min-width:960px) and (min-height:650px)');
   const fine=matchMedia('(hover:hover) and (pointer:fine)');
@@ -22,9 +22,9 @@
   }
   function schedule(){if(!frame)frame=requestAnimationFrame(paint);}
   function setup(){
-    cards=[...grid.querySelectorAll('.proj-card')];
+    cards=grid?[...grid.querySelectorAll('.proj-card')]:[];
     cards.forEach((card,i)=>card.style.setProperty('--scene-order',String(i+1)));
-    document.querySelectorAll('.hero-actions .btn,.nav-links a,.proj-link,.svc-cta,#projectsMore').forEach(el=>{
+    document.querySelectorAll('.hero-actions .btn,.nav-links a,.proj-link,.svc-cta,#projectsMore,.service-hub-tab,.service-offer-request').forEach(el=>{
       if(registered.has(el))return;registered.add(el);el.classList.add('magnetic');
       el.addEventListener('pointermove',e=>{
         if(reduced.matches||!fine.matches||e.pointerType==='touch')return;
@@ -43,21 +43,23 @@
   },{passive:true});
   hero.addEventListener('pointerleave',reset);hero.addEventListener('pointercancel',reset);
   document.querySelectorAll('.mobile-menu a').forEach((el,i)=>el.style.setProperty('--nav-order',String(i)));
-  grid.addEventListener('pointermove',e=>{
-    if(reduced.matches||!fine.matches||e.pointerType==='touch')return hideCursor();
-    const target=e.target.closest('.project-open');if(!target)return hideCursor();
-    cursor.textContent=document.documentElement.lang==='ar'?'استكشف':'Explore';
-    cursor.style.transform=`translate(${e.clientX-45}px,${e.clientY-45}px)`;cursor.classList.add('active');
-  },{passive:true});
-  grid.addEventListener('pointerleave',hideCursor);grid.addEventListener('pointercancel',hideCursor);grid.addEventListener('click',hideCursor);
-  grid.addEventListener('focusin',e=>{
-    const card=e.target.closest('.proj-card');
-    if(card&&desktop.matches&&!reduced.matches&&e.target.matches(':focus-visible')){
-      const before=cards.slice(0,cards.indexOf(card)).reduce((height,item)=>height+item.offsetHeight,0);
-      window.scrollTo({top:grid.getBoundingClientRect().top+scrollY+before-90,behavior:'instant'});
-    }
-  });
-  new MutationObserver(setup).observe(grid,{childList:true});
+  if(grid){
+    grid.addEventListener('pointermove',e=>{
+      if(reduced.matches||!fine.matches||e.pointerType==='touch')return hideCursor();
+      const target=e.target.closest('.project-open');if(!target)return hideCursor();
+      cursor.textContent=document.documentElement.lang==='ar'?'استكشف':'Explore';
+      cursor.style.transform=`translate(${e.clientX-45}px,${e.clientY-45}px)`;cursor.classList.add('active');
+    },{passive:true});
+    grid.addEventListener('pointerleave',hideCursor);grid.addEventListener('pointercancel',hideCursor);grid.addEventListener('click',hideCursor);
+    grid.addEventListener('focusin',e=>{
+      const card=e.target.closest('.proj-card');
+      if(card&&desktop.matches&&!reduced.matches&&e.target.matches(':focus-visible')){
+        const before=cards.slice(0,cards.indexOf(card)).reduce((height,item)=>height+item.offsetHeight,0);
+        window.scrollTo({top:grid.getBoundingClientRect().top+scrollY+before-90,behavior:'instant'});
+      }
+    });
+    new MutationObserver(setup).observe(grid,{childList:true});
+  }
   const services=document.getElementById('svcGrid');if(services)new MutationObserver(setup).observe(services,{childList:true});
   window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule,{passive:true});
   reduced.addEventListener('change',()=>{reset();hideCursor();cards.forEach(c=>['--scene-scale','--scene-opacity','--scene-text'].forEach(p=>c.style.removeProperty(p)));document.querySelectorAll('.magnetic').forEach(el=>{el.style.removeProperty('--magnet-x');el.style.removeProperty('--magnet-y');});schedule();});

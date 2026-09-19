@@ -22,7 +22,8 @@ const ICON = {
   arrow:`<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   play:`<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.25 3.5 12 8l-6.75 4.5v-9Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`,
   layers:`<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="m9 2.5 6 3.2-6 3.2-6-3.2L9 2.5Z" stroke="currentColor" stroke-width="1.3"/><path d="m3 9 6 3.2L15 9M3 12.2l6 3.3 6-3.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
-  board:`<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M7 1.8V4M11 1.8V4M7 14v2.2M11 14v2.2M1.8 7H4M14 7h2.2M1.8 11H4M14 11h2.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`
+  board:`<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M7 1.8V4M11 1.8V4M7 14v2.2M11 14v2.2M1.8 7H4M14 7h2.2M1.8 11H4M14 11h2.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+  store:`<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 6.5h12l-.9 8H3.9l-.9-8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 7V5.2A3 3 0 0 1 9 2.3a3 3 0 0 1 3 2.9V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`
 };
 function gradTile(seed){
   const pals=[["#1a2230","#0f141c"],["#22160f","#0f141c"],["#0f1e1c","#0f141c"],["#191024","#0f141c"]];
@@ -402,6 +403,23 @@ function renderServices(){
     requestTitleAr:'تطوير مشروع تقني — '+p.ar.title,requestTitleEn:'Technical project development — '+p.en.title,
     requestAr:'طوّر مشروعك',requestEn:'Develop your project'
    }))
+  },
+  {
+   key:'store',num:'04',icon:ICON.store,
+   titleAr:'ستور سويتش',titleEn:'Switch Store',
+   shortAr:'كتات ومنتجات تقنية جاهزة للطلب مباشرة.',shortEn:'Technical kits and products available to order directly.',
+   introAr:'قسم المنتجات من Switch. اختر المنتج، راجع التفاصيل والسعر، ثم أكمل الطلب من قسم المتجر مباشرة.',
+   introEn:'The Switch product area. Review the product, price and details, then complete your order directly in the store section.',
+   requestAr:'افتح ستور سويتش',requestEn:'Open Switch Store',
+   offers:[{
+    image:'assets/images/67950894dab95507.webp',mode:'photo',store:true,
+    tagAr:'متوفر الآن',tagEn:'Available now',
+    titleAr:'كت الأردوينو من Switch',titleEn:'Arduino Kit by Switch',
+    descAr:'كت تعليمي متكامل لبداية رحلتك في الإلكترونيات والبرمجة مع خيار إضافة الورشة الأونلاين.',
+    descEn:'A complete learning kit for electronics and programming, with an optional online workshop.',
+    metaAr:'19.900 ر.ع',metaEn:'19.900 OMR',
+    requestAr:'عرض المنتج والطلب',requestEn:'View product & order'
+   }]
   }
  ];
 
@@ -424,9 +442,11 @@ function renderServices(){
         <h3>${ar?active.titleAr:active.titleEn}</h3>
         <p>${ar?active.introAr:active.introEn}</p>
       </div>
-      ${serviceRequestButton({key:active.key,titleAr:active.titleAr,titleEn:active.titleEn,labelAr:active.requestAr,labelEn:active.requestEn,primary:true})}
+      ${active.key==='store'
+        ? `<a class="service-store-link is-primary" href="#store"><span>${ar?active.requestAr:active.requestEn}</span><span class="service-arrow" aria-hidden="true">${ICON.arrow}</span></a>`
+        : serviceRequestButton({key:active.key,titleAr:active.titleAr,titleEn:active.titleEn,labelAr:active.requestAr,labelEn:active.requestEn,primary:true})}
     </header>
-    <div class="service-offer-grid">
+    <div class="service-offer-grid ${active.key==='store'?'is-store-grid':''}">
       ${active.offers.map((o,index)=>`<article class="service-offer">
         <figure class="service-offer-media is-${o.mode}">
           <span class="service-offer-index">${String(index+1).padStart(2,'0')}</span>
@@ -436,7 +456,9 @@ function renderServices(){
           <div class="service-offer-topline"><span>${ar?o.tagAr:o.tagEn}</span><small>${ar?o.metaAr:o.metaEn}</small></div>
           <h4>${ar?o.titleAr:o.titleEn}</h4>
           <p>${ar?o.descAr:o.descEn}</p>
-          ${serviceRequestButton({key:active.key,titleAr:o.requestTitleAr,titleEn:o.requestTitleEn,labelAr:o.requestAr,labelEn:o.requestEn})}
+          ${o.store
+            ? `<a class="service-store-link" href="#store"><span>${ar?o.requestAr:o.requestEn}</span><span class="service-arrow" aria-hidden="true">${ICON.arrow}</span></a>`
+            : serviceRequestButton({key:active.key,titleAr:o.requestTitleAr,titleEn:o.requestTitleEn,labelAr:o.requestAr,labelEn:o.requestEn})}
         </div>
       </article>`).join('')}
     </div>

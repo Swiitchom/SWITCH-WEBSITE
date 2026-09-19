@@ -19,6 +19,33 @@ function inquiryPayload(form){
  if(!store)Object.assign(payload,window.portfolioBrief?.collect()||{});
  return payload;
 }
+
+const contactCopy={
+ general:{
+  ar:['إرسال الطلب','أرسل تفاصيل طلبك','اختر الخدمة وأدخل البيانات الأساسية، وسأراجع الطلب وأتواصل معك بالخطوة التالية.'],
+  en:['Send request','Send your request details','Choose the service and enter the essential details. I will review the request and follow up with the next step.']
+ },
+ training:{
+  ar:['طلب ورشة','خلّنا نجهز الورشة المناسبة لك','أرسل موضوع الورشة، عدد المشاركين، المكان والموعد المقترح، وسأراجع أفضل صيغة للتنفيذ.'],
+  en:['Workshop request','Let’s prepare the right workshop for you','Share the workshop topic, participant count, location and preferred date, and I’ll review the best delivery format.']
+ },
+ web:{
+  ar:['طلب منصة','جاهز نخصص المنصة لجهتك؟','أرسل بيانات الجهة والمنصة أو التجربة المطلوبة والموعد، وسأراجع طريقة التخصيص والتنفيذ.'],
+  en:['Platform request','Ready to tailor the platform to your organization?','Share your organization, the platform or experience you need and the preferred date, and I’ll review the best implementation approach.']
+ },
+ innovation:{
+  ar:['تطوير مشروع','لديك فكرة؟ دعنا نحولها إلى مشروع حقيقي.','أخبرني بمرحلة المشروع والنتيجة التي تريد الوصول لها، وسنحدد التقنية والخطوة التالية.'],
+  en:['Project development','Have an idea? Let’s turn it into a real project.','Tell me the project stage and the outcome you want, and we’ll define the right technology and next step.']
+ }
+};
+function updateContactContext(){
+ const form=document.getElementById('contactForm');if(!form)return;
+ const key=form.dataset.selectedServiceKey||'general',lang=document.documentElement.lang==='en'?'en':'ar';
+ const copy=(contactCopy[key]||contactCopy.general)[lang];
+ const eyebrow=document.getElementById('contactEyebrow'),title=document.getElementById('contactTitle'),desc=document.getElementById('contactDesc');
+ if(eyebrow)eyebrow.textContent=copy[0];if(title)title.textContent=copy[1];if(desc)desc.textContent=copy[2];
+}
+window.updateContactContext=updateContactContext;
 for(const id of ['contactForm','storeForm']){
  const form=document.getElementById(id);
  form.addEventListener('input',()=>{if(!form.dataset.submitting)delete form.dataset.requestId;});
@@ -58,6 +85,7 @@ document.addEventListener('click',event=>{
  form.dataset.selectedServiceKey=serviceKey;
  form.dataset.selectedServiceTitleAr=titleAr;
  form.dataset.selectedServiceTitleEn=titleEn;
+ updateContactContext();
  delete form.dataset.requestId;
  select.closest('.field').hidden=true;
  let summary=document.getElementById('selectedServiceSummary');
@@ -68,3 +96,6 @@ document.addEventListener('click',event=>{
  setTimeout(()=>document.getElementById('fName').focus({preventScroll:true}),250);
 });
 (()=>{if(typeof MutationObserver==='undefined')return;const form=document.getElementById('contactForm'),select=document.getElementById('fService');new MutationObserver(()=>{if(!form.dataset.selectedServiceKey)return;const translated=currentLang==='ar'?form.dataset.selectedServiceTitleAr:form.dataset.selectedServiceTitleEn;if(translated){if(![...select.options].some(o=>o.value===translated))select.add(new Option(translated,translated));select.value=translated;form.dataset.selectedService=translated;const summary=document.getElementById('selectedServiceSummary');if(summary)summary.textContent=translated;}}).observe(select,{childList:true});form.addEventListener('reset',()=>{const translated=currentLang==='ar'?form.dataset.selectedServiceTitleAr:form.dataset.selectedServiceTitleEn;if(translated)setTimeout(()=>{select.value=translated;select.dispatchEvent(new Event('change',{bubbles:true}));},0);});})();
+
+if(typeof MutationObserver!=='undefined')new MutationObserver(updateContactContext).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+updateContactContext();

@@ -107,7 +107,6 @@ const projectsData = [
     },
     "techs": [],
     "video": {
-      "showOnCard": true,
       "src": "assets/videos/hand-gesture-preview.mp4",
       "poster": "assets/images/hand-gesture-interaction.webp",
       "width": 240,

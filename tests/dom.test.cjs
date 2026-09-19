@@ -7,9 +7,9 @@ function boot(){
  for(const script of w.document.querySelectorAll('script[src]'))require('node:vm').runInContext(fs.readFileSync(path.join(root,script.getAttribute('src').split(/[?#]/)[0]),'utf8'),dom.getInternalVMContext());
  return dom;
 }
-test('homepage exposes one clear three-path service catalogue without duplicate project or workshop sections',async()=>{
+test('homepage exposes three services plus Switch Store without duplicate project or workshop sections',async()=>{
  const dom=boot(),d=dom.window.document;
- assert.equal(d.querySelectorAll('.service-hub-tab').length,3);
+ assert.equal(d.querySelectorAll('.service-hub-tab').length,4);
  assert.equal(d.querySelectorAll('.service-hub-tab.is-active').length,1);
  assert.match(d.querySelector('.service-hub-panel h3').textContent,/الورش/);
  assert.equal(d.querySelectorAll('.service-offer').length,3);
@@ -25,6 +25,14 @@ test('homepage exposes one clear three-path service catalogue without duplicate 
  assert.match(d.querySelector('.service-hub-panel h3').textContent,/المشاريع/);
  assert.equal(d.querySelectorAll('.service-offer').length,3);
  assert.ok(d.querySelector('.service-hub-panel').textContent.includes('الخوذة'));
+ d.querySelector('[data-service-hub="store"]').click();
+ assert.match(d.querySelector('.service-hub-panel h3').textContent,/ستور سويتش/);
+ assert.equal(d.querySelectorAll('.service-offer').length,1);
+ assert.equal(d.querySelector('.service-store-link').getAttribute('href'),'#store');
+ assert.ok(d.querySelector('.nav-store'));
+ assert.ok(d.getElementById('store'));
+ assert.equal(d.getElementById('store').closest('details'),null);
+ d.querySelector('[data-service-hub="innovation"]').click();
  d.getElementById('langBtn').click();
  assert.equal(d.documentElement.dir,'ltr');
  assert.match(d.querySelector('.service-hub-panel h3').textContent,/Technical Project/);

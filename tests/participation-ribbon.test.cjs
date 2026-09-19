@@ -17,6 +17,12 @@ test('photo captions and accessible labels update to English in both copies',asy
  for(const button of b.d.querySelectorAll('[data-photo]'))assert.match(button.getAttribute('aria-label'),/^Enlarge:/);
  assert.equal(b.d.querySelector('.participation-tile span').textContent,'Learning by doing');b.dom.window.close();
 });
-test('page retains secondary sections without playback labels or repeated statistics',()=>{
- const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert.doesNotMatch(html,/participation(Pause|Count|Prev|Next|Carousel)/);assert.doesNotMatch(html,/class="stat-cards/);for(const id of ['workshops','achievements','store','gallery'])assert.ok(html.includes('id="more-'+id+'"'));assert.ok(html.indexOf('id="projects"')<html.indexOf('id="participation"'));
+test('page keeps proof sections secondary while the unified service catalogue stays primary',()=>{
+ const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+ assert.doesNotMatch(html,/participation(Pause|Count|Prev|Next|Carousel)/);
+ assert.doesNotMatch(html,/class="stat-cards/);
+ for(const id of ['achievements','store','gallery'])assert.ok(html.includes('id="more-'+id+'"'));
+ assert.equal(html.includes('id="more-workshops"'),false);
+ assert.equal(html.includes('id="projects"'),false);
+ assert.ok(html.indexOf('id="services"')<html.indexOf('id="participation"'));
 });

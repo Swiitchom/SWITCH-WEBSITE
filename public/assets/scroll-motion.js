@@ -34,7 +34,7 @@
     document.querySelectorAll('.proj-grid,.svc-grid,.wksp-grid').forEach(grid=>{
       [...grid.children].forEach((el,i)=>el.style.setProperty('--reveal-delay',`${(i%3)*100}ms`));
     });
-    document.querySelectorAll('.project-open,.svc-card').forEach(el=>{
+    document.querySelectorAll('.project-open,.svc-card,.service-hub-tab,.service-offer').forEach(el=>{
       if(registered.has(el))return;registered.add(el);observer?.observe(el);
       el.addEventListener('pointermove',e=>{
         if(reduce.matches||!pointer.matches||e.pointerType==='touch')return;
@@ -51,14 +51,16 @@
       el.addEventListener('blur',()=>reset(el));
     });schedule();
   }
-  new MutationObserver(setup).observe(document.getElementById('projGrid'),{childList:true});
-  new MutationObserver(setup).observe(document.getElementById('svcGrid'),{childList:true});
+  for(const id of ['projGrid','svcGrid']){
+    const target=document.getElementById(id);
+    if(target)new MutationObserver(setup).observe(target,{childList:true,subtree:true});
+  }
   window.addEventListener('scroll',schedule,{passive:true});
   window.addEventListener('resize',schedule,{passive:true});
   document.addEventListener('visibilitychange',schedule);
   reduce.addEventListener('change',()=>{
     if(frame){cancelAnimationFrame(frame);frame=0;}
-    document.querySelectorAll('.project-open,.svc-card').forEach(el=>{reset(el);el.style.setProperty('--scroll-drift','0px');});schedule();
+    document.querySelectorAll('.project-open,.svc-card,.service-hub-tab,.service-offer').forEach(el=>{reset(el);el.style.setProperty('--scroll-drift','0px');});schedule();
   });
   setup();
 })();

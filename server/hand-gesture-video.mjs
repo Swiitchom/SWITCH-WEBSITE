@@ -1,7 +1,7 @@
-const assetPaths=[
- '/assets/videos/hand-gesture-preview.parts/part-00.bin',
- '/assets/videos/hand-gesture-preview.parts/part-01.bin',
- '/assets/videos/hand-gesture-preview.parts/part-02.bin'
+const assetParts=[
+ ['/assets/videos/hand-gesture-preview.parts/part-00.bin',12288],
+ ['/assets/videos/hand-gesture-preview.parts/part-01.bin',12288],
+ ['/assets/videos/hand-gesture-preview.parts/part-02.bin',7935]
 ];
 const assetBytes=32511;
 
@@ -15,10 +15,12 @@ const headers=length=>new Headers({
 
 async function loadAsset(request,env){
  const chunks=[];
- for(const path of assetPaths){
+ for(const [path,length] of assetParts){
   const response=await env.ASSETS.fetch(new Request(new URL(path,request.url),{method:'GET'}));
   if(!response.ok)return null;
-  chunks.push(new Uint8Array(await response.arrayBuffer()));
+  const raw=new Uint8Array(await response.arrayBuffer());
+  if(raw.byteLength<length)return null;
+  chunks.push(raw.subarray(0,length));
  }
  const bytes=new Uint8Array(assetBytes);let offset=0;
  for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength;}

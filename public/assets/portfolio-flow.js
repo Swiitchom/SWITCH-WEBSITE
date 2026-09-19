@@ -52,6 +52,28 @@
 
  if(projectGrid){
   projectGrid.addEventListener('click',event=>{
+   const videoButton=event.target.closest('.project-video-toggle');
+   if(videoButton){
+    const card=videoButton.closest('.project-case'),panel=card?.querySelector('.project-video-panel'),video=panel?.querySelector('video');
+    if(!card||!panel)return;
+    const open=videoButton.getAttribute('aria-expanded')!=='true';
+    projectGrid.querySelectorAll('.project-case.is-video-open').forEach(other=>{
+     if(other===card)return;
+     other.classList.remove('is-video-open');
+     other.querySelector('.project-video-toggle')?.setAttribute('aria-expanded','false');
+     other.querySelector('.project-video-panel')?.setAttribute('aria-hidden','true');
+     other.querySelectorAll('video').forEach(item=>item.pause());
+    });
+    card.classList.toggle('is-video-open',open);
+    videoButton.setAttribute('aria-expanded',String(open));
+    panel.setAttribute('aria-hidden',String(!open));
+    if(open&&video){
+     if(video.readyState===0)video.load();
+     setTimeout(()=>video.focus({preventScroll:true}),80);
+    }else video?.pause();
+    return;
+   }
+
    const button=event.target.closest('.project-reveal');if(!button)return;
    const card=button.closest('.project-case');if(!card)return;
    const wasOpen=button.getAttribute('aria-expanded')==='true';
@@ -59,7 +81,6 @@
     card.classList.remove('is-open');
     button.setAttribute('aria-expanded','false');
     card.querySelector('.project-details')?.setAttribute('aria-hidden','true');
-    card.querySelectorAll('video').forEach(video=>video.pause());
    }else closeProjectExcept(card);
   });
  }

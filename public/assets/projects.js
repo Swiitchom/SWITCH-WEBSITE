@@ -39,12 +39,12 @@ const projectsData = [
       "width": 816,
       "height": 576,
       "ar": {
-        "title": "تجربة منصة معبر المدرسة التفاعلي",
-        "caption": "من الترحيب بشخصية ريما إلى التفاعل بالكاميرا وفتح بوابة المدرسة بإشارة اليد."
+        "title": "تجربة استقبال الطلاب بالشخصيات التفاعلية",
+        "caption": "من الترحيب بالشخصية التفاعلية إلى التفاعل بالكاميرا وإشارات اليد داخل تجربة الطالب."
       },
       "en": {
-        "title": "Interactive School Gateway demonstration",
-        "caption": "From Rima’s welcome to camera interaction and opening the school gate with a hand gesture."
+        "title": "Interactive student welcome demonstration",
+        "caption": "From an interactive character welcome to camera and hand-gesture interaction within the student experience."
       }
     }
   },
@@ -105,7 +105,21 @@ const projectsData = [
       "benefit": "Turns a lesson or idea from something students watch into an experience they can control with hand gestures in front of the camera.",
       "imageCaption": "Choosing colours with hand gestures"
     },
-    "techs": []
+    "techs": [],
+    "video": {
+      "src": "assets/videos/hand-gesture-preview.mp4",
+      "poster": "assets/images/hand-gesture-interaction.webp",
+      "width": 240,
+      "height": 426,
+      "ar": {
+        "title": "الذكاء الاصطناعي والتفاعل بإشارات اليد",
+        "caption": "مقطع قصير يوضح دمج الدروس والأفكار بالذكاء الاصطناعي مع التفاعل المباشر عبر حركة اليد."
+      },
+      "en": {
+        "title": "AI and hand-gesture interaction",
+        "caption": "A short preview of AI-supported lessons and ideas combined with direct hand-gesture interaction."
+      }
+    }
   },
   {
     "cat": "electronics",

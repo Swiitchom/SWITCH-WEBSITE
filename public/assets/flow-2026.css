@@ -274,3 +274,20 @@ html[dir=ltr] #projects .project-case.is-open .project-reveal i{transform:rotate
  #services .service-process-flow i{animation:none!important}
  #projects .project-case-media img,#projects .project-reveal i,#projects .project-details,#services .package-details,#services .package-arrow{transition:none!important}
 }
+
+
+/* Dedicated project video viewer: image stays on the project card; video opens only on request. */
+.video-only-dialog{max-width:780px;margin:0 auto;padding:10px 0 18px}
+.video-only-head{margin:0 0 18px}
+.video-only-head>span{display:block;color:var(--signal);font:700 10px/1.4 var(--font-mono);letter-spacing:.08em;margin-bottom:8px}
+.video-only-head h3{margin:0;font-size:clamp(24px,4vw,38px);font-weight:500;line-height:1.35}
+.video-only-dialog .case-film{margin:0}
+.video-only-dialog .case-film-frame{border-radius:20px;overflow:hidden;background:#050606}
+.video-only-dialog .case-film-heading{display:none}
+.video-only-dialog .case-video{display:block;width:100%;max-height:72vh;object-fit:contain;background:#050606}
+.video-only-dialog .case-video.is-portrait{width:min(100%,380px);height:auto;max-height:72vh;margin:auto}
+.video-only-dialog .case-film figcaption{max-width:620px;margin:12px auto 0;text-align:center;color:var(--text-muted);font-size:12.5px;line-height:1.8}
+@media(max-width:700px){
+ .video-only-dialog{padding-top:4px}
+ .video-only-dialog .case-video.is-portrait{width:min(100%,320px);max-height:68vh}
+}

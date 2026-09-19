@@ -87,3 +87,6 @@ html[dir=ltr] .photo-ribbon .participation-tile{direction:ltr!important}
  .photo-ribbon .photo-ribbon-track{animation:none!important}
  .photo-ribbon .photo-ribbon-group[data-copy="1"]{display:none!important}
 }
+
+/* Keep the new wide workshop photo framed on the presenter without altering the source image. */
+.photo-ribbon [data-photo="10"] img{object-position:70% center}

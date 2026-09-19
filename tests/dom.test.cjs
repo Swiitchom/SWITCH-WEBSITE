@@ -21,6 +21,14 @@ test('homepage exposes three services plus Switch Store without duplicate projec
  assert.ok(d.querySelector('.service-hub-panel').textContent.includes('استقبال الطلاب'));
  assert.ok(d.querySelector('.service-hub-panel').textContent.includes('مساحة أُنس'));
  assert.ok(d.querySelector('.service-hub-panel').textContent.includes('إشارات اليد'));
+ assert.ok(d.querySelector('.platform-detail'));
+ assert.ok(d.querySelector('.platform-detail-hero img'));
+ assert.ok(d.querySelector('.platform-detail-story'));
+ assert.ok(d.querySelector('.platform-video-section video[controls]'));
+ assert.equal(d.querySelector('.platform-detail-cta .service-offer-request').textContent.includes('اطلبها الآن'),true);
+ d.querySelector('[data-platform-choice="uns"]').click();
+ assert.match(d.querySelector('.platform-detail h4').textContent,/أُنس/);
+ assert.equal(d.querySelector('.platform-video-section'),null);
  d.querySelector('[data-service-hub="innovation"]').click();
  assert.match(d.querySelector('.service-hub-panel h3').textContent,/المشاريع/);
  assert.equal(d.querySelectorAll('.service-offer').length,3);
@@ -69,6 +77,9 @@ test('service tabs switch one catalogue in place and direct requests survive lan
   d.querySelector('#langBtn').click();await new Promise(resolve=>setImmediate(resolve));
   assert.equal(d.querySelector('#fService').value,'Technical Project & Prototype Development');
   assert.equal(d.querySelector('[data-service-hub="innovation"]').classList.contains('is-active'),true);
+  const alternatives=d.querySelector('.contact-alternatives');
+  assert.ok(alternatives);assert.equal(alternatives.open,false);
+  assert.ok(alternatives.querySelector('#socialList'));
  }finally{await new Promise(resolve=>setImmediate(resolve));w.close();}
 });
 test('guided quote preserves separate package drafts, language and failed sends, then clears after success',async()=>{

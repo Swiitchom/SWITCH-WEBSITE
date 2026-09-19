@@ -1,4 +1,4 @@
-/* Unified 2026 service catalogue: three paths, one destination, no duplicated sections. */
+/* Unified 2026 service catalogue: services + Switch Store, one clear destination flow. */
 #services.service-catalog-section{padding-top:96px;padding-bottom:110px;scroll-margin-top:86px}
 #services .service-section-head{max-width:860px;margin-bottom:38px}
 #services .service-section-copy{max-width:760px}
@@ -6,7 +6,7 @@
 
 /* Top service selector: one strong navigation rail, not three disconnected cards. */
 .service-hub-nav{
- display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
  border-block:1px solid color-mix(in srgb,var(--line) 92%,transparent);
  background:color-mix(in srgb,var(--surface) 24%,transparent);
  backdrop-filter:blur(8px);
@@ -87,6 +87,11 @@ html[dir=ltr] .service-hub-tab.is-active .service-hub-tab-arrow{transform:transl
 
 /* Three concrete choices inside the selected service. */
 .service-offer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.service-offer-grid.is-store-grid{grid-template-columns:minmax(0,520px);justify-content:start}
+.service-offer-grid.is-store-grid .service-offer-media{aspect-ratio:16/9}
+.service-offer-grid.is-store-grid .service-offer h4{font-size:clamp(22px,2.3vw,30px)}
+.service-offer-grid.is-store-grid .service-offer p{max-width:520px}
+
 .service-offer{min-width:0;display:flex;flex-direction:column}
 .service-offer-media{
  position:relative;aspect-ratio:16/10;margin:0 0 17px;overflow:hidden;border-radius:17px;
@@ -129,30 +134,30 @@ html[dir=ltr] .service-hub-tab.is-active .service-hub-tab-arrow{transform:transl
 }
 
 /* One button language across all service actions. */
-.service-offer-request{
- appearance:none;align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:9px 12px;
+.service-offer-request,.service-store-link{
+ appearance:none;align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:9px 12px;text-decoration:none;
  border:1px solid color-mix(in srgb,var(--line) 90%,transparent);border-radius:10px;
  background:color-mix(in srgb,var(--surface) 38%,transparent);color:var(--text);
  font-size:12px;font-weight:650;cursor:pointer;
  transition:transform .22s ease,border-color .22s ease,color .22s ease,background .22s ease
 }
-.service-offer-request:hover{
+.service-offer-request:hover,.service-store-link:hover{
  transform:translateY(-1px);border-color:color-mix(in srgb,var(--signal) 55%,var(--line));
  color:var(--signal);background:color-mix(in srgb,var(--signal) 7%,transparent)
 }
-.service-offer-request.is-primary{
+.service-offer-request.is-primary,.service-store-link.is-primary{
  align-self:end;min-height:44px;padding:11px 16px;
  border-color:var(--signal);background:var(--signal);color:var(--bg);
  box-shadow:0 12px 28px color-mix(in srgb,var(--signal) 18%,transparent)
 }
-.service-offer-request.is-primary:hover{
+.service-offer-request.is-primary:hover,.service-store-link.is-primary:hover{
  color:var(--bg);background:color-mix(in srgb,var(--signal) 88%,white);transform:translateY(-2px)
 }
 .service-arrow{
  width:21px;height:21px;border-radius:6px;display:grid;place-items:center;
  background:color-mix(in srgb,var(--signal) 9%,transparent);color:currentColor
 }
-.service-offer-request.is-primary .service-arrow{background:color-mix(in srgb,var(--bg) 14%,transparent)}
+.service-offer-request.is-primary .service-arrow,.service-store-link.is-primary .service-arrow{background:color-mix(in srgb,var(--bg) 14%,transparent)}
 .service-arrow svg{width:12px;height:12px}
 
 /* Contact handoff: make the selected service obvious after a direct CTA. */
@@ -194,10 +199,26 @@ html[dir=ltr] .service-hub-tab.is-active .service-hub-tab-arrow{transform:transl
  .service-offer-media.is-ui{padding:10px}
  .service-offer h4{font-size:21px}
  .service-offer p{font-size:12.5px}
- .service-offer-request{width:100%;justify-content:space-between}
- .service-offer-request.is-primary{width:auto}
+ .service-offer-request,.service-store-link{width:100%;justify-content:space-between}
+ .service-offer-request.is-primary,.service-store-link.is-primary{width:auto}
 }
 @media(prefers-reduced-motion:reduce){
  .service-hub-panel{animation:none}
- .service-hub-tab,.service-hub-tab::after,.service-hub-tab-arrow,.service-offer-media img,.service-offer-request{transition:none!important}
+ .service-hub-tab,.service-hub-tab::after,.service-hub-tab-arrow,.service-offer-media img,.service-offer-request,.service-store-link{transition:none!important}
+}
+
+.nav-store{position:relative}
+.nav-store::after{
+ content:"";position:absolute;inset-inline:0;bottom:-7px;height:1px;background:var(--signal);
+ transform:scaleX(.35);opacity:.75;transition:transform .22s ease
+}
+.nav-store:hover::after{transform:scaleX(1)}
+#store{scroll-margin-top:92px}
+.switch-store-section{
+ position:relative;padding-top:104px;
+ border-top:1px solid color-mix(in srgb,var(--line) 72%,transparent)
+}
+.switch-store-section::before{
+ content:"";position:absolute;inset-inline:8%;top:0;height:1px;
+ background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--signal) 60%,transparent),transparent)
 }

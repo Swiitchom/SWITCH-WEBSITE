@@ -14,6 +14,8 @@ test('homepage renders bilingual selected work with inline project discovery',as
  assert.equal(d.querySelectorAll('.project-card-video').length,0);
  assert.equal(d.querySelectorAll('.project-inline-video').length,0);
  assert.equal(d.querySelectorAll('.project-watch-video').length,2);
+ const watch=d.querySelectorAll('.project-watch-video')[1];watch.click();
+ assert.equal(d.getElementById('modalOverlay').classList.contains('open'),true);assert.equal(d.querySelectorAll('#modalOverlay video').length,1);d.getElementById('modalCloseBtn').click();
  const reveal=d.querySelector('.project-reveal');reveal.click();
  assert.equal(reveal.getAttribute('aria-expanded'),'true');assert.equal(d.querySelectorAll('.project-details[aria-hidden="false"]').length,1);
  d.getElementById('projectsMore').click();assert.equal(d.querySelectorAll('.proj-card').length,8);

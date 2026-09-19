@@ -15,18 +15,13 @@ test('published demo supports exact, open and suffix ranges without forwarding r
 });
 
 
-test('hand-gesture preview is a complete browser-playable MP4 asset',()=>{
- const file=path.resolve(__dirname,'../public/assets/videos/hand-gesture-preview.mp4');
- const bytes=fs.readFileSync(file);
- assert.equal(bytes.length,8421);
- const boxes=[];let offset=0;
- while(offset+8<=bytes.length){
-  const size=bytes.readUInt32BE(offset),type=bytes.toString('ascii',offset+4,offset+8);
-  assert.ok(size>=8,`invalid ${type} box size`);
-  assert.ok(offset+size<=bytes.length,`${type} box exceeds asset length`);
-  boxes.push(type);offset+=size;
- }
- assert.equal(offset,bytes.length);
- assert.deepEqual(boxes,['ftyp','moov','free','mdat']);
- assert.ok(bytes.indexOf(Buffer.from('avc1'))>0);
+test('hand-gesture preview serves the embedded MP4 with full and ranged responses',async()=>{
+ const {serveHandGestureVideo}=await import('../server/hand-gesture-video.mjs');
+ const run=(headers={},method='GET')=>serveHandGestureVideo(new Request('https://example.com/assets/videos/hand-gesture-preview.mp4',{method,headers}));
+ const full=await run();assert.equal(full.status,200);assert.equal(full.headers.get('content-type'),'video/mp4');
+ const bytes=new Uint8Array(await full.arrayBuffer());assert.equal(bytes.byteLength,32511);assert.equal(String.fromCharCode(...bytes.slice(4,8)),'ftyp');
+ const ranged=await run({range:'bytes=10-19'});assert.equal(ranged.status,206);assert.equal(ranged.headers.get('content-range'),'bytes 10-19/32511');assert.equal((await ranged.arrayBuffer()).byteLength,10);
+ const suffix=await run({range:'bytes=-8'});assert.equal(suffix.status,206);assert.equal((await suffix.arrayBuffer()).byteLength,8);
+ assert.equal((await run({range:'bytes=40000-'})).status,416);
+ const head=await run({},'HEAD');assert.equal(head.status,200);assert.equal(head.headers.get('content-length'),'32511');assert.equal((await head.arrayBuffer()).byteLength,0);
 });

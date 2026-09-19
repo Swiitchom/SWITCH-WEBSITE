@@ -19,7 +19,10 @@ const ICON = {
   instagram:`<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>`,
   mail:`<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.4"/></svg>`,
   linkedin:`<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><path d="M8 11v6M12 11v6M12 13.5c0-1.5 1-2.5 2.3-2.5S17 12 17 13.5V17" stroke="currentColor" stroke-width="1.4"/></svg>`,
-  arrow:`<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+  arrow:`<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  play:`<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.25 3.5 12 8l-6.75 4.5v-9Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`,
+  layers:`<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="m9 2.5 6 3.2-6 3.2-6-3.2L9 2.5Z" stroke="currentColor" stroke-width="1.3"/><path d="m3 9 6 3.2L15 9M3 12.2l6 3.3 6-3.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+  board:`<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="4" y="4" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M7 1.8V4M11 1.8V4M7 14v2.2M11 14v2.2M1.8 7H4M14 7h2.2M1.8 11H4M14 11h2.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`
 };
 function gradTile(seed){
   const pals=[["#1a2230","#0f141c"],["#22160f","#0f141c"],["#0f1e1c","#0f141c"],["#191024","#0f141c"]];
@@ -176,7 +179,7 @@ function renderExpertise(){
 }
 
 let activeFilter='all';
-let showAllProjects=false;
+const expandedProjectGroups=new Set();
 function renderFilters(){
  const host=document.getElementById('filters');if(!host)return;
  host.replaceChildren();
@@ -201,56 +204,100 @@ function projectVideoHTML(p){
  const ar=currentLang==='ar',v=p.video;
  return `<figure class="case-film"><div class="case-film-frame"><div class="case-film-heading"><span>${ar?'التجربة بالفيديو':'The experience on film'}</span><span>${ar?'من داخل المنصة':'Inside the platform'}</span></div><video class="case-video ${v.height>v.width?'is-portrait':''}" controls playsinline preload="none" tabindex="0" width="${v.width}" height="${v.height}" poster="${v.poster}" aria-label="${v[currentLang].title}" aria-describedby="caseVideoCaption"><source src="${v.src}" type="video/mp4">${ar?'متصفحك لا يدعم تشغيل الفيديو.':'Your browser does not support this video.'}</video></div><figcaption id="caseVideoCaption">${v[currentLang].caption}</figcaption></figure>`;
 }
+function projectVideoSrc(p){
+ const src=p?.video?.src||'';
+ return src.startsWith('/')?src:'/'+src.replace(/^\.\//,'');
+}
+function projectCardHTML(p,position){
+ const t=p[currentLang],index=projectsData.indexOf(p),techs=Array.isArray(p.techs)&&p.techs.length?p.techs.join(' · '):'';
+ const visualClass=p.screenshot||p.kind==='platform'?'project-visual-ui':p.image?'project-visual-photo':'project-visual-symbol';
+ const first=t.problem||t.overview||t.desc;
+ const second=t.solution||t.benefit||t.desc;
+ const third=t.result||t.deployment||'';
+ const video=p.video;
+ return `<article class="proj-card project-case reveal" data-project-card="${index}">
+   <div class="project-case-media ${visualClass}">
+     <span class="project-index">${String(position+1).padStart(2,'0')}</span>
+     ${projMediaHTML(p)}
+   </div>
+   <div class="project-case-copy">
+     <div class="project-case-meta">
+       ${p.logo?`<img class="project-case-logo" src="${p.logo}" alt="" loading="lazy" decoding="async">`:''}
+       <span>${t.tag}</span>
+     </div>
+     <h4>${t.title}</h4>
+     <p class="project-case-lead">${t.desc}</p>
+     ${t.deployment?`<p class="project-case-proof">${t.deployment}</p>`:''}
+     <div class="project-actions">
+       <button type="button" class="project-reveal tech-action" aria-expanded="false" aria-controls="project-detail-${index}">
+         <span>${currentLang==='ar'?'عرض التفاصيل':'View details'}</span><span class="tech-action-icon" aria-hidden="true">${ICON.arrow}</span>
+       </button>
+       ${video?`<button type="button" class="project-video-toggle tech-action tech-action-primary" aria-expanded="false" aria-controls="project-video-${index}">
+         <span>${currentLang==='ar'?'مشاهدة التجربة':'Watch demo'}</span><span class="tech-action-icon" aria-hidden="true">${ICON.play}</span>
+       </button>`:''}
+     </div>
+     <div class="project-details" id="project-detail-${index}" aria-hidden="true">
+       <div class="project-detail-grid">
+         <section><span>${currentLang==='ar'?(t.problem?'التحدي':'الفكرة'):(t.problem?'Challenge':'The idea')}</span><p>${first}</p></section>
+         <section><span>${currentLang==='ar'?(t.solution?'ما تم تنفيذه':'التنفيذ'):(t.solution?'What was built':'Implementation')}</span><p>${second}</p></section>
+         ${third?`<section><span>${currentLang==='ar'?(t.result?'النتيجة':'التطبيق'):(t.result?'Outcome':'In use')}</span><p>${third}</p></section>`:''}
+         ${techs?`<p class="project-tech-line">${techs}</p>`:''}
+       </div>
+     </div>
+     ${video?`<div class="project-video-panel" id="project-video-${index}" aria-hidden="true">
+       <div class="project-video-shell">
+         <div class="project-video-head"><span>${currentLang==='ar'?'عرض عملي':'LIVE DEMO'}</span><strong>${video[currentLang].title}</strong></div>
+         <video class="project-inline-video ${video.height>video.width?'is-portrait':''}" controls playsinline preload="metadata" poster="${video.poster}" src="${projectVideoSrc(p)}" aria-label="${video[currentLang].title}"></video>
+         <div class="project-video-foot">
+           <p>${video[currentLang].caption}</p>
+           <a class="project-video-open" href="${projectVideoSrc(p)}" target="_blank" rel="noopener">${currentLang==='ar'?'فتح الفيديو مباشرة':'Open video directly'} <span aria-hidden="true">${ICON.arrow}</span></a>
+         </div>
+       </div>
+     </div>`:''}
+   </div>
+ </article>`;
+}
 function renderProjects(){
  const all=projectsData;
- const list=showAllProjects?all:all.slice(0,4);
+ const groups=[
+  {
+   key:'platforms',code:'01',icon:ICON.layers,
+   title:currentLang==='ar'?'المنصات والتجارب الرقمية':'Digital Platforms & Experiences',
+   label:currentLang==='ar'?'DIGITAL / INTERACTIVE':'DIGITAL / INTERACTIVE',
+   desc:currentLang==='ar'?'واجهات وتجارب تفاعلية مصممة للتعليم والفعاليات والوصول الرقمي.':'Interactive products designed for education, events and accessible digital experiences.',
+   items:all.filter(p=>p.kind==='platform'||p.screenshot),limit:2
+  },
+  {
+   key:'prototypes',code:'02',icon:ICON.board,
+   title:currentLang==='ar'?'المشاريع والنماذج التقنية':'Technical Projects & Prototypes',
+   label:currentLang==='ar'?'HARDWARE / IOT':'HARDWARE / IOT',
+   desc:currentLang==='ar'?'نماذج تجمع الإلكترونيات والأنظمة المدمجة والذكاء الاصطناعي لتحويل الفكرة إلى تجربة قابلة للاختبار.':'Prototypes combining electronics, embedded systems and AI to turn ideas into testable systems.',
+   items:all.filter(p=>!(p.kind==='platform'||p.screenshot)),limit:2
+  }
+ ];
  const host=document.getElementById('projGrid');
- host.innerHTML=list.map((p,i)=>{
-  const t=p[currentLang],index=projectsData.indexOf(p),techs=Array.isArray(p.techs)&&p.techs.length?p.techs.join(' · '):'';
-  const visualClass=p.screenshot||p.kind==='platform'?'project-visual-ui':p.image?'project-visual-photo':'project-visual-symbol';
-  const first=t.problem||t.overview||t.desc;
-  const second=t.solution||t.benefit||t.desc;
-  const third=t.result||t.deployment||'';
-  return `<article class="proj-card project-case reveal ${i%2?'project-case-reverse':''}" data-project-card="${index}">
-    <div class="project-case-media ${visualClass}">
-      <span class="project-index">${String(index+1).padStart(2,'0')}</span>
-      ${projMediaHTML(p)}
-    </div>
-    <div class="project-case-copy">
-      <div class="project-case-meta">
-        ${p.logo?`<img class="project-case-logo" src="${p.logo}" alt="" loading="lazy" decoding="async">`:''}
-        <span>${t.tag}</span>
-      </div>
-      <h3>${t.title}</h3>
-      <p class="project-case-lead">${t.desc}</p>
-      ${t.deployment?`<p class="project-case-proof">${t.deployment}</p>`:''}
-      <div class="project-actions">
-        <button type="button" class="project-reveal" aria-expanded="false" aria-controls="project-detail-${index}">
-          <span>${currentLang==='ar'?'تفاصيل المشروع':'Project details'}</span><i aria-hidden="true">↗</i>
-        </button>
-        ${p.video?`<button type="button" class="project-watch-video" data-video-project="${index}" aria-label="${currentLang==='ar'?'مشاهدة فيديو '+t.title:'Watch video for '+t.title}"><span aria-hidden="true">▶</span>${currentLang==='ar'?'مشاهدة الفيديو':'Watch video'}</button>`:''}
-      </div>
-      <div class="project-details" id="project-detail-${index}" aria-hidden="true">
-        <div class="project-detail-grid">
-          <section><span>${currentLang==='ar'?(t.problem?'التحدي':'الفكرة'):(t.problem?'Challenge':'The idea')}</span><p>${first}</p></section>
-          <section><span>${currentLang==='ar'?(t.solution?'ما تم تنفيذه':'التنفيذ'):(t.solution?'What was built':'Implementation')}</span><p>${second}</p></section>
-          ${third?`<section><span>${currentLang==='ar'?(t.result?'النتيجة':'التطبيق'):(t.result?'Outcome':'In use')}</span><p>${third}</p></section>`:''}
-          ${techs?`<p class="project-tech-line">${techs}</p>`:''}
-        </div>
-      </div>
-    </div>
-  </article>`;
+ host.innerHTML=groups.map(group=>{
+  const expanded=expandedProjectGroups.has(group.key),visible=expanded?group.items:group.items.slice(0,group.limit);
+  const hiddenCount=Math.max(0,group.items.length-group.limit);
+  return `<section class="work-group" data-work-group="${group.key}">
+    <header class="work-group-head reveal">
+      <div class="work-group-mark"><span>${group.code}</span><i aria-hidden="true">${group.icon}</i></div>
+      <div class="work-group-heading"><span class="work-group-label">${group.label}</span><h3>${group.title}</h3><p>${group.desc}</p></div>
+    </header>
+    <div class="work-group-list">${visible.map((p,i)=>projectCardHTML(p,i)).join('')}</div>
+    ${hiddenCount?`<button type="button" class="work-group-more tech-action" data-toggle-work-group="${group.key}">
+      <span>${currentLang==='ar'?(expanded?'عرض مختصر':`عرض بقية ${group.key==='platforms'?'المنصات':'المشاريع'}`):(expanded?'Show fewer':`View all ${group.key==='platforms'?'platforms':'projects'}`)}</span>
+      <span class="tech-action-icon" aria-hidden="true">${ICON.arrow}</span>
+    </button>`:''}
+  </section>`;
  }).join('');
- const more=document.getElementById('projectsMore');
- more.hidden=all.length<=4;
- more.textContent=currentLang==='ar'?(showAllProjects?'عرض مختصر':'عرض المزيد من الأعمال'):(showAllProjects?'Show fewer':'View more work');
- more.onclick=()=>{showAllProjects=!showAllProjects;renderProjects();if(!showAllProjects)document.getElementById('projects').scrollIntoView({behavior:'smooth',block:'start'});};
- host.querySelectorAll('.project-watch-video').forEach(button=>{
-  button.addEventListener('click',()=>{
-   const project=projectsData[Number(button.dataset.videoProject)];
-   if(project?.video)openVideoModal(project);
-  });
- });
+ const more=document.getElementById('projectsMore');if(more)more.hidden=true;
+ host.querySelectorAll('[data-toggle-work-group]').forEach(button=>button.addEventListener('click',()=>{
+  const key=button.dataset.toggleWorkGroup;
+  if(expandedProjectGroups.has(key))expandedProjectGroups.delete(key);else expandedProjectGroups.add(key);
+  renderProjects();
+  document.querySelector(`[data-work-group="${key}"]`)?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+ }));
  observeReveals();
 }
 let projectTrigger,projectBodyOverflow;
@@ -310,8 +357,8 @@ function renderServices(){
       <h3>${s[currentLang]}</h3>
       <p class="service-scene-lead">${ar?s.descAr:s.descEn}</p>
       <div class="service-action-row">
-        <button type="button" class="service-discover" aria-controls="package-${s.visual}" aria-expanded="false"><span>${ar?'تفاصيل الخدمة':'Service details'}</span><span class="package-arrow" aria-hidden="true">↗</span></button>
-        <button type="button" class="service-start service-start-primary" data-service-key="${s.visual}">${ar?'اطلب الخدمة مباشرة':'Request this service'} <span aria-hidden="true">↗</span></button>
+        <button type="button" class="service-discover" aria-controls="package-${s.visual}" aria-expanded="false"><span>${ar?'تفاصيل الخدمة':'Service details'}</span><span class="package-arrow tech-action-icon" aria-hidden="true">${ICON.arrow}</span></button>
+        <button type="button" class="service-start service-start-primary" data-service-key="${s.visual}"><span>${ar?'اطلب الخدمة مباشرة':'Request this service'}</span><span class="tech-action-icon" aria-hidden="true">${ICON.arrow}</span></button>
       </div>
       <div class="package-details" id="package-${s.visual}" aria-hidden="true">
         <div class="service-company-detail">

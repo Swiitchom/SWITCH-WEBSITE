@@ -53,6 +53,8 @@ test('direct workshop request keeps the exact offer and service family through s
  assert.equal(form.dataset.context,'workshops');
  assert.equal(form.dataset.selectedServiceKey,'training');
  assert.equal(d.getElementById('fService').value,'ورشة أساسيات الذكاء الاصطناعي');
+ assert.match(d.getElementById('contactTitle').textContent,/الورشة/);
+ assert.match(d.getElementById('contactDesc').textContent,/المشاركين/);
  d.getElementById('fName').value='Test Person';d.getElementById('fPhone').value='+96899999999';d.getElementById('fEmail').value='test@example.com';d.getElementById('fMsg').value='Please arrange a workshop';form.elements.consent.checked=true;
  let calls=0;w.fetch=async url=>{if(String(url)==='/api/inquiry'){calls++;return {ok:false,status:503};}return {ok:false,status:404,text:async()=>''};};
  let savedEvents=0,savedService;d.addEventListener('portfolio:inquiry-saved',e=>{savedEvents++;savedService=e.detail.serviceKey;});
@@ -79,11 +81,14 @@ test('service tabs switch one catalogue in place and direct requests survive lan
     d.querySelector('.service-offer-request.is-primary').click();
    }
    assert.equal(form.dataset.selectedServiceKey,key);
+   const expectedHeading={training:/الورشة/,web:/المنصة/,innovation:/فكرة|مشروع/}[key];
+   assert.match(d.getElementById('contactTitle').textContent,expectedHeading);
   }
   assert.equal(d.querySelector('#fService').value,'تطوير المشاريع والنماذج التقنية');
   d.querySelector('#langBtn').click();await new Promise(resolve=>setImmediate(resolve));
   assert.equal(d.querySelector('#fService').value,'Technical Project & Prototype Development');
   assert.equal(d.querySelector('[data-service-hub="innovation"]').classList.contains('is-active'),true);
+  assert.match(d.getElementById('contactTitle').textContent,/idea|project/i);
   const alternatives=d.querySelector('.contact-alternatives');
   assert.ok(alternatives);assert.equal(alternatives.open,false);
   assert.ok(alternatives.querySelector('#socialList'));

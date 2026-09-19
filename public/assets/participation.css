@@ -11,3 +11,45 @@
 @media(max-width:1000px){.participation-grid{columns:3;}.nav-links{gap:14px;}}
 @media(max-width:700px){.participation-grid{columns:2;column-gap:12px;}.participation-tile{margin-bottom:12px;border-radius:12px;}.participation-tile span{padding:10px;font-size:11px;}.section{padding:52px 0;}.hero{min-height:auto;padding-top:100px;}.hero-title{line-height:1.2;}.contact-box{padding:24px;}.secondary-content summary{padding:18px;}.secondary-content .container{padding-inline:16px;}}
 @media(prefers-reduced-motion:reduce){.participation-tile.will-reveal{opacity:1;transform:none;transition:none;}.participation-tile img{transition:none;}.participation-tile:hover img{transform:none;}}
+
+
+/* 2026 participation path: one unique set of photos, moving automatically without visible duplicates. */
+.participation{overflow:hidden}
+.participation-grid.photo-ribbon{
+ columns:auto!important;display:block;overflow-x:auto;overflow-y:hidden;width:100%;
+ scrollbar-width:none;touch-action:pan-y;overscroll-behavior-inline:contain;
+ mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 95%,transparent 100%);
+ -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 95%,transparent 100%);
+}
+.participation-grid.photo-ribbon::-webkit-scrollbar{display:none}
+.photo-ribbon .photo-ribbon-track{width:max-content;min-width:100%}
+.photo-ribbon .photo-ribbon-group{
+ display:flex;align-items:flex-start;gap:22px;width:max-content;padding-inline:5vw;direction:ltr
+}
+.photo-ribbon .participation-tile{
+ flex:0 0 auto;display:block;width:clamp(210px,23vw,330px);margin:0;
+ border:0;border-radius:18px;background:transparent;overflow:hidden;text-align:start;
+ box-shadow:0 16px 44px rgba(0,0,0,.10);direction:rtl;cursor:grab
+}
+html[dir=ltr] .photo-ribbon .participation-tile{direction:ltr}
+.photo-ribbon .participation-tile img{
+ display:block;width:100%;height:clamp(250px,31vw,400px);object-fit:cover;transform:none!important;border-radius:18px 18px 0 0
+}
+.photo-ribbon .participation-tile span{
+ display:block;padding:12px 14px;border-top:1px solid var(--line-soft);
+ background:color-mix(in srgb,var(--surface) 92%,transparent);
+ color:var(--text-muted);font-size:12px;line-height:1.55
+}
+.photo-ribbon .participation-tile:hover{border-color:transparent}
+.photo-ribbon .participation-tile:hover img{transform:none!important}
+.photo-ribbon.is-dragging,.photo-ribbon.is-dragging .participation-tile{cursor:grabbing}
+.photo-ribbon .participation-tile:focus-visible{outline:2px solid var(--signal);outline-offset:4px}
+
+@media(max-width:700px){
+ .photo-ribbon .photo-ribbon-group{gap:14px;padding-inline:20px}
+ .photo-ribbon .participation-tile{width:min(72vw,285px);border-radius:15px}
+ .photo-ribbon .participation-tile img{height:min(88vw,350px);border-radius:15px 15px 0 0}
+}
+@media(prefers-reduced-motion:reduce){
+ .participation-grid.photo-ribbon{overflow-x:auto;mask-image:none;-webkit-mask-image:none}
+}

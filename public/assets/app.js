@@ -248,12 +248,27 @@ function renderProjects(){
  host.querySelectorAll('.project-watch-video').forEach(button=>{
   button.addEventListener('click',()=>{
    const project=projectsData[Number(button.dataset.videoProject)];
-   if(project?.video)openModal(project);
+   if(project?.video)openVideoModal(project);
   });
  });
  observeReveals();
 }
 let projectTrigger,projectBodyOverflow;
+function openVideoModal(p){
+ projectTrigger=document.activeElement;
+ const t=p[currentLang],ar=currentLang==='ar',box=document.getElementById('modalOverlay'),v=p.video;
+ if(!v)return;
+ document.getElementById('modalContent').innerHTML=`<button type="button" class="modal-close" id="modalCloseBtn" aria-label="${ar?'إغلاق':'Close'}">×</button>
+ <div class="video-only-dialog">
+  <div class="video-only-head"><span>${ar?'مشاهدة الفيديو':'Watch video'}</span><h3 id="projectDialogTitle">${t.title}</h3></div>
+  ${projectVideoHTML(p)}
+ </div>`;
+ projectBodyOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
+ box.inert=false;box.setAttribute('role','dialog');box.setAttribute('aria-modal','true');box.setAttribute('aria-labelledby','projectDialogTitle');box.classList.add('open');
+ box.scrollTop=0;
+ const close=document.getElementById('modalCloseBtn');close.addEventListener('click',closeModal);close.focus({preventScroll:true});
+ const video=box.querySelector('video');if(video){video.currentTime=0;video.play().catch(()=>{});}
+}
 function openModal(p){
  projectTrigger=document.activeElement;const t=p[currentLang],ar=currentLang==='ar',box=document.getElementById('modalOverlay');
  const media=p.video?projectVideoHTML(p):p.image?`<figure class="case-hero"><div class="modal-media">${projMediaHTML(p)}</div><figcaption>${t.imageCaption||t.title}</figcaption></figure>`:`<div class="case-symbol" aria-hidden="true">${ICON[p.icon]||ICON.code}</div>`;

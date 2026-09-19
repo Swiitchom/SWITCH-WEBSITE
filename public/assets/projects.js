@@ -107,10 +107,10 @@ const projectsData = [
     },
     "techs": [],
     "video": {
-      "src": "assets/videos/hand-gesture-preview.mp4",
+      "src": "assets/videos/hand-gesture-preview.mp4?v=2",
       "poster": "assets/images/hand-gesture-interaction.webp",
-      "width": 240,
-      "height": 426,
+      "width": 160,
+      "height": 284,
       "ar": {
         "title": "الذكاء الاصطناعي والتفاعل بإشارات اليد",
         "caption": "مقطع قصير يوضح دمج الدروس والأفكار بالذكاء الاصطناعي مع التفاعل المباشر عبر حركة اليد."

@@ -199,7 +199,7 @@ function projMediaHTML(p){
 function projectVideoHTML(p){
  if(!p.video)return '';
  const ar=currentLang==='ar',v=p.video;
- return `<figure class="case-film"><div class="case-film-frame"><div class="case-film-heading"><span>${ar?'التجربة بالفيديو':'The experience on film'}</span><span>${ar?'من داخل المنصة':'Inside the platform'}</span></div><video class="case-video" controls playsinline preload="none" tabindex="0" width="${v.width}" height="${v.height}" poster="${v.poster}" aria-label="${v[currentLang].title}" aria-describedby="caseVideoCaption"><source src="${v.src}" type="video/mp4">${ar?'متصفحك لا يدعم تشغيل الفيديو.':'Your browser does not support this video.'}</video></div><figcaption id="caseVideoCaption">${v[currentLang].caption}</figcaption></figure>`;
+ return `<figure class="case-film"><div class="case-film-frame"><div class="case-film-heading"><span>${ar?'التجربة بالفيديو':'The experience on film'}</span><span>${ar?'من داخل المنصة':'Inside the platform'}</span></div><video class="case-video ${v.height>v.width?'is-portrait':''}" controls playsinline preload="none" tabindex="0" width="${v.width}" height="${v.height}" poster="${v.poster}" aria-label="${v[currentLang].title}" aria-describedby="caseVideoCaption"><source src="${v.src}" type="video/mp4">${ar?'متصفحك لا يدعم تشغيل الفيديو.':'Your browser does not support this video.'}</video></div><figcaption id="caseVideoCaption">${v[currentLang].caption}</figcaption></figure>`;
 }
 function renderProjects(){
  const all=projectsData;
@@ -233,7 +233,7 @@ function renderProjects(){
           <section><span>${currentLang==='ar'?(t.solution?'ما تم تنفيذه':'التنفيذ'):(t.solution?'What was built':'Implementation')}</span><p>${second}</p></section>
           ${third?`<section><span>${currentLang==='ar'?(t.result?'النتيجة':'التطبيق'):(t.result?'Outcome':'In use')}</span><p>${third}</p></section>`:''}
           ${techs?`<p class="project-tech-line">${techs}</p>`:''}
-          ${p.video?`<video class="project-inline-video" controls playsinline preload="none" poster="${p.video.poster}" aria-label="${p.video[currentLang].title}"><source src="${p.video.src}" type="video/mp4"></video>`:''}
+          ${p.video?`<video class="project-inline-video ${p.video.height>p.video.width?'is-portrait':''}" controls playsinline preload="none" poster="${p.video.poster}" aria-label="${p.video[currentLang].title}"><source src="${p.video.src}" type="video/mp4"></video>`:''}
         </div>
       </div>
     </div>

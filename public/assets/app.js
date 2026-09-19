@@ -182,8 +182,12 @@ function renderFilters(){
  host.replaceChildren();
 }
 function projMediaHTML(p){
- if(!p.image)return ICON[p.icon];
  const t=p[currentLang];
+ if(p.video?.showOnCard){
+  const v=p.video;
+  return `<video class="project-card-video ${v.height>v.width?'is-portrait':''}" controls playsinline preload="metadata" poster="${v.poster}" aria-label="${v[currentLang].title}"><source src="${v.src}" type="video/mp4">${currentLang==='ar'?'متصفحك لا يدعم تشغيل الفيديو.':'Your browser does not support this video.'}</video>`;
+ }
+ if(!p.image)return ICON[p.icon];
  if(p.kind==='platform'||p.screenshot){
   const secondary=(p.gallery||[])[0];
   return `<div class="project-platform-window">

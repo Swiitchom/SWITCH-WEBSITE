@@ -716,6 +716,10 @@ function applyStaticI18n(){
     const key = el.getAttribute('data-i18n');
     if(i18n[currentLang][key] !== undefined) el.textContent = i18n[currentLang][key];
   });
+  document.querySelectorAll('[data-layout-ar]').forEach(el=>{
+    const value=el.getAttribute('data-layout-'+currentLang);
+    if(value!==null)el.textContent=value;
+  });
 }
 function renderAll(){
   applyStaticI18n();

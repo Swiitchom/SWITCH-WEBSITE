@@ -4,7 +4,7 @@
  const fields={training:['topic','participants','location','date'],web:['organization','event','interaction','date'],innovation:['stage','date']},choices={interaction:['touch','camera','both','unsure'],stage:['idea','prototype','improve','unsure']};
  const drafts=new Map(),expanded=new Set();let active='';
  const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const key=()=>servicesData.find(s=>s.ar===select.value||s.en===select.value)?.visual||(workshopsData.some(w=>w.ar.title===select.value||w.en.title===select.value)?'training':'');
+ const key=()=>form.dataset.selectedServiceKey||servicesData.find(s=>s.ar===select.value||s.en===select.value)?.visual||(workshopsData.some(w=>w.ar.title===select.value||w.en.title===select.value)?'training':'');
  function values(){return Object.fromEntries([...host.querySelectorAll('[data-brief]')].map(input=>[input.dataset.brief,input.value]));}
  function remember(){if(active)drafts.set(active,values());}
  function render(){

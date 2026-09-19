@@ -331,22 +331,81 @@ function closeModal(){const box=document.getElementById('modalOverlay');if(!box.
  document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target.id==='modalOverlay')closeModal();});
  document.addEventListener('keydown',e=>{const box=document.getElementById('modalOverlay');if(!box.classList.contains('open'))return;if(e.key==='Escape')closeModal();if(e.key==='Tab'){const targets=[...box.querySelectorAll('button,a[href],video[controls]')],first=targets[0],last=targets[targets.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
 
-let activeServiceHub='training';
+const serviceQuery=new URLSearchParams(location.search);
+const validServiceHubs=['training','web','innovation','store'];
+let activeServiceHub=validServiceHubs.includes(serviceQuery.get('service'))?serviceQuery.get('service'):'training';
+const platformSlugs=['student-welcome','uns','hand-gesture'];
+let activePlatformSlug=platformSlugs.includes(serviceQuery.get('platform'))?serviceQuery.get('platform'):'student-welcome';
+
 function serviceRequestButton({key,titleAr,titleEn,labelAr,labelEn,primary=false}){
  const label=currentLang==='ar'?labelAr:labelEn;
  return `<button type="button" class="service-offer-request ${primary?'is-primary':''}" data-service-key="${key}" data-title-ar="${titleAr}" data-title-en="${titleEn}">
    <span>${label}</span><span class="service-arrow" aria-hidden="true">${ICON.arrow}</span>
  </button>`;
 }
+
+function directShareButton(url,titleAr,titleEn,labelAr='مشاركة الرابط',labelEn='Share link'){
+ return `<button type="button" class="direct-share" data-share-url="${url}" data-share-title-ar="${titleAr}" data-share-title-en="${titleEn}">
+   <span>${currentLang==='ar'?labelAr:labelEn}</span>
+   <span class="service-arrow" aria-hidden="true">${ICON.arrow}</span>
+ </button>`;
+}
+
+function platformDetailHTML(entry){
+ const {p,slug}=entry,t=p[currentLang],ar=currentLang==='ar';
+ const gallery=[{image:p.image,ar:p.ar.imageCaption||p.ar.title,en:p.en.imageCaption||p.en.title},...(p.gallery||[])];
+ const route=`/platforms/${slug}/`;
+ const requestTitleAr=slug==='hand-gesture'?'منصة دمج الدروس بإشارات اليد':p.ar.title;
+ const requestTitleEn=slug==='hand-gesture'?'Hand-Gesture Learning Platform':p.en.title;
+ const title=slug==='hand-gesture'?(ar?'دمج الدروس بإشارات اليد':'Hand-Gesture Learning Integration'):t.title;
+ const desc=t.desc,overview=t.overview||t.desc,benefit=t.benefit||t.desc;
+ return `<article class="platform-detail" data-platform-detail="${slug}">
+   <header class="platform-detail-head">
+     <div>
+       <span class="platform-detail-kicker">${ar?'نموذج منصة':'PLATFORM CASE'}</span>
+       <h4>${title}</h4>
+       <p>${desc}</p>
+       ${t.deployment?`<span class="platform-detail-proof">${t.deployment}</span>`:''}
+     </div>
+     ${directShareButton(route,requestTitleAr,requestTitleEn,ar?'مشاركة المنصة':'Share platform',ar?'مشاركة المنصة':'Share platform')}
+   </header>
+
+   <div class="platform-detail-hero">
+     <img src="${p.image}" alt="${t.imageCaption||title}" loading="lazy" decoding="async">
+   </div>
+
+   <div class="platform-detail-story">
+     <section><span>${ar?'كيف تعمل الفكرة؟':'How it works'}</span><p>${overview}</p></section>
+     <section><span>${ar?'ما الذي تقدمه؟':'What it offers'}</span><p>${benefit}</p></section>
+   </div>
+
+   ${gallery.length>1?`<div class="platform-detail-gallery">
+     ${gallery.slice(1).map(g=>`<figure><img src="${g.image}" alt="${g[currentLang]}" loading="lazy" decoding="async"><figcaption>${g[currentLang]}</figcaption></figure>`).join('')}
+   </div>`:''}
+
+   ${p.video?`<section class="platform-video-section">
+     <div class="platform-video-copy"><span>${ar?'مشاهدة التجربة':'WATCH THE EXPERIENCE'}</span><h5>${p.video[currentLang].title}</h5><p>${p.video[currentLang].caption}</p></div>
+     <video controls playsinline preload="metadata" poster="${p.video.poster}" aria-label="${p.video[currentLang].title}">
+       <source src="${projectVideoSrc(p)}" type="video/mp4">
+     </video>
+   </section>`:''}
+
+   <footer class="platform-detail-cta">
+     <div><strong>${ar?'هل هذه المنصة قريبة من فكرتك؟':'Is this close to what you need?'}</strong><span>${ar?'نخصص الهوية والمحتوى وطريقة التفاعل حسب الجهة والهدف.':'We can adapt the identity, content and interaction to your organization and goal.'}</span></div>
+     ${serviceRequestButton({key:'web',titleAr:requestTitleAr,titleEn:requestTitleEn,labelAr:'اطلبها الآن',labelEn:'Request it now',primary:true})}
+   </footer>
+  </article>`;
+}
+
 function renderServices(){
  const host=document.getElementById('svcGrid');if(!host)return;
  const ar=currentLang==='ar';
 
- const platformProjects=[
-  projectsData.find(p=>p.ar?.title==='استقبال الطلاب عبر شخصيات تفاعلية'),
-  projectsData.find(p=>p.ar?.title==='مساحة أُنس'),
-  projectsData.find(p=>p.ar?.title==='التفاعل بإشارات اليد')
- ].filter(Boolean);
+ const platformEntries=[
+  {slug:'student-welcome',p:projectsData.find(p=>p.ar?.title==='استقبال الطلاب عبر شخصيات تفاعلية')},
+  {slug:'uns',p:projectsData.find(p=>p.ar?.title==='مساحة أُنس')},
+  {slug:'hand-gesture',p:projectsData.find(p=>p.ar?.title==='التفاعل بإشارات اليد')}
+ ].filter(x=>x.p);
 
  const projectExamples=[
   projectsData.find(p=>p.ar?.title==='Sentinel Helmet AI — الخوذة الذكية'),
@@ -358,7 +417,7 @@ function renderServices(){
 
  const hubs=[
   {
-   key:'training',num:'01',icon:ICON.train,
+   key:'training',num:'01',icon:ICON.train,share:'/services/workshops/',
    titleAr:'الورش والتدريب التقني',titleEn:'Technical Workshops & Training',
    shortAr:'3 ورش واضحة وجاهزة للتخصيص حسب الفئة والهدف.',shortEn:'Three clear workshop formats, customizable to the audience and goal.',
    introAr:'اختر الورشة الأقرب لاحتياجك. ويمكن تعديل المحتوى والمدة والمستوى للمدرسة أو المؤسسة أو المجموعة.',
@@ -371,28 +430,18 @@ function renderServices(){
    }))
   },
   {
-   key:'web',num:'02',icon:ICON.layers,
+   key:'web',num:'02',icon:ICON.layers,share:'/services/platforms/',
    titleAr:'المنصات والتجارب التفاعلية',titleEn:'Interactive Platforms & Experiences',
-   shortAr:'حلول رقمية جاهزة كنقطة بداية ويمكن تخصيصها لهوية الجهة.',shortEn:'Digital solutions that can be adapted to your organization and identity.',
-   introAr:'هذه نماذج من منصات مطبقة. اختر النموذج الأقرب لفكرتك، أو اطلب منصة جديدة مبنية على احتياجك.',
-   introEn:'These are implemented platform examples. Choose the closest model or request a new platform built around your need.',
+   shortAr:'استعرض المنصة كاملة قبل الطلب: الفكرة، التفاصيل، الصور والفيديو.',shortEn:'Review the full platform before requesting it: concept, details, visuals and video.',
+   introAr:'اختر منصة أولًا، ثم استعرضها بشكل كامل قبل أن تقرر الطلب. الهدف أن تعرف التجربة وما الذي يمكن تخصيصه لجهتك.',
+   introEn:'Choose a platform first, then review the complete experience before requesting it. Understand what it does and what can be customized.',
    requestAr:'اطلب منصة مخصصة',requestEn:'Request a custom platform',
-   offers:platformProjects.map((p,index)=>({
-    image:p.image,mode:index<2?'ui':'photo',tagAr:p.ar.tag,tagEn:p.en.tag,
-    titleAr:index===2?'دمج الدروس بإشارات اليد':p.ar.title,
-    titleEn:index===2?'Hand-Gesture Learning Integration':p.en.title,
-    descAr:p.ar.desc,descEn:p.en.desc,
-    metaAr:index===2?'كاميرا · ذكاء اصطناعي · تفاعل مباشر':'واجهة · تفاعل · تخصيص',
-    metaEn:index===2?'Camera · AI · Direct interaction':'Interface · Interaction · Customization',
-    requestTitleAr:index===2?'منصة دمج الدروس بإشارات اليد':p.ar.title,
-    requestTitleEn:index===2?'Hand-Gesture Learning Platform':p.en.title,
-    requestAr:'اطلب منصة مشابهة',requestEn:'Request a similar platform'
-   }))
+   offers:[]
   },
   {
-   key:'innovation',num:'03',icon:ICON.board,
+   key:'innovation',num:'03',icon:ICON.board,share:'/services/projects/',
    titleAr:'تطوير المشاريع والنماذج التقنية',titleEn:'Technical Project & Prototype Development',
-   shortAr:'من الفكرة أو المشروع القائم إلى نموذج قابل للتجربة والتطوير.',shortEn:'From a new idea or existing project to a testable, developable prototype.',
+   shortAr:'نماذج توضح نوع التطوير الممكن؛ نبدأ من احتياجك وليس من باقة ثابتة.',shortEn:'Examples of what can be developed; we start from your need, not a fixed package.',
    introAr:'المشاريع التالية أمثلة على نوع التطوير الممكن، وليست باقات ثابتة. نبدأ من مشكلتك ونحدد التقنية والنطاق المناسبين.',
    introEn:'The examples below show what can be developed; they are not fixed packages. We start from your problem and define the right scope and technology.',
    requestAr:'ابدأ تطوير مشروعك',requestEn:'Start developing your project',
@@ -405,11 +454,11 @@ function renderServices(){
    }))
   },
   {
-   key:'store',num:'04',icon:ICON.store,
+   key:'store',num:'04',icon:ICON.store,share:'/store/',
    titleAr:'ستور سويتش',titleEn:'Switch Store',
    shortAr:'كتات ومنتجات تقنية جاهزة للطلب مباشرة.',shortEn:'Technical kits and products available to order directly.',
-   introAr:'قسم المنتجات من Switch. اختر المنتج، راجع التفاصيل والسعر، ثم أكمل الطلب من قسم المتجر مباشرة.',
-   introEn:'The Switch product area. Review the product, price and details, then complete your order directly in the store section.',
+   introAr:'قسم المنتجات من Switch. راجع المنتج والسعر والإضافات ثم أكمل الطلب مباشرة من الموقع.',
+   introEn:'The Switch product area. Review the product, price and add-ons, then complete your order directly on the site.',
    requestAr:'افتح ستور سويتش',requestEn:'Open Switch Store',
    offers:[{
     image:'assets/images/67950894dab95507.webp',mode:'photo',store:true,
@@ -424,7 +473,44 @@ function renderServices(){
  ];
 
  if(!hubs.some(h=>h.key===activeServiceHub))activeServiceHub='training';
+ if(!platformEntries.some(x=>x.slug===activePlatformSlug))activePlatformSlug=platformEntries[0]?.slug||'student-welcome';
  const active=hubs.find(h=>h.key===activeServiceHub);
+
+ const headerPrimary=active.key==='store'
+  ? `<a class="service-store-link is-primary" href="#store"><span>${ar?active.requestAr:active.requestEn}</span><span class="service-arrow" aria-hidden="true">${ICON.arrow}</span></a>`
+  : active.key==='web'
+    ? ''
+    : serviceRequestButton({key:active.key,titleAr:active.titleAr,titleEn:active.titleEn,labelAr:active.requestAr,labelEn:active.requestEn,primary:true});
+
+ const body=active.key==='web'
+  ? `<div class="platform-selector" role="tablist" aria-label="${ar?'اختيار المنصة':'Choose platform'}">
+      ${platformEntries.map(({slug,p},index)=>{
+       const title=slug==='hand-gesture'?(ar?'دمج الدروس بإشارات اليد':'Hand-Gesture Learning Integration'):p[currentLang].title;
+       return `<button type="button" class="platform-choice ${slug===activePlatformSlug?'is-active':''}" data-platform-choice="${slug}" role="tab" aria-selected="${slug===activePlatformSlug}">
+        <span class="platform-choice-index">${String(index+1).padStart(2,'0')}</span>
+        <img src="${p.image}" alt="" loading="lazy" decoding="async">
+        <span><strong>${title}</strong><small>${p[currentLang].tag}</small></span>
+        <i aria-hidden="true">${ICON.arrow}</i>
+       </button>`;
+      }).join('')}
+     </div>
+     ${platformDetailHTML(platformEntries.find(x=>x.slug===activePlatformSlug)||platformEntries[0])}`
+  : `<div class="service-offer-grid ${active.key==='store'?'is-store-grid':''}">
+      ${active.offers.map((o,index)=>`<article class="service-offer">
+        <figure class="service-offer-media is-${o.mode}">
+          <span class="service-offer-index">${String(index+1).padStart(2,'0')}</span>
+          <img src="${o.image}" alt="${ar?o.titleAr:o.titleEn}" loading="lazy" decoding="async">
+        </figure>
+        <div class="service-offer-body">
+          <div class="service-offer-topline"><span>${ar?o.tagAr:o.tagEn}</span><small>${ar?o.metaAr:o.metaEn}</small></div>
+          <h4>${ar?o.titleAr:o.titleEn}</h4>
+          <p>${ar?o.descAr:o.descEn}</p>
+          ${o.store
+            ? `<div class="service-offer-actions"><a class="service-store-link" href="#store"><span>${ar?o.requestAr:o.requestEn}</span><span class="service-arrow" aria-hidden="true">${ICON.arrow}</span></a>${directShareButton('/store/arduino-kit/','كت الأردوينو من Switch','Arduino Kit by Switch',ar?'مشاركة المنتج':'Share product',ar?'مشاركة المنتج':'Share product')}</div>`
+            : serviceRequestButton({key:active.key,titleAr:o.requestTitleAr,titleEn:o.requestTitleEn,labelAr:o.requestAr,labelEn:o.requestEn})}
+        </div>
+      </article>`).join('')}
+    </div>`;
 
  host.innerHTML=`
   <div class="service-hub-nav" role="tablist" aria-label="${ar?'اختيار نوع الخدمة':'Choose service type'}">
@@ -438,36 +524,23 @@ function renderServices(){
   <section class="service-hub-panel" data-active-service="${active.key}" aria-live="polite">
     <header class="service-hub-panel-head">
       <div>
-        <span class="service-hub-panel-kicker">${active.num} / ${ar?'الخدمة المختارة':'SELECTED SERVICE'}</span>
+        <span class="service-hub-panel-kicker">${active.num} / ${ar?'القسم المختار':'SELECTED SECTION'}</span>
         <h3>${ar?active.titleAr:active.titleEn}</h3>
         <p>${ar?active.introAr:active.introEn}</p>
       </div>
-      ${active.key==='store'
-        ? `<a class="service-store-link is-primary" href="#store"><span>${ar?active.requestAr:active.requestEn}</span><span class="service-arrow" aria-hidden="true">${ICON.arrow}</span></a>`
-        : serviceRequestButton({key:active.key,titleAr:active.titleAr,titleEn:active.titleEn,labelAr:active.requestAr,labelEn:active.requestEn,primary:true})}
+      <div class="service-hub-actions">${headerPrimary}${directShareButton(active.share,active.titleAr,active.titleEn,ar?'مشاركة القسم':'Share section',ar?'مشاركة القسم':'Share section')}</div>
     </header>
-    <div class="service-offer-grid ${active.key==='store'?'is-store-grid':''}">
-      ${active.offers.map((o,index)=>`<article class="service-offer">
-        <figure class="service-offer-media is-${o.mode}">
-          <span class="service-offer-index">${String(index+1).padStart(2,'0')}</span>
-          <img src="${o.image}" alt="${ar?o.titleAr:o.titleEn}" loading="lazy" decoding="async">
-        </figure>
-        <div class="service-offer-body">
-          <div class="service-offer-topline"><span>${ar?o.tagAr:o.tagEn}</span><small>${ar?o.metaAr:o.metaEn}</small></div>
-          <h4>${ar?o.titleAr:o.titleEn}</h4>
-          <p>${ar?o.descAr:o.descEn}</p>
-          ${o.store
-            ? `<a class="service-store-link" href="#store"><span>${ar?o.requestAr:o.requestEn}</span><span class="service-arrow" aria-hidden="true">${ICON.arrow}</span></a>`
-            : serviceRequestButton({key:active.key,titleAr:o.requestTitleAr,titleEn:o.requestTitleEn,labelAr:o.requestAr,labelEn:o.requestEn})}
-        </div>
-      </article>`).join('')}
-    </div>
+    ${body}
   </section>`;
 
  host.querySelectorAll('[data-service-hub]').forEach(button=>button.addEventListener('click',()=>{
   const next=button.dataset.serviceHub;if(next===activeServiceHub)return;
   activeServiceHub=next;renderServices();observeReveals();
   document.querySelector('.service-hub-panel')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
+ }));
+ host.querySelectorAll('[data-platform-choice]').forEach(button=>button.addEventListener('click',()=>{
+  activePlatformSlug=button.dataset.platformChoice;renderServices();observeReveals();
+  document.querySelector('.platform-detail')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
  }));
 }
 function renderWorkshops(){

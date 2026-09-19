@@ -17,7 +17,8 @@ test('homepage exposes three services plus Switch Store without duplicate projec
  assert.equal(d.querySelectorAll('#more-workshops').length,0);
  d.querySelector('[data-service-hub="web"]').click();
  assert.match(d.querySelector('.service-hub-panel h3').textContent,/المنصات/);
- assert.equal(d.querySelectorAll('.service-offer').length,3);
+ assert.equal(d.querySelectorAll('.platform-choice').length,3);
+ assert.equal(d.querySelectorAll('.service-offer').length,0);
  assert.ok(d.querySelector('.service-hub-panel').textContent.includes('استقبال الطلاب'));
  assert.ok(d.querySelector('.service-hub-panel').textContent.includes('مساحة أُنس'));
  assert.ok(d.querySelector('.service-hub-panel').textContent.includes('إشارات اليد'));
@@ -69,8 +70,14 @@ test('service tabs switch one catalogue in place and direct requests survive lan
   for(const [key,pattern] of [['training',/الورش/],['web',/المنصات/],['innovation',/المشاريع/]]){
    d.querySelector(`[data-service-hub="${key}"]`).click();
    assert.match(d.querySelector('.service-hub-panel h3').textContent,pattern);
-   assert.equal(d.querySelectorAll('.service-offer').length,3);
-   d.querySelector('.service-offer-request.is-primary').click();
+   if(key==='web'){
+    assert.equal(d.querySelectorAll('.platform-choice').length,3);
+    assert.ok(d.querySelector('.platform-detail-cta .service-offer-request'));
+    d.querySelector('.platform-detail-cta .service-offer-request').click();
+   }else{
+    assert.equal(d.querySelectorAll('.service-offer').length,3);
+    d.querySelector('.service-offer-request.is-primary').click();
+   }
    assert.equal(form.dataset.selectedServiceKey,key);
   }
   assert.equal(d.querySelector('#fService').value,'تطوير المشاريع والنماذج التقنية');
@@ -85,7 +92,7 @@ test('service tabs switch one catalogue in place and direct requests survive lan
 test('guided quote preserves separate package drafts, language and failed sends, then clears after success',async()=>{
  const dom=boot(),w=dom.window,d=w.document,form=d.querySelector('#contactForm');
  const set=(id,value)=>{const input=d.getElementById(id);input.value=value;input.dispatchEvent(new w.Event('input',{bubbles:true}));};
- const choose=key=>{d.querySelector(`[data-service-hub="${key}"]`).click();d.querySelector('.service-offer-request.is-primary').click();};
+ const choose=key=>{d.querySelector(`[data-service-hub="${key}"]`).click();(key==='web'?d.querySelector('.platform-detail-cta .service-offer-request'):d.querySelector('.service-offer-request.is-primary')).click();};
  try{
   choose('training');set('brief-topic','ESP32');d.querySelector('.brief-toggle').click();set('brief-participants','25');set('brief-location','مسقط');set('brief-date','2026-10-10');
   choose('web');set('brief-organization','مدرسة');assert.equal(d.querySelector('#brief-topic'),null);assert.equal(w.portfolioBrief.collect().packageKey,'web');

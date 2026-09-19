@@ -679,6 +679,20 @@ function renderSocial(){
     return `<a class="social-link" href="${s.href}"${target}${soon}>${ICON[s.icon]}<span><b>${t[0]}</b><span>${t[1]}</span></span></a>`;
   }).join('');
 }
+
+document.addEventListener('click',async event=>{
+ const button=event.target.closest('[data-share-url]');if(!button)return;
+ const path=button.dataset.shareUrl,url=new URL(path,location.origin).href;
+ const title=currentLang==='ar'?button.dataset.shareTitleAr:button.dataset.shareTitleEn;
+ try{
+  if(navigator.share)await navigator.share({title,url});
+  else if(navigator.clipboard?.writeText){
+   await navigator.clipboard.writeText(url);
+   const label=button.querySelector('span:first-child');
+   if(label){const original=label.textContent;label.textContent=currentLang==='ar'?'تم نسخ الرابط':'Link copied';setTimeout(()=>{if(label.isConnected)label.textContent=original;},1800);}
+  }else window.prompt(currentLang==='ar'?'انسخ الرابط':'Copy link',url);
+ }catch(error){if(error?.name!=='AbortError')console.warn('Share failed');}
+});
 function renderServiceSelect(){
   const sel=document.getElementById('fService'),form=document.getElementById('contactForm');
   const previous=sel.value;
@@ -707,7 +721,7 @@ function renderAll(){
   applyStaticI18n();
   renderExpertise(); renderFilters(); renderServices();
   renderStoreContents(); updateStoreTotal();
-  renderTimeline(); renderGallery(); renderSocial(); renderServiceSelect();
+  renderSocial(); renderServiceSelect();
   observeReveals();
 }
 document.getElementById('langBtn').addEventListener('click', ()=>{

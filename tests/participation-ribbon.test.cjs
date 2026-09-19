@@ -21,8 +21,10 @@ test('page keeps proof sections secondary while the unified service catalogue st
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
  assert.doesNotMatch(html,/participation(Pause|Count|Prev|Next|Carousel)/);
  assert.doesNotMatch(html,/class="stat-cards/);
- for(const id of ['achievements','store','gallery'])assert.ok(html.includes('id="more-'+id+'"'));
+ for(const id of ['achievements','gallery'])assert.ok(html.includes('id="more-'+id+'"'));
  assert.equal(html.includes('id="more-workshops"'),false);
+ assert.equal(html.includes('id="more-store"'),false);
  assert.equal(html.includes('id="projects"'),false);
+ assert.ok(html.includes('class="section switch-store-section" id="store"'));
  assert.ok(html.indexOf('id="services"')<html.indexOf('id="participation"'));
 });

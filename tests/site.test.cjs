@@ -17,6 +17,8 @@ test('all client scripts parse and local asset references exist',()=>{
   }
   for(const [ref] of source.matchAll(/assets\/images\/[a-f0-9]+\.webp/g)) assert.ok(fs.existsSync(path.join(root,ref)),ref);
   assert.equal(source.includes('data:image/'),false);
+  assert.ok(fs.existsSync(path.join(root,'store','index.html')),'shareable /store/ route');
+  assert.match(read('store/index.html'),/\/#store/);
 });
 
 test('six existing bilingual case studies retain content and photos',()=>{

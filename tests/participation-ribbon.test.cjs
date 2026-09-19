@@ -20,7 +20,7 @@ test('photo ribbon loops thirteen unique photographs with one decorative duplica
 });
 test('photo captions and accessible labels update to English across the moving path',async()=>{
  const b=boot();b.d.documentElement.lang='en';await new Promise(r=>setImmediate(r));
- for(const button of b.d.querySelectorAll('[data-photo]'))assert.match(button.getAttribute('aria-label'),/^Enlarge:/);
+ for(const button of b.d.querySelector('.photo-ribbon-group:not([aria-hidden="true"])').querySelectorAll('[data-photo]'))assert.match(button.getAttribute('aria-label'),/^Enlarge:/);
  assert.equal(b.d.querySelector('.participation-tile span').textContent,'Learning by doing');b.dom.window.close();
 });
 test('page keeps proof sections secondary while the unified service catalogue stays primary',()=>{

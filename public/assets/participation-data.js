@@ -108,5 +108,38 @@ const participationPhotos = [
       "title": "The work behind the idea",
       "description": "A moment of focused work during participation."
     }
+  },
+  {
+    "image": "assets/images/participation-ai-workshop.webp",
+    "ar": {
+      "title": "الذكاء الاصطناعي والابتكار في التدريب",
+      "description": "تقديم جلسة تدريبية حول الذكاء الاصطناعي والابتكار في بيئة التعلم."
+    },
+    "en": {
+      "title": "AI and innovation in training",
+      "description": "Delivering a training session on AI and innovation in learning."
+    }
+  },
+  {
+    "image": "assets/images/participation-electronics-session.webp",
+    "ar": {
+      "title": "شرح التطبيقات الإلكترونية",
+      "description": "عرض عملي لمكونات وحساسات إلكترونية وربطها بالتطبيق أمام المتعلمين."
+    },
+    "en": {
+      "title": "Explaining electronic applications",
+      "description": "A practical demonstration of sensors, electronics and their application for learners."
+    }
+  },
+  {
+    "image": "assets/images/participation-prototyping-workbench.webp",
+    "ar": {
+      "title": "بناء النموذج من الورشة",
+      "description": "جانب من تطوير نموذج تقني وتجميع الإلكترونيات وتجربتها عمليًا."
+    },
+    "en": {
+      "title": "Building the prototype",
+      "description": "Developing and testing a technical prototype at the workbench."
+    }
   }
 ];

@@ -183,10 +183,6 @@ function renderFilters(){
 }
 function projMediaHTML(p){
  const t=p[currentLang];
- if(p.video?.showOnCard){
-  const v=p.video;
-  return `<video class="project-card-video ${v.height>v.width?'is-portrait':''}" controls playsinline preload="metadata" poster="${v.poster}" aria-label="${v[currentLang].title}"><source src="${v.src}" type="video/mp4">${currentLang==='ar'?'متصفحك لا يدعم تشغيل الفيديو.':'Your browser does not support this video.'}</video>`;
- }
  if(!p.image)return ICON[p.icon];
  if(p.kind==='platform'||p.screenshot){
   const secondary=(p.gallery||[])[0];
@@ -228,16 +224,18 @@ function renderProjects(){
       <h3>${t.title}</h3>
       <p class="project-case-lead">${t.desc}</p>
       ${t.deployment?`<p class="project-case-proof">${t.deployment}</p>`:''}
-      <button type="button" class="project-reveal" aria-expanded="false" aria-controls="project-detail-${index}">
-        <span>${currentLang==='ar'?'تفاصيل المشروع':'Project details'}</span><i aria-hidden="true">↗</i>
-      </button>
+      <div class="project-actions">
+        <button type="button" class="project-reveal" aria-expanded="false" aria-controls="project-detail-${index}">
+          <span>${currentLang==='ar'?'تفاصيل المشروع':'Project details'}</span><i aria-hidden="true">↗</i>
+        </button>
+        ${p.video?`<button type="button" class="project-watch-video" data-video-project="${index}" aria-label="${currentLang==='ar'?'مشاهدة فيديو '+t.title:'Watch video for '+t.title}"><span aria-hidden="true">▶</span>${currentLang==='ar'?'مشاهدة الفيديو':'Watch video'}</button>`:''}
+      </div>
       <div class="project-details" id="project-detail-${index}" aria-hidden="true">
         <div class="project-detail-grid">
           <section><span>${currentLang==='ar'?(t.problem?'التحدي':'الفكرة'):(t.problem?'Challenge':'The idea')}</span><p>${first}</p></section>
           <section><span>${currentLang==='ar'?(t.solution?'ما تم تنفيذه':'التنفيذ'):(t.solution?'What was built':'Implementation')}</span><p>${second}</p></section>
           ${third?`<section><span>${currentLang==='ar'?(t.result?'النتيجة':'التطبيق'):(t.result?'Outcome':'In use')}</span><p>${third}</p></section>`:''}
           ${techs?`<p class="project-tech-line">${techs}</p>`:''}
-          ${p.video?`<video class="project-inline-video ${p.video.height>p.video.width?'is-portrait':''}" controls playsinline preload="none" poster="${p.video.poster}" aria-label="${p.video[currentLang].title}"><source src="${p.video.src}" type="video/mp4"></video>`:''}
         </div>
       </div>
     </div>
@@ -247,6 +245,12 @@ function renderProjects(){
  more.hidden=all.length<=4;
  more.textContent=currentLang==='ar'?(showAllProjects?'عرض مختصر':'عرض المزيد من الأعمال'):(showAllProjects?'Show fewer':'View more work');
  more.onclick=()=>{showAllProjects=!showAllProjects;renderProjects();if(!showAllProjects)document.getElementById('projects').scrollIntoView({behavior:'smooth',block:'start'});};
+ host.querySelectorAll('.project-watch-video').forEach(button=>{
+  button.addEventListener('click',()=>{
+   const project=projectsData[Number(button.dataset.videoProject)];
+   if(project?.video)openModal(project);
+  });
+ });
  observeReveals();
 }
 let projectTrigger,projectBodyOverflow;

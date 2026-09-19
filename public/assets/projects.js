@@ -6,7 +6,7 @@ const projectsData = [
     "color": 0,
     "image": "assets/images/0deef2b386513527.png",
     "ar": {
-      "title": "معبر المدرسة التفاعلي",
+      "title": "استقبال الطلاب والترحيب عبر شخصيات تفاعلية",
       "tag": "منصة تعليمية",
       "desc": "استقبال تفاعلي بشخصيات عُمانية يقود الطالب إلى بداية تجربته المدرسية.",
       "overview": "تتيح اختيار شخصية الاستقبال ومعاينة الصوت وبدء تجربة الطالب وإعادتها من لوحة تشغيل واحدة.",
@@ -15,7 +15,7 @@ const projectsData = [
       "deployment": "طُبّقت في المدارس والمعارض"
     },
     "en": {
-      "title": "Interactive School Gateway",
+      "title": "Interactive Student Welcome",
       "tag": "Learning platform",
       "desc": "An interactive welcome with Omani characters that introduces students to their school experience.",
       "overview": "Select a welcome character, preview the voice, and start or reset the student experience from one control panel.",
@@ -92,17 +92,17 @@ const projectsData = [
     "ar": {
       "title": "التفاعل بإشارات اليد",
       "tag": "مشروع تطبيقي",
-      "desc": "تجربة تعليمية لاختيار الألوان بإشارات اليد، تجعل الزائر جزءًا من العرض.",
-      "overview": "تعرض الكاميرا حركة المشارك على الشاشة وتربط إشارته باختيار اللون في الواجهة التفاعلية.",
-      "benefit": "تجعل فكرة التفاعل بالكاميرا تجربة يشارك فيها الزائر بنفسه.",
+      "desc": "تجربة تعليمية تدمج الدروس والأفكار بالذكاء الاصطناعي مع التفاعل المباشر عبر إشارات اليد.",
+      "overview": "تدمج التجربة المحتوى التعليمي والأفكار المدعومة بالذكاء الاصطناعي مع رؤية حاسوبية تلتقط حركة اليد وتحول الإشارات إلى تفاعل مباشر على الشاشة.",
+      "benefit": "تحوّل الدرس أو الفكرة من محتوى يُشاهد إلى تجربة تفاعلية يشارك فيها الطالب بيده أمام الكاميرا.",
       "imageCaption": "تجربة اختيار الألوان بإشارات اليد"
     },
     "en": {
       "title": "Hand-gesture interaction",
       "tag": "Applied project",
-      "desc": "A learning experience where visitors select colours with hand gestures.",
-      "overview": "Shows the participant’s hand movement on screen and connects gestures to colour selection in the interface.",
-      "benefit": "Lets visitors experience camera-based interaction first-hand.",
+      "desc": "An educational experience combining AI-supported lessons and ideas with direct hand-gesture interaction.",
+      "overview": "Combines educational content and AI-supported ideas with computer vision that detects hand movement and turns gestures into direct on-screen interaction.",
+      "benefit": "Turns a lesson or idea from something students watch into an experience they can control with hand gestures in front of the camera.",
       "imageCaption": "Choosing colours with hand gestures"
     },
     "techs": []

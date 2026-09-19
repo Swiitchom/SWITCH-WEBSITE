@@ -105,21 +105,7 @@ const projectsData = [
       "benefit": "Turns a lesson or idea from something students watch into an experience they can control with hand gestures in front of the camera.",
       "imageCaption": "Choosing colours with hand gestures"
     },
-    "techs": [],
-    "video": {
-      "src": "assets/videos/hand-gesture-preview.mp4?v=2",
-      "poster": "assets/images/hand-gesture-interaction.webp",
-      "width": 160,
-      "height": 284,
-      "ar": {
-        "title": "الذكاء الاصطناعي والتفاعل بإشارات اليد",
-        "caption": "مقطع قصير يوضح دمج الدروس والأفكار بالذكاء الاصطناعي مع التفاعل المباشر عبر حركة اليد."
-      },
-      "en": {
-        "title": "AI and hand-gesture interaction",
-        "caption": "A short preview of AI-supported lessons and ideas combined with direct hand-gesture interaction."
-      }
-    }
+    "techs": []
   },
   {
     "cat": "electronics",

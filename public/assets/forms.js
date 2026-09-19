@@ -6,6 +6,7 @@ async function saveInquiry(payload,fetcher=fetch){
 }
 function inquiryServiceKey(payload){
  if(payload.kind==='store')return 'arduino_kit';
+ if(payload.serviceKey)return payload.serviceKey;
  const workshop=workshopsData.find(w=>w.ar.title===payload.service||w.en.title===payload.service);
  if(workshop)return 'workshop_'+({ai:'ai',iot:'iot',cube:'3d'})[workshop.icon];
  return servicesData.find(s=>s.ar===payload.service||s.en===payload.service)?.visual||'general';
@@ -13,7 +14,7 @@ function inquiryServiceKey(payload){
 function inquiryPayload(form){
  const data=new FormData(form),store=form.id==='storeForm';
  const phone=String(data.get('phone')||'').replace(/[٠-٩]/g,x=>String(x.charCodeAt(0)-1632)).trim();
- const payload={requestId:form.dataset.requestId||(form.dataset.requestId=crypto.randomUUID()),name:String(data.get('name')||'').trim(),phone,email:String(data.get('email')||'').trim(),service:store?'Arduino Kit':String(data.get('service')||''),context:store?'store':(form.dataset.context||'contact'),kind:store?'store':'contact',message:String(data.get(store?'notes':'message')||'').trim(),consent:data.get('consent')==='on',marketingConsent:data.get('marketingConsent')==='on',language:currentLang,website:String(data.get(store?'bot-field-store':'bot-field')||'')};
+ const payload={requestId:form.dataset.requestId||(form.dataset.requestId=crypto.randomUUID()),name:String(data.get('name')||'').trim(),phone,email:String(data.get('email')||'').trim(),service:store?'Arduino Kit':String(data.get('service')||''),serviceKey:store?'arduino_kit':(form.dataset.selectedServiceKey||''),context:store?'store':(form.dataset.context||'contact'),kind:store?'store':'contact',message:String(data.get(store?'notes':'message')||'').trim(),consent:data.get('consent')==='on',marketingConsent:data.get('marketingConsent')==='on',language:currentLang,website:String(data.get(store?'bot-field-store':'bot-field')||'')};
  if(store){payload.quantity=Number(data.get('quantity'));payload.addWorkshop=document.getElementById('storeAddWorkshop').checked;if(!payload.message)payload.message=currentLang==='ar'?'طلب كت الأردوينو':'Arduino kit order';}
  if(!store)Object.assign(payload,window.portfolioBrief?.collect()||{});
  return payload;
@@ -38,18 +39,32 @@ for(const id of ['contactForm','storeForm']){
   }finally{controls.forEach(el=>el.disabled=false);delete form.dataset.submitting;}
  });
 }
-// Delegated handlers survive language-driven re-rendering of service cards.
+// Delegated handlers survive language-driven re-rendering of the service catalogue.
 document.addEventListener('click',event=>{
- const link=event.target.closest('.service-start,#projectQuickRequest,.wksp-card .proj-link');if(!link)return;
- const form=document.getElementById('contactForm'),isService=link.classList.contains('service-start')||link.id==='projectQuickRequest';if(form.dataset.submitting)return;
- const service=servicesData.find(s=>s.visual===(link.dataset.serviceKey||link.closest('[data-service]')?.dataset.service));
- const title=isService?(service?.[currentLang]||(currentLang==='ar'?'استفسار عام':'General inquiry')):link.closest('.wksp-card').querySelector('h4').textContent;const select=document.getElementById('fService');
- if(![...select.options].some(o=>o.value===title))select.add(new Option(title,title));select.value=title;
- form.dataset.context=isService?'services':'workshops';delete form.dataset.requestId;
- form.dataset.selectedService=title;select.closest('.field').hidden=true;
- let summary=document.getElementById('selectedServiceSummary');if(!summary){summary=document.createElement('p');summary.id='selectedServiceSummary';form.prepend(summary);}summary.textContent=title;
+ const link=event.target.closest('.service-offer-request,.service-hub-request,.service-start,#projectQuickRequest,.wksp-card .proj-link');if(!link)return;
+ const form=document.getElementById('contactForm');if(form.dataset.submitting)return;
+ const select=document.getElementById('fService');
+ const serviceKey=link.dataset.serviceKey||link.closest('[data-service]')?.dataset.service||'general';
+ const service=servicesData.find(s=>s.visual===serviceKey);
+ const workshopCard=link.closest('.wksp-card');
+ const titleAr=link.dataset.titleAr||service?.ar||workshopCard?.querySelector('h4')?.textContent||'استفسار عام';
+ const titleEn=link.dataset.titleEn||service?.en||workshopCard?.querySelector('h4')?.textContent||'General inquiry';
+ const title=currentLang==='ar'?titleAr:titleEn;
+
+ if(![...select.options].some(o=>o.value===title))select.add(new Option(title,title));
+ select.value=title;
+ form.dataset.context=serviceKey==='training'?'workshops':'services';
+ form.dataset.selectedService=title;
+ form.dataset.selectedServiceKey=serviceKey;
+ form.dataset.selectedServiceTitleAr=titleAr;
+ form.dataset.selectedServiceTitleEn=titleEn;
+ delete form.dataset.requestId;
+ select.closest('.field').hidden=true;
+ let summary=document.getElementById('selectedServiceSummary');
+ if(!summary){summary=document.createElement('p');summary.id='selectedServiceSummary';form.prepend(summary);}
+ summary.textContent=title;
  select.dispatchEvent(new Event('change',{bubbles:true}));
- document.getElementById('contact').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
+ document.getElementById('contact').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
  setTimeout(()=>document.getElementById('fName').focus({preventScroll:true}),250);
 });
-(()=>{if(typeof MutationObserver==='undefined')return;const form=document.getElementById('contactForm'),select=document.getElementById('fService');new MutationObserver(()=>{if(!form.dataset.selectedService)return;form.dataset.selectedService=select.value;document.getElementById('selectedServiceSummary').textContent=select.value;}).observe(select,{childList:true});form.addEventListener('reset',()=>{const value=form.dataset.selectedService;if(value)setTimeout(()=>{select.value=value;select.dispatchEvent(new Event('change',{bubbles:true}));},0);});})();
+(()=>{if(typeof MutationObserver==='undefined')return;const form=document.getElementById('contactForm'),select=document.getElementById('fService');new MutationObserver(()=>{if(!form.dataset.selectedServiceKey)return;const translated=currentLang==='ar'?form.dataset.selectedServiceTitleAr:form.dataset.selectedServiceTitleEn;if(translated){if(![...select.options].some(o=>o.value===translated))select.add(new Option(translated,translated));select.value=translated;form.dataset.selectedService=translated;const summary=document.getElementById('selectedServiceSummary');if(summary)summary.textContent=translated;}}).observe(select,{childList:true});form.addEventListener('reset',()=>{const translated=currentLang==='ar'?form.dataset.selectedServiceTitleAr:form.dataset.selectedServiceTitleEn;if(translated)setTimeout(()=>{select.value=translated;select.dispatchEvent(new Event('change',{bubbles:true}));},0);});})();

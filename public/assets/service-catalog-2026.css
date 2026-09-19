@@ -344,3 +344,44 @@ html[dir=ltr] .service-hub-tab.is-active .service-hub-tab-arrow{transform:transl
  .service-offer-actions{display:grid}
  .direct-share{width:100%;justify-content:space-between}
 }
+
+
+/* Request actions: one unmistakable gold language across every service/order CTA. */
+#services.service-catalog-section{--service-gold:#d7aa63}
+.service-offer-request,
+.service-store-link,
+#contactForm #fSubmitBtn,
+#storeForm button[type="submit"]{
+ border-color:var(--service-gold)!important;
+ background:linear-gradient(135deg,#e0b66f,#c9974e)!important;
+ color:#17120c!important;
+ box-shadow:0 10px 26px rgba(201,151,78,.20)!important;
+ font-weight:700!important
+}
+.service-offer-request:hover,
+.service-store-link:hover,
+#contactForm #fSubmitBtn:hover,
+#storeForm button[type="submit"]:hover{
+ border-color:#e5bd79!important;
+ background:linear-gradient(135deg,#e7c17f,#d2a35a)!important;
+ color:#120e09!important;
+ transform:translateY(-1px)
+}
+.service-offer-request .service-arrow,
+.service-store-link .service-arrow{
+ background:rgba(23,18,12,.10)!important;
+ color:#17120c!important
+}
+.service-offer-request:focus-visible,
+.service-store-link:focus-visible,
+#contactForm #fSubmitBtn:focus-visible,
+#storeForm button[type="submit"]:focus-visible{
+ outline:2px solid #edca90!important;outline-offset:3px
+}
+.service-offer-request:disabled,
+#contactForm #fSubmitBtn:disabled,
+#storeForm button[type="submit"]:disabled{opacity:.58;transform:none}
+#selectedServiceSummary{
+ border-color:color-mix(in srgb,var(--service-gold) 48%,var(--line))!important;
+ background:color-mix(in srgb,var(--service-gold) 10%,transparent)!important
+}

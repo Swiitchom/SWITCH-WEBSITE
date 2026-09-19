@@ -46,7 +46,12 @@
    const details=card.querySelector('.project-details');
    if(button)button.setAttribute('aria-expanded',String(open));
    if(details)details.setAttribute('aria-hidden',String(!open));
-   if(!open)card.querySelectorAll('video').forEach(video=>video.pause());
+   if(!open){
+    card.classList.remove('is-video-open');
+    card.querySelector('.project-video-toggle')?.setAttribute('aria-expanded','false');
+    card.querySelector('.project-video-panel')?.setAttribute('aria-hidden','true');
+    card.querySelectorAll('video').forEach(video=>video.pause());
+   }
   });
  }
 

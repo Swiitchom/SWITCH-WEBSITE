@@ -10,11 +10,11 @@ function boot(){
 test('homepage renders bilingual selected work with inline project discovery',async()=>{
  const dom=boot(),d=dom.window.document;assert.equal(d.querySelectorAll('.proj-card').length,4);
  assert.equal(d.querySelectorAll('.hero-stat').length,0);
- assert.ok(d.querySelector('.proj-card').textContent.includes('معبر المدرسة'));
+ assert.ok(d.querySelector('.proj-card').textContent.includes('استقبال الطلاب'));
  const reveal=d.querySelector('.project-reveal');reveal.click();
  assert.equal(reveal.getAttribute('aria-expanded'),'true');assert.equal(d.querySelectorAll('.project-details[aria-hidden="false"]').length,1);
  d.getElementById('projectsMore').click();assert.equal(d.querySelectorAll('.proj-card').length,8);
- d.getElementById('langBtn').click();assert.equal(d.documentElement.dir,'ltr');assert.ok(d.querySelector('.proj-card').textContent.includes('Interactive School Gateway'));
+ d.getElementById('langBtn').click();assert.equal(d.documentElement.dir,'ltr');assert.ok(d.querySelector('.proj-card').textContent.includes('Interactive Student Welcome'));
  assert.equal(d.querySelectorAll('#filters').length,0);
  await new Promise(resolve=>setImmediate(resolve));dom.window.close();
 });

@@ -7,13 +7,16 @@ function boot(){
  for(const file of ['participation-data.js','participation-ribbon.js'])vm.runInContext(fs.readFileSync(path.join(root,'assets',file),'utf8'),dom.getInternalVMContext());
  return {dom,w,d:w.document,zoom:()=>zoom};
 }
-test('photo ribbon keeps one unique set of ten photographs with no duplicate copy',()=>{
+test('photo ribbon loops thirteen unique photographs with one decorative duplicate group',()=>{
  const b=boot(),groups=b.d.querySelectorAll('.photo-ribbon-group');
- assert.equal(groups.length,1);assert.equal(groups[0].children.length,10);
+ assert.equal(groups.length,2);assert.equal(groups[0].children.length,13);assert.equal(groups[1].children.length,13);
+ assert.equal(groups[1].getAttribute('aria-hidden'),'true');
  const refs=[...groups[0].children].map(button=>button.firstElementChild.getAttribute('src'));
- assert.equal(new Set(refs).size,10);
+ assert.equal(new Set(refs).size,13);
  for(const button of groups[0].children){assert.equal(button.tabIndex,0);assert.ok(fs.existsSync(path.join(root,button.firstElementChild.getAttribute('src'))));assert.ok(button.firstElementChild.width>0);}
- groups[0].children[3].click();assert.equal(b.zoom().image,groups[0].children[3].firstElementChild.getAttribute('src'));b.dom.window.close();
+ for(const button of groups[1].children)assert.equal(button.tabIndex,-1);
+ for(const name of ['participation-ai-workshop.webp','participation-electronics-session.webp','participation-prototyping-workbench.webp'])assert.ok(refs.includes('assets/images/'+name));
+ groups[0].children[10].click();assert.equal(b.zoom().image,groups[0].children[10].firstElementChild.getAttribute('src'));b.dom.window.close();
 });
 test('photo captions and accessible labels update to English across the moving path',async()=>{
  const b=boot();b.d.documentElement.lang='en';await new Promise(r=>setImmediate(r));

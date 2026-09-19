@@ -53,3 +53,37 @@ html[dir=ltr] .photo-ribbon .participation-tile{direction:ltr}
 @media(prefers-reduced-motion:reduce){
  .participation-grid.photo-ribbon{overflow-x:auto;mask-image:none;-webkit-mask-image:none}
 }
+
+
+/* Seamless RTL-moving participation path. The second group is decorative only. */
+.participation-grid.photo-ribbon{
+ overflow:hidden!important;direction:ltr!important;touch-action:pan-y;
+ mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);
+ -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);
+}
+.photo-ribbon .photo-ribbon-track{
+ display:flex!important;align-items:flex-start;width:max-content!important;min-width:0!important;
+ direction:ltr!important;will-change:transform;
+ animation:participation-flow-rtl var(--ribbon-duration,95s) linear infinite!important;
+}
+.photo-ribbon .photo-ribbon-group{
+ display:flex!important;flex:none!important;align-items:flex-start;gap:22px!important;
+ width:max-content!important;padding-inline:11px!important;direction:ltr!important
+}
+.photo-ribbon .participation-tile{
+ width:clamp(210px,23vw,330px)!important;direction:rtl!important;cursor:pointer
+}
+html[dir=ltr] .photo-ribbon .participation-tile{direction:ltr!important}
+@keyframes participation-flow-rtl{
+ from{transform:translate3d(0,0,0)}
+ to{transform:translate3d(-50%,0,0)}
+}
+@media(max-width:700px){
+ .photo-ribbon .photo-ribbon-group{gap:14px!important;padding-inline:7px!important}
+ .photo-ribbon .participation-tile{width:min(72vw,285px)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .participation-grid.photo-ribbon{overflow-x:auto!important;mask-image:none!important;-webkit-mask-image:none!important}
+ .photo-ribbon .photo-ribbon-track{animation:none!important}
+ .photo-ribbon .photo-ribbon-group[data-copy="1"]{display:none!important}
+}

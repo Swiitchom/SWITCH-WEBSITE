@@ -40,7 +40,7 @@ const i18n = {
     heroName1:"م. سالم", heroName2:"العبري",
     heroTagline:"من الفكرة إلى نموذج تقني يعمل.",
     heroDesc:"أساعد الأفراد والمؤسسات على تحويل الأفكار إلى حلول عملية باستخدام الذكاء الاصطناعي، الإلكترونيات، إنترنت الأشياء والبرمجة.",
-    heroBtn1:"استكشف مشاريعي", heroBtn2:"تواصل معي",
+    heroBtn1:"اختر خدمتك", heroBtn2:"تواصل معي",
     stat1:"مشروع منفذ", stat2:"ورشة تدريبية", stat3:"ساعة تدريب", stat4:"فعالية ومشاركة",
     aboutEyebrow:"من أنا",
     aboutTitle:"مهندس يبني الفكرة حتى تصبح نموذجًا حقيقيًا",
@@ -50,7 +50,7 @@ const i18n = {
     projEyebrow:"من الفكرة إلى التطبيق", projTitle:"نماذج من العمل",
     projSub:"نماذج مختارة توضّح الفكرة، التنفيذ، والنتيجة في مشاريع ومنصات حقيقية.",
     filterAll:"الكل",
-    svcEyebrow:"الخدمات", svcTitle:"كيف يمكنني مساعدتك؟", svcCta:"اطلب الخدمة",
+    svcEyebrow:"الخدمات", svcTitle:"اختر المسار المناسب لك", svcCta:"ابدأ الطلب",
     wkspEyebrow:"التدريب والورش", wkspTitle:"برامج تدريبية عملية وممتعة", wkspCta:"استفسر عن الورشة",
     nav8:"المتجر",
     storeEyebrow:"المتجر", storeTitle:"كت الأردوينو — ابدأ رحلتك في الإلكترونيات",
@@ -78,7 +78,7 @@ const i18n = {
     heroName1:"Eng. Salim", heroName2:"Alabri",
     heroTagline:"From idea to a working prototype.",
     heroDesc:"I help individuals and organizations turn ideas into practical solutions using AI, electronics, IoT and software.",
-    heroBtn1:"Explore my work", heroBtn2:"Get in touch",
+    heroBtn1:"Choose a service", heroBtn2:"Get in touch",
     stat1:"Projects shipped", stat2:"Workshops led", stat3:"Training hours", stat4:"Events & talks",
     aboutEyebrow:"About",
     aboutTitle:"An engineer who takes an idea all the way to a real prototype",
@@ -88,7 +88,7 @@ const i18n = {
     projEyebrow:"From idea to implementation", projTitle:"Selected work",
     projSub:"Selected work showing the idea, implementation and outcome across real projects and platforms.",
     filterAll:"All",
-    svcEyebrow:"Services", svcTitle:"How can I help you?", svcCta:"Request service",
+    svcEyebrow:"Services", svcTitle:"Choose the right path", svcCta:"Start request",
     wkspEyebrow:"Training & Workshops", wkspTitle:"Hands-on, practical training programs", wkspCta:"Ask about this workshop",
     nav8:"Store",
     storeEyebrow:"Store", storeTitle:"Arduino Kit — Start Your Electronics Journey",
@@ -136,9 +136,9 @@ const servicesData = [
 ];
 
 const workshopsData = [
-  {icon:'ai', color:0, ar:{title:'ورشة أساسيات الذكاء الاصطناعي',aud:'طلاب وهواة',dur:'٦ ساعات',desc:'مقدمة عملية لبناء أول نموذج ذكاء اصطناعي بسيط.'}, en:{title:'AI Fundamentals Workshop',aud:'Students & enthusiasts',dur:'6 hours',desc:'A hands-on intro to building a first simple AI model.'}},
-  {icon:'iot', color:1, ar:{title:'ورشة إنترنت الأشياء وESP32',aud:'طلاب هندسة',dur:'٨ ساعات',desc:'بناء مشروع IoT كامل من الصفر حتى لوحة تحكم حية.'}, en:{title:'IoT & ESP32 Workshop',aud:'Engineering students',dur:'8 hours',desc:'Build a complete IoT project from scratch to a live dashboard.'}},
-  {icon:'cube', color:2, ar:{title:'ورشة النمذجة والطباعة 3D',aud:'مبتدئين',dur:'٤ ساعات',desc:'تصميم نموذج ثلاثي الأبعاد بسيط وطباعته عمليًا.'}, en:{title:'3D Modeling & Printing Workshop',aud:'Beginners',dur:'4 hours',desc:'Design a simple 3D model and print it hands-on.'}},
+  {icon:'ai', color:0, ar:{title:'ورشة أساسيات الذكاء الاصطناعي',aud:'طلاب وهواة',dur:'6 ساعات',desc:'مقدمة عملية لبناء أول نموذج ذكاء اصطناعي بسيط.'}, en:{title:'AI Fundamentals Workshop',aud:'Students & enthusiasts',dur:'6 hours',desc:'A hands-on intro to building a first simple AI model.'}},
+  {icon:'iot', color:1, ar:{title:'ورشة برمجة Arduino وESP32',aud:'طلاب ومبتدئون',dur:'8 ساعات',desc:'تعلّم أساسيات البرمجة والإلكترونيات من التوصيل حتى تنفيذ مشروع عملي.'}, en:{title:'Arduino & ESP32 Programming Workshop',aud:'Students & beginners',dur:'8 hours',desc:'Learn programming and electronics from wiring through a practical project.'}},
+  {icon:'cube', color:2, ar:{title:'ورشة النمذجة والطباعة 3D',aud:'مبتدئين',dur:'4 ساعات',desc:'تصميم نموذج ثلاثي الأبعاد بسيط وطباعته عمليًا.'}, en:{title:'3D Modeling & Printing Workshop',aud:'Beginners',dur:'4 hours',desc:'Design a simple 3D model and print it hands-on.'}},
 ];
 
 const timelineData = [
@@ -330,48 +330,123 @@ function closeModal(){const box=document.getElementById('modalOverlay');if(!box.
  document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target.id==='modalOverlay')closeModal();});
  document.addEventListener('keydown',e=>{const box=document.getElementById('modalOverlay');if(!box.classList.contains('open'))return;if(e.key==='Escape')closeModal();if(e.key==='Tab'){const targets=[...box.querySelectorAll('button,a[href],video[controls]')],first=targets[0],last=targets[targets.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
 
+let activeServiceHub='training';
+function serviceRequestButton({key,titleAr,titleEn,labelAr,labelEn,primary=false}){
+ const label=currentLang==='ar'?labelAr:labelEn;
+ return `<button type="button" class="service-offer-request ${primary?'is-primary':''}" data-service-key="${key}" data-title-ar="${titleAr}" data-title-en="${titleEn}">
+   <span>${label}</span><span class="service-arrow" aria-hidden="true">${ICON.arrow}</span>
+ </button>`;
+}
 function renderServices(){
- const requestModel={
-  training:{
-   ar:{method:'نحدد الهدف ومستوى المشاركين، ثم نبني المحتوى والتطبيق العملي بما يناسب الجهة.',request:'موضوع الورشة · عدد المشاركين · مكان التدريب · الموعد المقترح'},
-   en:{method:'We define the goal and participant level, then shape the content and practical work around the organization.',request:'Workshop topic · participant count · training location · preferred date'}
+ const host=document.getElementById('svcGrid');if(!host)return;
+ const ar=currentLang==='ar';
+
+ const platformProjects=[
+  projectsData.find(p=>p.ar?.title==='استقبال الطلاب عبر شخصيات تفاعلية'),
+  projectsData.find(p=>p.ar?.title==='مساحة أُنس'),
+  projectsData.find(p=>p.ar?.title==='التفاعل بإشارات اليد')
+ ].filter(Boolean);
+
+ const projectExamples=[
+  projectsData.find(p=>p.ar?.title==='Sentinel Helmet AI — الخوذة الذكية'),
+  projectsData.find(p=>p.ar?.title==='القرية الذكية'),
+  projectsData.find(p=>p.ar?.title==='طابعة ثلاثية الأبعاد DIY')
+ ].filter(Boolean);
+
+ const workshopImages={ai:'assets/images/concepts/workshop-ai.webp',iot:'assets/images/concepts/workshop-iot.webp',cube:'assets/images/concepts/workshop-3d.webp'};
+
+ const hubs=[
+  {
+   key:'training',num:'01',icon:ICON.train,
+   titleAr:'الورش والتدريب التقني',titleEn:'Technical Workshops & Training',
+   shortAr:'3 ورش واضحة وجاهزة للتخصيص حسب الفئة والهدف.',shortEn:'Three clear workshop formats, customizable to the audience and goal.',
+   introAr:'اختر الورشة الأقرب لاحتياجك. ويمكن تعديل المحتوى والمدة والمستوى للمدرسة أو المؤسسة أو المجموعة.',
+   introEn:'Choose the workshop closest to your need. Content, duration and level can be adapted for a school, organization or group.',
+   requestAr:'اطلب ورشة مخصصة',requestEn:'Request a custom workshop',
+   offers:workshopsData.map(w=>({
+    image:workshopImages[w.icon],mode:'photo',tagAr:w.ar.aud,tagEn:w.en.aud,titleAr:w.ar.title,titleEn:w.en.title,
+    descAr:w.ar.desc,descEn:w.en.desc,metaAr:w.ar.dur,metaEn:w.en.dur,
+    requestTitleAr:w.ar.title,requestTitleEn:w.en.title,requestAr:'اطلب هذه الورشة',requestEn:'Request this workshop'
+   }))
   },
-  web:{
-   ar:{method:'نراجع هوية الجهة والهدف، نصمم تجربة التفاعل، ثم نختبرها قبل التسليم والتشغيل.',request:'نوع أو اسم الجهة · هدف المنصة أو المناسبة · أسلوب التفاعل · الموعد'},
-   en:{method:'We review the organization and goal, design the interaction, then test the experience before delivery.',request:'Organization · platform purpose/event · interaction style · preferred date'}
+  {
+   key:'web',num:'02',icon:ICON.layers,
+   titleAr:'المنصات والتجارب التفاعلية',titleEn:'Interactive Platforms & Experiences',
+   shortAr:'حلول رقمية جاهزة كنقطة بداية ويمكن تخصيصها لهوية الجهة.',shortEn:'Digital solutions that can be adapted to your organization and identity.',
+   introAr:'هذه نماذج من منصات مطبقة. اختر النموذج الأقرب لفكرتك، أو اطلب منصة جديدة مبنية على احتياجك.',
+   introEn:'These are implemented platform examples. Choose the closest model or request a new platform built around your need.',
+   requestAr:'اطلب منصة مخصصة',requestEn:'Request a custom platform',
+   offers:platformProjects.map((p,index)=>({
+    image:p.image,mode:index<2?'ui':'photo',tagAr:p.ar.tag,tagEn:p.en.tag,
+    titleAr:index===2?'دمج الدروس بإشارات اليد':p.ar.title,
+    titleEn:index===2?'Hand-Gesture Learning Integration':p.en.title,
+    descAr:p.ar.desc,descEn:p.en.desc,
+    metaAr:index===2?'كاميرا · ذكاء اصطناعي · تفاعل مباشر':'واجهة · تفاعل · تخصيص',
+    metaEn:index===2?'Camera · AI · Direct interaction':'Interface · Interaction · Customization',
+    requestTitleAr:index===2?'منصة دمج الدروس بإشارات اليد':p.ar.title,
+    requestTitleEn:index===2?'Hand-Gesture Learning Platform':p.en.title,
+    requestAr:'اطلب منصة مشابهة',requestEn:'Request a similar platform'
+   }))
   },
-  innovation:{
-   ar:{method:'نبدأ بالمشكلة والنتيجة المطلوبة، نحدد التقنية المناسبة، ثم نبني نموذجًا قابلًا للاختبار والتحسين.',request:'مرحلة المشروع · الموعد المقترح · الفكرة والنتيجة المطلوبة في وصف المشروع'},
-   en:{method:'We start with the problem and desired outcome, choose the right technology, then build a testable prototype.',request:'Project stage · preferred date · idea and desired outcome in the project description'}
+  {
+   key:'innovation',num:'03',icon:ICON.board,
+   titleAr:'تطوير المشاريع والنماذج التقنية',titleEn:'Technical Project & Prototype Development',
+   shortAr:'من الفكرة أو المشروع القائم إلى نموذج قابل للتجربة والتطوير.',shortEn:'From a new idea or existing project to a testable, developable prototype.',
+   introAr:'المشاريع التالية أمثلة على نوع التطوير الممكن، وليست باقات ثابتة. نبدأ من مشكلتك ونحدد التقنية والنطاق المناسبين.',
+   introEn:'The examples below show what can be developed; they are not fixed packages. We start from your problem and define the right scope and technology.',
+   requestAr:'ابدأ تطوير مشروعك',requestEn:'Start developing your project',
+   offers:projectExamples.map(p=>({
+    image:p.image,mode:'photo',tagAr:'نموذج مشروع',tagEn:'Project example',
+    titleAr:p.ar.title,titleEn:p.en.title,descAr:p.ar.desc,descEn:p.en.desc,
+    metaAr:(p.techs||[]).slice(0,3).join(' · ')||'نموذج تقني',metaEn:(p.techs||[]).slice(0,3).join(' · ')||'Technical prototype',
+    requestTitleAr:'تطوير مشروع تقني — '+p.ar.title,requestTitleEn:'Technical project development — '+p.en.title,
+    requestAr:'طوّر مشروعك',requestEn:'Develop your project'
+   }))
   }
- };
- document.getElementById('svcGrid').innerHTML=servicesData.map((s,index)=>{
-  const ar=currentLang==='ar',d=s[ar?'arDetails':'enDetails'],model=requestModel[s.visual][currentLang];
-  return `<article class="service-scene package-card ${index%2?'service-scene-reverse':''}" data-service="${s.visual}">
-    <figure class="service-scene-media">
-      <img src="${s.image}" alt="${ar?s.imageAr:s.imageEn}" loading="lazy" decoding="async">
-      <figcaption>${ar?s.imageAr:s.imageEn}</figcaption>
-    </figure>
-    <div class="service-scene-copy">
-      <span class="service-scene-kicker">${String(index+1).padStart(2,'0')} · ${ar?'خدمة':'SERVICE'}</span>
-      <h3>${s[currentLang]}</h3>
-      <p class="service-scene-lead">${ar?s.descAr:s.descEn}</p>
-      <div class="service-action-row">
-        <button type="button" class="service-discover" aria-controls="package-${s.visual}" aria-expanded="false"><span>${ar?'تفاصيل الخدمة':'Service details'}</span><span class="package-arrow tech-action-icon" aria-hidden="true">${ICON.arrow}</span></button>
-        <button type="button" class="service-start service-start-primary" data-service-key="${s.visual}"><span>${ar?'اطلب الخدمة مباشرة':'Request this service'}</span><span class="tech-action-icon" aria-hidden="true">${ICON.arrow}</span></button>
+ ];
+
+ if(!hubs.some(h=>h.key===activeServiceHub))activeServiceHub='training';
+ const active=hubs.find(h=>h.key===activeServiceHub);
+
+ host.innerHTML=`
+  <div class="service-hub-nav" role="tablist" aria-label="${ar?'اختيار نوع الخدمة':'Choose service type'}">
+   ${hubs.map(h=>`<button type="button" class="service-hub-tab ${h.key===active.key?'is-active':''}" role="tab" aria-selected="${h.key===active.key}" data-service-hub="${h.key}">
+      <span class="service-hub-number">${h.num}</span>
+      <span class="service-hub-icon" aria-hidden="true">${h.icon}</span>
+      <span class="service-hub-tab-copy"><strong>${ar?h.titleAr:h.titleEn}</strong><small>${ar?h.shortAr:h.shortEn}</small></span>
+      <span class="service-hub-tab-arrow" aria-hidden="true">${ICON.arrow}</span>
+    </button>`).join('')}
+  </div>
+  <section class="service-hub-panel" data-active-service="${active.key}" aria-live="polite">
+    <header class="service-hub-panel-head">
+      <div>
+        <span class="service-hub-panel-kicker">${active.num} / ${ar?'الخدمة المختارة':'SELECTED SERVICE'}</span>
+        <h3>${ar?active.titleAr:active.titleEn}</h3>
+        <p>${ar?active.introAr:active.introEn}</p>
       </div>
-      <div class="package-details" id="package-${s.visual}" aria-hidden="true">
-        <div class="service-company-detail">
-          <section><span>${ar?'مناسبة لـ':'Best for'}</span><p>${d.audience}</p></section>
-          <section><span>${ar?'طريقة العمل':'How we work'}</span><p>${model.method}</p></section>
-          <section><span>${ar?'نطاق التنفيذ':'Scope'}</span><p>${d.includes.join(' · ')}</p></section>
-          <section><span>${ar?'بيانات الطلب':'Request details'}</span><p>${model.request}</p></section>
-          <p class="package-timing"><strong>${ar?'المدة:':'Timeline:'}</strong> ${d.timing}</p>
+      ${serviceRequestButton({key:active.key,titleAr:active.titleAr,titleEn:active.titleEn,labelAr:active.requestAr,labelEn:active.requestEn,primary:true})}
+    </header>
+    <div class="service-offer-grid">
+      ${active.offers.map((o,index)=>`<article class="service-offer">
+        <figure class="service-offer-media is-${o.mode}">
+          <span class="service-offer-index">${String(index+1).padStart(2,'0')}</span>
+          <img src="${o.image}" alt="${ar?o.titleAr:o.titleEn}" loading="lazy" decoding="async">
+        </figure>
+        <div class="service-offer-body">
+          <div class="service-offer-topline"><span>${ar?o.tagAr:o.tagEn}</span><small>${ar?o.metaAr:o.metaEn}</small></div>
+          <h4>${ar?o.titleAr:o.titleEn}</h4>
+          <p>${ar?o.descAr:o.descEn}</p>
+          ${serviceRequestButton({key:active.key,titleAr:o.requestTitleAr,titleEn:o.requestTitleEn,labelAr:o.requestAr,labelEn:o.requestEn})}
         </div>
-      </div>
+      </article>`).join('')}
     </div>
-  </article>`;
- }).join('');
+  </section>`;
+
+ host.querySelectorAll('[data-service-hub]').forEach(button=>button.addEventListener('click',()=>{
+  const next=button.dataset.serviceHub;if(next===activeServiceHub)return;
+  activeServiceHub=next;renderServices();observeReveals();
+  document.querySelector('.service-hub-panel')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
+ }));
 }
 function renderWorkshops(){
   document.getElementById('wkspGrid').innerHTML = workshopsData.map(w=>{
@@ -510,13 +585,18 @@ function renderSocial(){
   }).join('');
 }
 function renderServiceSelect(){
-  const sel=document.getElementById('fService');
+  const sel=document.getElementById('fService'),form=document.getElementById('contactForm');
   const previous=sel.value;
   const service=servicesData.find(s=>s.ar===previous||s.en===previous);
   const workshop=workshopsData.find(w=>w.ar.title===previous||w.en.title===previous);
-  sel.innerHTML = servicesData.map(s=>`<option>${currentLang==='ar'?s.ar:s.en}</option>`).join('');
-  const label=service?.[currentLang]||workshop?.[currentLang].title;
-  if(label){if(![...sel.options].some(option=>option.value===label))sel.add(new Option(label,label));sel.value=label;}
+  sel.innerHTML=servicesData.map(s=>`<option>${currentLang==='ar'?s.ar:s.en}</option>`).join('');
+  const stored=currentLang==='ar'?form?.dataset.selectedServiceTitleAr:form?.dataset.selectedServiceTitleEn;
+  const label=stored||service?.[currentLang]||workshop?.[currentLang].title;
+  if(label){
+   if(![...sel.options].some(option=>option.value===label))sel.add(new Option(label,label));
+   sel.value=label;
+   if(form?.dataset.selectedServiceKey)sel.dispatchEvent(new Event('change',{bubbles:true}));
+  }
 }
 
 /* =========================================================
@@ -530,8 +610,8 @@ function applyStaticI18n(){
 }
 function renderAll(){
   applyStaticI18n();
-  renderExpertise(); renderFilters(); renderProjects(); renderServices();
-  renderWorkshops(); renderStoreContents(); updateStoreTotal();
+  renderExpertise(); renderFilters(); renderServices();
+  renderStoreContents(); updateStoreTotal();
   renderTimeline(); renderGallery(); renderSocial(); renderServiceSelect();
   observeReveals();
 }
@@ -591,7 +671,7 @@ document.querySelectorAll('[data-count]').forEach(el=>statObserver.observe(el));
 (function initTrace(){
   const svg = document.getElementById('traceSvg');
   if(!svg) return;
-  const sectionIds=['about','projects','services','workshops','achievements','gallery','contact'];
+  const sectionIds=['about','services','participation','achievements','gallery','contact'];
   const path = document.getElementById('tracePath');
   const pads=[];
   sectionIds.forEach((id,i)=>{

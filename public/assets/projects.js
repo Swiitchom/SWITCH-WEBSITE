@@ -8,19 +8,19 @@ const projectsData = [
     "ar": {
       "title": "استقبال الطلاب والترحيب عبر شخصيات تفاعلية",
       "tag": "منصة تعليمية",
-      "desc": "استقبال تفاعلي بشخصيات عُمانية يقود الطالب إلى بداية تجربته المدرسية.",
-      "overview": "تتيح اختيار شخصية الاستقبال ومعاينة الصوت وبدء تجربة الطالب وإعادتها من لوحة تشغيل واحدة.",
-      "benefit": "استقبال مدرسي يشارك فيه الطالب، مع تحكم واضح للمعلم.",
-      "imageCaption": "واجهة الترحيب وشخصية الاستقبال",
+      "desc": "منصة استقبال للطلاب عبر شخصيات تفاعلية، تجمع الترحيب الذكي والتفاعل بالكاميرا وإشارات اليد في تجربة واحدة.",
+      "overview": "تستقبل المنصة الطالب بشخصيات تفاعلية، ثم تنقله إلى تجربة مرئية وصوتية يمكن دمجها مع الكاميرا وإشارات اليد لبدء الأنشطة بطريقة أكثر تفاعلاً.",
+      "benefit": "تحويل لحظة استقبال الطالب من ترحيب تقليدي إلى تجربة تفاعلية تشجعه على المشاركة منذ البداية.",
+      "imageCaption": "استقبال الطلاب عبر الشخصيات التفاعلية",
       "deployment": "طُبّقت في المدارس والمعارض"
     },
     "en": {
       "title": "Interactive Student Welcome",
       "tag": "Learning platform",
-      "desc": "An interactive welcome with Omani characters that introduces students to their school experience.",
-      "overview": "Select a welcome character, preview the voice, and start or reset the student experience from one control panel.",
-      "benefit": "A welcome students can take part in, with clear controls for teachers.",
-      "imageCaption": "Welcome screen and reception character",
+      "desc": "A student welcome platform using interactive characters, camera interaction and hand gestures in one experience.",
+      "overview": "Welcomes students through interactive characters, then connects them to visual and audio activities that can use camera interaction and hand gestures.",
+      "benefit": "Turns student reception from a conventional greeting into an engaging experience from the first moment.",
+      "imageCaption": "Student welcome through interactive characters",
       "deployment": "Used in schools and exhibitions"
     },
     "techs": [],
